@@ -1,0 +1,158 @@
+You are a senior Python systems architect.
+
+We are building a production-grade AI automation system called:
+
+"Faceless YouTube Agent Factory"
+
+The goal is to create a modular, async pipeline that can:
+
+- Accept a topic
+- Generate a YouTube script
+- Save it to disk
+- Log everything
+- Retry failed API calls
+- Be easily extended with more agents later
+
+This must be built with clean architecture and scalability in mind.
+
+========================================
+PROJECT STRUCTURE
+========================================
+
+Create the following structure:
+
+faceless-youtube-factory/
+│
+├── pipeline.py
+├── requirements.txt
+│
+├── agents/
+│   ├── base_agent.py
+│   └── script_writer.py
+│
+├── services/
+│   └── openai_client.py
+│
+├── utils/
+│   ├── logger.py
+│   ├── retry.py
+│   └── config_loader.py
+│
+├── storage/
+│   └── output/
+│       └── scripts/
+
+========================================
+ARCHITECTURE REQUIREMENTS
+========================================
+
+1) Use Python 3.11
+2) Use async/await for all external API calls
+3) Use OpenAI API for script generation
+4) Implement retry logic (max 3 attempts, exponential backoff)
+5) Use structured logging
+6) All paths must be dynamically created if missing
+7) No hardcoded API keys (use environment variables)
+
+========================================
+AGENT DESIGN
+========================================
+
+BaseAgent:
+- Abstract class
+- Has execute() wrapper
+- Calls retry wrapper
+- Logs success/failure
+
+ScriptWriterAgent:
+- Accepts topic dict:
+    {
+      "title": str,
+      "tone": str,
+      "length": int
+    }
+
+- Builds structured prompt:
+  "Write a faceless YouTube video script for: {title}
+   Format: Hook (0-30s) → Story → Main Content → CTA
+   Tone: {tone}
+   Length: {length} words
+   Include B-roll cues and pacing markers.
+   No filler. High retention."
+
+- Calls OpenAI service
+- Saves output to:
+  storage/output/scripts/{safe_filename}.txt
+
+- Returns:
+    {
+      "script_path": str,
+      "word_count": int
+    }
+
+========================================
+SERVICES LAYER
+========================================
+
+openai_client.py:
+- Async function: generate_script(prompt: str) -> str
+- Uses OpenAI Python SDK
+- Model: gpt-4o
+- Handles errors cleanly
+- Does not log API key
+- Raises exceptions upward
+
+========================================
+RETRY LOGIC
+========================================
+
+retry.py:
+- Use tenacity
+- Max 3 attempts
+- Exponential backoff (min 2s, max 10s)
+
+========================================
+LOGGER
+========================================
+
+logger.py:
+- Use loguru
+- Log file: storage/output/pipeline.log
+- Rotate at 5MB
+- Log level INFO
+
+========================================
+PIPELINE
+========================================
+
+pipeline.py:
+
+- Async main class: FacelessPipeline
+- Accepts manual topic (hardcoded for now)
+- Creates ScriptWriterAgent
+- Executes agent
+- Logs results
+- Handles exceptions
+- Prints final script path
+
+Use asyncio.run() at bottom.
+
+========================================
+CODE QUALITY
+========================================
+
+- Use type hints
+- Add docstrings
+- Use clean formatting
+- No placeholder functions
+- Fully working minimal version
+
+========================================
+IMPORTANT
+========================================
+
+Keep it simple.
+Do NOT implement voiceover or video agents yet.
+Only implement Script Agent properly.
+
+We will extend later.
