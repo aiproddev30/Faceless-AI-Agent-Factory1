@@ -1,38 +1,46 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import {
+  scripts,
+  type InsertScript,
+  type UpdateScriptRequest,
+  type ScriptResponse
+} from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getScripts(): Promise<ScriptResponse[]>;
+  getScript(id: number): Promise<ScriptResponse | undefined>;
+  createScript(script: InsertScript): Promise<ScriptResponse>;
+  updateScript(id: number, updates: UpdateScriptRequest): Promise<ScriptResponse>;
+  deleteScript(id: number): Promise<void>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async getScripts(): Promise<ScriptResponse[]> {
+    return await db.select().from(scripts);
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getScript(id: number): Promise<ScriptResponse | undefined> {
+    const [script] = await db.select().from(scripts).where(eq(scripts.id, id));
+    return script;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async createScript(insertScript: InsertScript): Promise<ScriptResponse> {
+    const [script] = await db.insert(scripts).values(insertScript).returning();
+    return script;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async updateScript(id: number, updates: UpdateScriptRequest): Promise<ScriptResponse> {
+    const [updated] = await db.update(scripts)
+      .set(updates)
+      .where(eq(scripts.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteScript(id: number): Promise<void> {
+    await db.delete(scripts).where(eq(scripts.id, id));
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
