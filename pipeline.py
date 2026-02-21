@@ -1,32 +1,52 @@
 import asyncio
-import os
+from loguru import logger
 from agents.script_writer import ScriptWriterAgent
-from utils.logger import logger
+from agents.voiceover_agent import VoiceoverAgent
 
-class FacelessPipeline:
-    def __init__(self):
-        self.script_writer = ScriptWriterAgent()
 
-    async def run(self, topic_dict: dict):
-        logger.info(f"Starting pipeline for topic: {topic_dict.get('title')}")
-        try:
-            result = await self.script_writer.execute(topic_dict)
-            logger.info(f"Pipeline completed successfully. Script saved to: {result['script_path']}")
-            print(f"\n--- PIPELINE SUCCESS ---")
-            print(f"Final Script Path: {result['script_path']}")
-            print(f"Word Count: {result['word_count']}")
-        except Exception as e:
-            logger.error(f"Pipeline failed: {str(e)}")
-            print(f"\n--- PIPELINE FAILED ---")
-            print(f"Error: {str(e)}")
+async def run():
+    try:
+        topic_data = {
+            "title": "The Future of AI Automation in 2026",
+            "tone": "Professional news documentary",
+            "length": 900
+        }
+
+        logger.info(f"Starting pipeline for topic: {topic_data['title']}")
+
+        # 1️⃣ Generate Script
+        script_agent = ScriptWriterAgent()
+        script_result = await script_agent.execute(topic_data)
+
+        script_path = script_result.get("script_path")
+
+        if not script_path:
+            raise ValueError("Script generation failed. No script_path returned.")
+
+        logger.info(f"Script generated successfully: {script_path}")
+
+        # 2️⃣ Generate Voiceover
+        voice_agent = VoiceoverAgent()
+        voice_result = await voice_agent.execute({
+            "script_path": script_path
+        })
+
+        audio_path = voice_result.get("audio_path")
+
+        if not audio_path:
+            raise ValueError("Voiceover generation failed. No audio_path returned.")
+
+        logger.info(f"Voiceover generated successfully: {audio_path}")
+
+        print("\n--- PIPELINE SUCCESS ---")
+        print(f"Script Path: {script_path}")
+        print(f"Audio Path: {audio_path}")
+
+    except Exception as e:
+        logger.error(f"Pipeline failed: {e}")
+        print("\n--- PIPELINE FAILED ---")
+        print(f"Error: {e}")
+
 
 if __name__ == "__main__":
-    # Manual topic configuration
-    manual_topic = {
-        "title": "The Future of AI Automation in 2026",
-        "tone": "educational and futuristic",
-        "length": 500
-    }
-
-    pipeline = FacelessPipeline()
-    asyncio.run(pipeline.run(manual_topic))
+    asyncio.run(run())
