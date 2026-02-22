@@ -137,16 +137,43 @@ async function generateVoiceover(scriptId: number, content: string, voice: strin
   }
 }
 
-async function generateYoutubeScript(scriptId: number, topic: string, tone: string, length: number, voice: string) {
+async function researchTopic(topic: string): Promise<string> {
+  try {
+    const response = await openai.responses.create({
+      model: "gpt-5.2",
+      tools: [{ type: "web_search_preview" as any }],
+      input: `Search the web for the latest information about: "${topic}"
+
+Find current news, recent events, key facts, and trending angles related to this topic. Focus on what's happening RIGHT NOW - recent developments, viral moments, breaking news.
+
+Provide a concise research summary (200-300 words) with specific facts, names, dates, and details that a scriptwriter can reference.`,
+    });
+    return (response as any).output_text || "";
+  } catch (error) {
+    console.error("Web research failed, proceeding without:", error);
+    return "";
+  }
+}
+
+async function generateYoutubeScript(scriptId: number, topic: string, tone: string, length: number, voice: string, researchContext?: string) {
   try {
     await storage.updateScript(scriptId, { status: "processing" });
+
+    let research = researchContext || "";
+    if (!research) {
+      research = await researchTopic(topic);
+    }
+
+    const researchSection = research
+      ? `\n\nIMPORTANT - Use this real-world research to make the script accurate and current:\n---\n${research}\n---\nReference specific facts, names, dates, and details from this research in the script. Make the content feel timely and well-researched.`
+      : "";
 
     const prompt = `Write a faceless YouTube video script for: ${topic}
 Format: Hook (0-30s) -> Story -> Main Content -> CTA
 Tone: ${tone}
 Length: ${length} words
 Include B-roll cues and pacing markers.
-No filler. High retention.`;
+No filler. High retention.${researchSection}`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-5.2",
@@ -214,10 +241,11 @@ export async function registerRoutes(
 
   app.post(api.scripts.create.path, async (req, res) => {
     try {
-      const input = api.scripts.create.input.parse(req.body);
+      const { researchContext, ...rest } = req.body;
+      const input = api.scripts.create.input.parse(rest);
       const script = await storage.createScript(input);
 
-      generateYoutubeScript(script.id, script.topic, script.tone, script.length, script.voice).catch(console.error);
+      generateYoutubeScript(script.id, script.topic, script.tone, script.length, script.voice, researchContext).catch(console.error);
 
       res.status(201).json(script);
     } catch (err) {
@@ -351,6 +379,104 @@ export async function registerRoutes(
   app.get(api.series.scripts.path, async (req, res) => {
     const seriesScripts = await storage.getScriptsBySeries(Number(req.params.id));
     res.json(seriesScripts);
+  });
+
+  let cachedTrends: { data: any[]; fetchedAt: number } | null = null;
+  const TRENDS_CACHE_MS = 15 * 60 * 1000;
+
+  app.get(api.trends.list.path, async (req, res) => {
+    try {
+      if (cachedTrends && Date.now() - cachedTrends.fetchedAt < TRENDS_CACHE_MS) {
+        return res.json(cachedTrends.data);
+      }
+
+      const response = await openai.responses.create({
+        model: "gpt-5.2",
+        tools: [{ type: "web_search_preview" as any }],
+        input: `Search the web for today's most viral and trending stories that would make great YouTube video topics. Focus on:
+- Trending news stories (human interest, science, technology, pop culture, animals)
+- Viral moments and events happening right now
+- Topics people are searching for today
+
+Return EXACTLY 8 trending topics as a JSON array. Each item must have:
+- "title": A catchy, YouTube-ready topic title (keep it concise, 5-10 words)
+- "summary": One sentence describing what's happening and why it's trending
+- "category": One of: "News", "Science", "Tech", "Culture", "Animals", "Sports", "Business", "Entertainment"
+
+Return ONLY the JSON array, no other text.`,
+      });
+
+      const outputText = (response as any).output_text || "";
+      let trends: any[] = [];
+      try {
+        const jsonMatch = outputText.match(/\[[\s\S]*\]/);
+        if (jsonMatch) {
+          trends = JSON.parse(jsonMatch[0]);
+        }
+      } catch (parseErr) {
+        console.error("Failed to parse trends JSON:", parseErr);
+        trends = [];
+      }
+
+      if (trends.length > 0) {
+        cachedTrends = { data: trends, fetchedAt: Date.now() };
+      }
+
+      res.json(trends);
+    } catch (error: any) {
+      console.error("Error fetching trends:", error);
+      res.status(500).json({ message: "Failed to fetch trending topics" });
+    }
+  });
+
+  app.post(api.trends.research.path, async (req, res) => {
+    try {
+      const { topic } = api.trends.research.input.parse(req.body);
+
+      const response = await openai.responses.create({
+        model: "gpt-5.2",
+        tools: [{ type: "web_search_preview" as any }],
+        input: `Research this topic thoroughly using web search: "${topic}"
+
+Find the most recent and relevant information including:
+- What is happening right now related to this topic
+- Key facts, dates, names, and details
+- Why this is interesting or trending
+- Any controversy or multiple perspectives
+
+Provide a comprehensive research summary (300-500 words) that a YouTube scriptwriter could use to create an accurate, engaging video. Include specific details, quotes, and facts from your research.
+
+Format the response as a clear, well-organized research brief.`,
+      });
+
+      const research = (response as any).output_text || "";
+
+      let sources: { title?: string; url: string }[] = [];
+      try {
+        const output = (response as any).output;
+        if (Array.isArray(output)) {
+          for (const item of output) {
+            if (item.type === "web_search_call" && item.action?.sources) {
+              sources = item.action.sources.map((s: any) => ({
+                title: s.title,
+                url: s.url,
+              }));
+            }
+          }
+        }
+      } catch {}
+
+      res.json({ research, sources });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join("."),
+        });
+      }
+      console.error("Error researching topic:", err);
+      res.status(500).json({ message: "Failed to research topic" });
+    }
   });
 
   app.get(api.voices.preview.path, async (req, res) => {

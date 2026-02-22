@@ -2,9 +2,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateScript } from "@/hooks/use-scripts";
 import { useSeries, useSeriesScripts } from "@/hooks/use-series";
+import { useResearch, type ResearchResult } from "@/hooks/use-trends";
 import { insertScriptSchema, type InsertScript } from "@shared/schema";
 import { useLocation, useSearch } from "wouter";
-import { ArrowLeft, Sparkles, AlertCircle, Volume2, Loader2, Square, Layers } from "lucide-react";
+import { ArrowLeft, Sparkles, AlertCircle, Volume2, Loader2, Square, Layers, Globe, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { buildUrl, api } from "@shared/routes";
@@ -114,15 +115,20 @@ export default function NewScript() {
   const searchString = useSearch();
   const searchParams = new URLSearchParams(searchString);
   const presetSeriesId = searchParams.get("seriesId") ? Number(searchParams.get("seriesId")) : null;
+  const presetTopic = searchParams.get("topic") || "";
 
   const { mutate: createScript, isPending } = useCreateScript();
   const { playPreview, playingVoice, loadingVoice } = useVoicePreview();
   const { data: allSeries } = useSeries();
+  const { mutate: doResearch, isPending: isResearching, data: researchData, reset: resetResearch } = useResearch();
+
+  const [researchResult, setResearchResult] = useState<ResearchResult | null>(null);
+  const [showResearch, setShowResearch] = useState(false);
 
   const form = useForm<InsertScript>({
     resolver: zodResolver(insertScriptSchema),
     defaultValues: {
-      topic: "",
+      topic: presetTopic,
       tone: "educational",
       length: 500,
       voice: "alloy",
@@ -145,12 +151,28 @@ export default function NewScript() {
     }
   }, [activeSeriesId, nextEpisodeNumber, form]);
 
+  useEffect(() => {
+    if (researchData) {
+      setResearchResult(researchData);
+      setShowResearch(true);
+    }
+  }, [researchData]);
+
+  const handleResearch = () => {
+    const topic = form.getValues("topic");
+    if (!topic.trim()) return;
+    doResearch({ topic });
+  };
+
   const onSubmit = (data: InsertScript) => {
-    const payload = {
+    const payload: any = {
       ...data,
       seriesId: data.seriesId || undefined,
       episodeNumber: data.seriesId ? (data.episodeNumber || nextEpisodeNumber) : undefined,
     };
+    if (researchResult?.research) {
+      payload.researchContext = researchResult.research;
+    }
     createScript(payload, {
       onSuccess: () => {
         if (presetSeriesId) {
@@ -253,18 +275,39 @@ export default function NewScript() {
 
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">Video Topic</label>
-                <input
-                  {...form.register("topic")}
-                  data-testid="input-topic"
-                  className={cn(
-                    "w-full px-4 py-3 rounded-xl bg-background border-2 transition-all duration-200",
-                    form.formState.errors.topic
-                      ? "border-destructive focus:border-destructive focus:ring-4 focus:ring-destructive/10"
-                      : "border-border focus:border-primary focus:ring-4 focus:ring-primary/10"
-                  )}
-                  placeholder="e.g. The History of Space Exploration..."
-                  autoFocus
-                />
+                <div className="flex gap-2">
+                  <input
+                    {...form.register("topic")}
+                    data-testid="input-topic"
+                    className={cn(
+                      "flex-1 px-4 py-3 rounded-xl bg-background border-2 transition-all duration-200",
+                      form.formState.errors.topic
+                        ? "border-destructive focus:border-destructive focus:ring-4 focus:ring-destructive/10"
+                        : "border-border focus:border-primary focus:ring-4 focus:ring-primary/10"
+                    )}
+                    placeholder="e.g. Punch the Monkey, AI breakthroughs, viral moments..."
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={handleResearch}
+                    disabled={isResearching || !form.watch("topic")?.trim()}
+                    data-testid="button-research"
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap transition-all duration-200",
+                      "bg-cyan-600/20 text-cyan-400 border-2 border-cyan-600/30",
+                      "hover:bg-cyan-600/30 hover:border-cyan-500/50",
+                      "disabled:opacity-40 disabled:cursor-not-allowed"
+                    )}
+                  >
+                    {isResearching ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Globe className="w-4 h-4" />
+                    )}
+                    {isResearching ? "Researching..." : "Research"}
+                  </button>
+                </div>
                 {form.formState.errors.topic && (
                   <p className="text-sm text-destructive flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" />
@@ -272,6 +315,47 @@ export default function NewScript() {
                   </p>
                 )}
               </div>
+
+              {researchResult && (
+                <div className="space-y-2" data-testid="research-results">
+                  <button
+                    type="button"
+                    onClick={() => setShowResearch(!showResearch)}
+                    className="flex items-center gap-2 text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors w-full"
+                  >
+                    <Globe className="w-4 h-4" />
+                    Web Research Results
+                    {showResearch ? <ChevronUp className="w-3 h-3 ml-auto" /> : <ChevronDown className="w-3 h-3 ml-auto" />}
+                  </button>
+                  {showResearch && (
+                    <div className="bg-cyan-950/20 border border-cyan-500/20 rounded-xl p-4 space-y-3">
+                      <div className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed max-h-64 overflow-y-auto" data-testid="text-research-content">
+                        {researchResult.research}
+                      </div>
+                      {researchResult.sources && researchResult.sources.length > 0 && (
+                        <div className="border-t border-cyan-500/10 pt-3">
+                          <p className="text-xs font-medium text-muted-foreground mb-2">Sources:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {researchResult.sources.slice(0, 5).map((source, i) => (
+                              <a
+                                key={i}
+                                href={source.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 px-2 py-1 rounded-lg transition-colors"
+                              >
+                                <ExternalLink className="w-3 h-3" />
+                                {source.title || new URL(source.url).hostname}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      <p className="text-xs text-cyan-400/60">This research will be used to make your script accurate and current.</p>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">Tone & Style</label>

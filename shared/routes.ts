@@ -117,6 +117,34 @@ export const api = {
       },
     },
   },
+  trends: {
+    list: {
+      method: "GET" as const,
+      path: "/api/trends" as const,
+      responses: {
+        200: z.array(z.object({
+          title: z.string(),
+          summary: z.string(),
+          category: z.string(),
+        })),
+      },
+    },
+    research: {
+      method: "POST" as const,
+      path: "/api/research" as const,
+      input: z.object({ topic: z.string().min(1) }),
+      responses: {
+        200: z.object({
+          research: z.string(),
+          sources: z.array(z.object({
+            title: z.string().optional(),
+            url: z.string(),
+          })).optional(),
+        }),
+        400: errorSchemas.validation,
+      },
+    },
+  },
   voices: {
     preview: {
       method: "GET" as const,

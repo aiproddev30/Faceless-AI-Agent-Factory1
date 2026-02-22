@@ -48,14 +48,15 @@ export function useCreateScript() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (data: ScriptInput) => {
-      const payload = { ...data, length: Number(data.length) };
+    mutationFn: async (data: ScriptInput & { researchContext?: string }) => {
+      const { researchContext, ...rest } = data;
+      const payload = { ...rest, length: Number(rest.length) };
       const validated = api.scripts.create.input.parse(payload);
       
       const res = await fetch(api.scripts.create.path, {
         method: api.scripts.create.method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(validated),
+        body: JSON.stringify({ ...validated, researchContext }),
       });
 
       if (!res.ok) {

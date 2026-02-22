@@ -2,6 +2,7 @@ import { useScripts, useDeleteScript } from "@/hooks/use-scripts";
 import { useSeries, useDeleteSeries } from "@/hooks/use-series";
 import { ScriptCard } from "@/components/ScriptCard";
 import { SeriesCard } from "@/components/SeriesCard";
+import { TrendingBar } from "@/components/TrendingBar";
 import { Link } from "wouter";
 import { Plus, Search, FileText, Layers, X } from "lucide-react";
 import { useState, useMemo } from "react";
@@ -118,6 +119,8 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+
+        <TrendingBar />
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div className="relative flex-1 max-w-md">
