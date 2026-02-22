@@ -13,7 +13,13 @@ const openai = new OpenAI({
 });
 
 const AUDIO_DIR = path.join(process.cwd(), "storage", "output", "audio");
+const PREVIEW_DIR = path.join(process.cwd(), "storage", "output", "previews");
 fs.mkdirSync(AUDIO_DIR, { recursive: true });
+fs.mkdirSync(PREVIEW_DIR, { recursive: true });
+
+const ALLOWED_VOICES = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
+const PREVIEW_TEXT = "Here's a quick preview of this voice. Imagine it narrating your next viral YouTube video with energy and confidence.";
+const previewGenerating = new Set<string>();
 
 async function generateVoiceover(scriptId: number, content: string, voice: string) {
   try {
@@ -204,6 +210,56 @@ export async function registerRoutes(
     res.setHeader("Content-Disposition", `inline; filename="${script.audioPath}"`);
     const stream = fs.createReadStream(fullPath);
     stream.pipe(res);
+  });
+
+  app.get(api.voices.preview.path, async (req, res) => {
+    const voice = req.params.voice;
+    if (!ALLOWED_VOICES.includes(voice)) {
+      return res.status(400).json({ message: "Invalid voice. Allowed: " + ALLOWED_VOICES.join(", ") });
+    }
+
+    const filename = `preview-${voice}.mp3`;
+    const filePath = path.join(PREVIEW_DIR, filename);
+
+    if (fs.existsSync(filePath)) {
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      return fs.createReadStream(filePath).pipe(res);
+    }
+
+    if (previewGenerating.has(voice)) {
+      return res.status(202).json({ message: "Preview is being generated, try again shortly" });
+    }
+
+    previewGenerating.add(voice);
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-audio",
+        modalities: ["text", "audio"],
+        audio: { voice: voice as any, format: "mp3" },
+        messages: [
+          { role: "system", content: "You are a professional voice actor. Read the text naturally with warmth and energy." },
+          { role: "user", content: PREVIEW_TEXT },
+        ],
+      });
+
+      const audioData = (response.choices[0]?.message as any)?.audio?.data ?? "";
+      if (!audioData) {
+        throw new Error("No audio data returned");
+      }
+
+      const audioBuffer = Buffer.from(audioData, "base64");
+      fs.writeFileSync(filePath, audioBuffer);
+
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      fs.createReadStream(filePath).pipe(res);
+    } catch (error: any) {
+      console.error("Error generating voice preview:", error);
+      res.status(500).json({ message: "Failed to generate voice preview" });
+    } finally {
+      previewGenerating.delete(voice);
+    }
   });
 
   return httpServer;

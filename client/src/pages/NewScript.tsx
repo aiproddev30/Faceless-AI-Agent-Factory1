@@ -3,8 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateScript } from "@/hooks/use-scripts";
 import { insertScriptSchema, type InsertScript } from "@shared/schema";
 import { useLocation } from "wouter";
-import { ArrowLeft, Sparkles, AlertCircle } from "lucide-react";
+import { ArrowLeft, Sparkles, AlertCircle, Volume2, Loader2, Square } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { buildUrl, api } from "@shared/routes";
 
 const TONE_OPTIONS = [
   { value: "educational", label: "Educational", desc: "Informative and clear" },
@@ -23,9 +25,93 @@ const VOICE_OPTIONS = [
   { value: "shimmer", label: "Shimmer", desc: "Clear and polished" },
 ];
 
+function useVoicePreview() {
+  const [playingVoice, setPlayingVoice] = useState<string | null>(null);
+  const [loadingVoice, setLoadingVoice] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const blobUrlRef = useRef<string | null>(null);
+
+  const stopPlayback = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current.onended = null;
+      audioRef.current = null;
+    }
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = null;
+    }
+    setPlayingVoice(null);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.onended = null;
+        audioRef.current = null;
+      }
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+        blobUrlRef.current = null;
+      }
+    };
+  }, []);
+
+  const playPreview = useCallback(async (voice: string) => {
+    if (playingVoice === voice) {
+      stopPlayback();
+      return;
+    }
+
+    stopPlayback();
+    setLoadingVoice(voice);
+
+    try {
+      const url = buildUrl(api.voices.preview.path, { voice });
+      let res = await fetch(url);
+
+      if (res.status === 202) {
+        for (let i = 0; i < 5; i++) {
+          await new Promise(r => setTimeout(r, 2000));
+          res = await fetch(url);
+          if (res.ok && res.status !== 202) break;
+        }
+        if (!res.ok || res.status === 202) throw new Error("Preview is still generating, try again in a moment");
+      }
+
+      if (!res.ok) throw new Error("Failed to load preview");
+
+      const blob = await res.blob();
+      const newBlobUrl = URL.createObjectURL(blob);
+      blobUrlRef.current = newBlobUrl;
+      const audio = new Audio(newBlobUrl);
+      audioRef.current = audio;
+      audio.onended = () => {
+        setPlayingVoice(null);
+        audioRef.current = null;
+        if (blobUrlRef.current) {
+          URL.revokeObjectURL(blobUrlRef.current);
+          blobUrlRef.current = null;
+        }
+      };
+      await audio.play();
+      setPlayingVoice(voice);
+    } catch (err) {
+      console.error("Voice preview error:", err);
+    } finally {
+      setLoadingVoice(null);
+    }
+  }, [playingVoice, stopPlayback]);
+
+  return { playPreview, playingVoice, loadingVoice };
+}
+
 export default function NewScript() {
   const [, setLocation] = useLocation();
   const { mutate: createScript, isPending } = useCreateScript();
+  const { playPreview, playingVoice, loadingVoice } = useVoicePreview();
   
   const form = useForm<InsertScript>({
     resolver: zodResolver(insertScriptSchema),
@@ -125,28 +211,58 @@ export default function NewScript() {
               {/* Voice Selection */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">Voiceover Voice</label>
+                <p className="text-xs text-muted-foreground -mt-1">Click the speaker icon to hear a preview</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {VOICE_OPTIONS.map((v) => (
-                    <label
-                      key={v.value}
-                      data-testid={`radio-voice-${v.value}`}
-                      className={cn(
-                        "relative flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
-                        form.watch("voice") === v.value
-                          ? "border-purple-500 bg-purple-500/5 shadow-inner"
-                          : "border-border hover:border-purple-500/50 hover:bg-white/5"
-                      )}
-                    >
-                      <input
-                        type="radio"
-                        value={v.value}
-                        {...form.register("voice")}
-                        className="sr-only"
-                      />
-                      <span className="font-semibold text-sm">{v.label}</span>
-                      <span className="text-xs text-muted-foreground">{v.desc}</span>
-                    </label>
-                  ))}
+                  {VOICE_OPTIONS.map((v) => {
+                    const isPlaying = playingVoice === v.value;
+                    const isLoading = loadingVoice === v.value;
+                    return (
+                      <div
+                        key={v.value}
+                        className={cn(
+                          "relative rounded-xl border-2 transition-all duration-200",
+                          form.watch("voice") === v.value
+                            ? "border-purple-500 bg-purple-500/5 shadow-inner"
+                            : "border-border hover:border-purple-500/50 hover:bg-white/5"
+                        )}
+                      >
+                        <label
+                          data-testid={`radio-voice-${v.value}`}
+                          className="flex flex-col p-4 pb-2 cursor-pointer"
+                        >
+                          <input
+                            type="radio"
+                            value={v.value}
+                            {...form.register("voice")}
+                            className="sr-only"
+                          />
+                          <span className="font-semibold text-sm">{v.label}</span>
+                          <span className="text-xs text-muted-foreground">{v.desc}</span>
+                        </label>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.preventDefault(); playPreview(v.value); }}
+                          disabled={isLoading}
+                          data-testid={`button-preview-${v.value}`}
+                          className={cn(
+                            "flex items-center gap-1.5 text-xs px-4 py-2 w-full rounded-b-xl transition-all duration-200",
+                            isPlaying
+                              ? "text-purple-400 bg-purple-500/10"
+                              : "text-muted-foreground hover:text-purple-400 hover:bg-purple-500/5"
+                          )}
+                        >
+                          {isLoading ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : isPlaying ? (
+                            <Square className="w-3 h-3 fill-current" />
+                          ) : (
+                            <Volume2 className="w-3.5 h-3.5" />
+                          )}
+                          {isLoading ? "Loading..." : isPlaying ? "Stop" : "Preview"}
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

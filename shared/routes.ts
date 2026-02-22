@@ -67,6 +67,16 @@ export const api = {
       },
     },
   },
+  voices: {
+    preview: {
+      method: "GET" as const,
+      path: "/api/voices/:voice/preview" as const,
+      responses: {
+        200: z.any(),
+        400: errorSchemas.validation,
+      },
+    },
+  },
 };
 
 export function buildUrl(path: string, params?: Record<string, string | number>): string {
