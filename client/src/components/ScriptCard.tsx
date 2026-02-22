@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { Script } from "@shared/schema";
 import { StatusBadge } from "./StatusBadge";
-import { FileText, MoreVertical, Trash2, Calendar, Hash } from "lucide-react";
+import { FileText, MoreVertical, Trash2, Calendar, Hash, Volume2 } from "lucide-react";
 import { Link } from "wouter";
 import {
   DropdownMenu,
@@ -17,15 +17,16 @@ interface ScriptCardProps {
 
 export function ScriptCard({ script, onDelete }: ScriptCardProps) {
   return (
-    <div className="group relative bg-card border border-border/50 hover:border-primary/50 rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+    <div className="group relative bg-card border border-border/50 hover:border-primary/50 rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5" data-testid={`card-script-${script.id}`}>
       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
         <DropdownMenu>
-          <DropdownMenuTrigger className="p-2 hover:bg-white/5 rounded-lg transition-colors outline-none">
+          <DropdownMenuTrigger className="p-2 hover:bg-white/5 rounded-lg transition-colors outline-none" data-testid={`button-menu-${script.id}`}>
             <MoreVertical className="w-4 h-4 text-muted-foreground" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40 bg-card border-border">
             <DropdownMenuItem 
               className="text-red-500 focus:text-red-500 focus:bg-red-500/10 cursor-pointer"
+              data-testid={`button-delete-${script.id}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete(script.id);
@@ -44,17 +45,25 @@ export function ScriptCard({ script, onDelete }: ScriptCardProps) {
             <div className="p-3 rounded-lg bg-primary/10 text-primary">
               <FileText className="w-6 h-6" />
             </div>
-            <StatusBadge status={script.status} />
           </div>
 
-          <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+          <h3 className="text-lg font-semibold text-foreground mb-3 line-clamp-1 group-hover:text-primary transition-colors" data-testid={`text-topic-${script.id}`}>
             {script.topic}
           </h3>
 
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <StatusBadge status={script.status} label="Script" />
+            <StatusBadge status={script.audioStatus} label="Audio" />
+          </div>
+
           <div className="space-y-2 mb-4">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
               <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">
                 {script.tone}
+              </span>
+              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 flex items-center gap-1">
+                <Volume2 className="w-3 h-3" />
+                {script.voice}
               </span>
               <span className="flex items-center gap-1">
                 <Hash className="w-3 h-3" />

@@ -2,10 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, buildUrl, type ScriptInput } from "@shared/routes";
 import { useToast } from "@/hooks/use-toast";
 
-// ============================================
-// HOOKS FOR SCRIPTS
-// ============================================
-
 export function useScripts() {
   return useQuery({
     queryKey: [api.scripts.list.path],
@@ -14,11 +10,13 @@ export function useScripts() {
       if (!res.ok) throw new Error("Failed to fetch scripts");
       return api.scripts.list.responses[200].parse(await res.json());
     },
-    // Poll every 2 seconds to update status if we have pending items
     refetchInterval: (query) => {
       const data = query.state.data;
       if (!data) return false;
-      const hasPending = data.some(s => s.status === 'pending' || s.status === 'processing');
+      const hasPending = data.some(s =>
+        s.status === 'pending' || s.status === 'processing' ||
+        s.audioStatus === 'pending' || s.audioStatus === 'processing'
+      );
       return hasPending ? 2000 : false;
     }
   });
@@ -34,11 +32,13 @@ export function useScript(id: number) {
       if (!res.ok) throw new Error("Failed to fetch script");
       return api.scripts.get.responses[200].parse(await res.json());
     },
-    // Poll if specific script is pending
     refetchInterval: (query) => {
       const data = query.state.data;
       if (!data) return false;
-      return (data.status === 'pending' || data.status === 'processing') ? 2000 : false;
+      return (
+        data.status === 'pending' || data.status === 'processing' ||
+        data.audioStatus === 'pending' || data.audioStatus === 'processing'
+      ) ? 2000 : false;
     }
   });
 }
@@ -49,7 +49,6 @@ export function useCreateScript() {
 
   return useMutation({
     mutationFn: async (data: ScriptInput) => {
-      // Ensure length is a number
       const payload = { ...data, length: Number(data.length) };
       const validated = api.scripts.create.input.parse(payload);
       
@@ -72,7 +71,7 @@ export function useCreateScript() {
       queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
       toast({
         title: "Script Queued",
-        description: "Your script has been added to the generation queue.",
+        description: "Your script and voiceover are being generated.",
       });
     },
     onError: (error) => {

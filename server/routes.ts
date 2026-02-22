@@ -4,13 +4,56 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 import OpenAI from "openai";
+import * as fs from "fs";
+import * as path from "path";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
 });
 
-async function generateYoutubeScript(scriptId: number, topic: string, tone: string, length: number) {
+const AUDIO_DIR = path.join(process.cwd(), "storage", "output", "audio");
+fs.mkdirSync(AUDIO_DIR, { recursive: true });
+
+async function generateVoiceover(scriptId: number, content: string, voice: string) {
+  try {
+    await storage.updateScript(scriptId, { audioStatus: "processing" });
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-audio",
+      modalities: ["text", "audio"],
+      audio: { voice: voice as any, format: "mp3" },
+      messages: [
+        { role: "system", content: "You are a professional voice actor. Read the following script exactly as written, with natural pacing and energy. Do not add any commentary." },
+        { role: "user", content: content },
+      ],
+    });
+
+    const audioData = (response.choices[0]?.message as any)?.audio?.data ?? "";
+
+    if (!audioData) {
+      throw new Error("No audio data returned from API");
+    }
+
+    const audioBuffer = Buffer.from(audioData, "base64");
+    const filename = `script-${scriptId}.mp3`;
+    const filePath = path.join(AUDIO_DIR, filename);
+    fs.writeFileSync(filePath, audioBuffer);
+
+    await storage.updateScript(scriptId, {
+      audioStatus: "complete",
+      audioPath: filename,
+    });
+  } catch (error: any) {
+    console.error("Error generating voiceover:", error);
+    await storage.updateScript(scriptId, {
+      audioStatus: "failed",
+      audioError: error.message || "Failed to generate voiceover",
+    });
+  }
+}
+
+async function generateYoutubeScript(scriptId: number, topic: string, tone: string, length: number, voice: string) {
   try {
     await storage.updateScript(scriptId, { status: "processing" });
 
@@ -35,6 +78,8 @@ No filler. High retention.`;
       wordCount,
       status: "complete",
     });
+
+    generateVoiceover(scriptId, content, voice).catch(console.error);
   } catch (error: any) {
     console.error("Error generating script:", error);
     await storage.updateScript(scriptId, {
@@ -51,10 +96,12 @@ async function seedDatabase() {
       topic: "Top 10 AI Automation Tools for 2026",
       tone: "educational",
       length: 800,
+      voice: "alloy",
     });
-    
+
     await storage.updateScript(script.id, {
       status: "complete",
+      audioStatus: "complete",
       content: "[HOOK 0-15s]\nEver wonder how top faceless channels pump out 3 videos a day? It's not magic. It's AI. Here are the top 10 tools...\n\n[B-ROLL: Fast-paced montage of servers blinking]\n\n[STORY]\nI used to spend 15 hours editing one video. Now I spend 15 minutes...\n\n[MAIN CONTENT]\nTool 1: Replit AI. This changed the game for building agents...\n\n[CTA]\nSubscribe for more AI secrets!",
       wordCount: 75,
     });
@@ -65,8 +112,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
-  // Seed the database with some example data
+
   seedDatabase().catch(console.error);
 
   app.get(api.scripts.list.path, async (req, res) => {
@@ -86,9 +132,8 @@ export async function registerRoutes(
     try {
       const input = api.scripts.create.input.parse(req.body);
       const script = await storage.createScript(input);
-      
-      // Kick off background processing
-      generateYoutubeScript(script.id, script.topic, script.tone, script.length).catch(console.error);
+
+      generateYoutubeScript(script.id, script.topic, script.tone, script.length, script.voice).catch(console.error);
 
       res.status(201).json(script);
     } catch (err) {
@@ -105,6 +150,23 @@ export async function registerRoutes(
   app.delete(api.scripts.delete.path, async (req, res) => {
     await storage.deleteScript(Number(req.params.id));
     res.status(204).send();
+  });
+
+  app.get(api.scripts.audio.path, async (req, res) => {
+    const script = await storage.getScript(Number(req.params.id));
+    if (!script || !script.audioPath) {
+      return res.status(404).json({ message: "Audio not found" });
+    }
+
+    const fullPath = path.join(AUDIO_DIR, script.audioPath);
+    if (!fs.existsSync(fullPath)) {
+      return res.status(404).json({ message: "Audio file not found on disk" });
+    }
+
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Content-Disposition", `inline; filename="${script.audioPath}"`);
+    const stream = fs.createReadStream(fullPath);
+    stream.pipe(res);
   });
 
   return httpServer;

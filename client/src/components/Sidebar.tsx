@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PlusCircle, Settings, Library, Video, Youtube } from "lucide-react";
+import { LayoutDashboard, PlusCircle, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Sidebar() {
@@ -8,9 +8,6 @@ export function Sidebar() {
   const links = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/new", label: "New Script", icon: PlusCircle },
-    { href: "/library", label: "Asset Library", icon: Library },
-    { href: "/renders", label: "Video Renders", icon: Video },
-    { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   return (
@@ -25,7 +22,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 px-4 py-4 space-y-1">
+      <nav className="flex-1 px-4 py-4 space-y-1" data-testid="nav-sidebar">
         {links.map((link) => {
           const isActive = location === link.href;
           return (
@@ -34,7 +31,7 @@ export function Sidebar() {
               isActive 
                 ? "bg-primary/10 text-primary" 
                 : "text-muted-foreground hover:text-foreground hover:bg-white/5"
-            )}>
+            )} data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, "-")}`}>
               <link.icon className={cn(
                 "w-5 h-5 transition-colors",
                 isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
@@ -47,11 +44,8 @@ export function Sidebar() {
 
       <div className="p-6 border-t border-border">
         <div className="bg-gradient-to-br from-primary/20 to-purple-900/20 rounded-xl p-4 border border-primary/10">
-          <h4 className="text-sm font-semibold text-primary mb-1">Pro Plan</h4>
-          <p className="text-xs text-muted-foreground mb-3">12/50 scripts generated</p>
-          <div className="h-1.5 w-full bg-background rounded-full overflow-hidden">
-            <div className="h-full bg-primary w-[24%]" />
-          </div>
+          <h4 className="text-sm font-semibold text-primary mb-1">Pipeline Status</h4>
+          <p className="text-xs text-muted-foreground">Script + Voiceover agents active</p>
         </div>
       </div>
     </aside>

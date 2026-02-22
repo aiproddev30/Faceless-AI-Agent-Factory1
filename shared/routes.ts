@@ -48,6 +48,14 @@ export const api = {
         404: errorSchemas.notFound,
       },
     },
+    audio: {
+      method: "GET" as const,
+      path: "/api/scripts/:id/audio" as const,
+      responses: {
+        200: z.any(),
+        404: errorSchemas.notFound,
+      },
+    },
   },
 };
 

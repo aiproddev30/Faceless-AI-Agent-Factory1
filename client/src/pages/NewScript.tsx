@@ -14,6 +14,15 @@ const TONE_OPTIONS = [
   { value: "casual", label: "Casual", desc: "Relaxed and vlog-style" },
 ];
 
+const VOICE_OPTIONS = [
+  { value: "alloy", label: "Alloy", desc: "Neutral and balanced" },
+  { value: "echo", label: "Echo", desc: "Warm and confident" },
+  { value: "fable", label: "Fable", desc: "Expressive storyteller" },
+  { value: "onyx", label: "Onyx", desc: "Deep and authoritative" },
+  { value: "nova", label: "Nova", desc: "Friendly and upbeat" },
+  { value: "shimmer", label: "Shimmer", desc: "Clear and polished" },
+];
+
 export default function NewScript() {
   const [, setLocation] = useLocation();
   const { mutate: createScript, isPending } = useCreateScript();
@@ -24,6 +33,7 @@ export default function NewScript() {
       topic: "",
       tone: "educational",
       length: 500,
+      voice: "alloy",
     },
   });
 
@@ -39,13 +49,13 @@ export default function NewScript() {
         <button 
           onClick={() => setLocation("/")}
           className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+          data-testid="button-back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Dashboard
         </button>
 
         <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-          {/* Decorative background element */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
           <div className="relative z-10">
@@ -55,7 +65,7 @@ export default function NewScript() {
                 Generate New Script
               </h1>
               <p className="text-muted-foreground mt-2">
-                Configure your settings and let our AI agents craft the perfect script.
+                Configure your settings and let our AI agents craft the perfect script with voiceover.
               </p>
             </div>
 
@@ -66,6 +76,7 @@ export default function NewScript() {
                 <label className="text-sm font-medium text-foreground">Video Topic</label>
                 <input
                   {...form.register("topic")}
+                  data-testid="input-topic"
                   className={cn(
                     "w-full px-4 py-3 rounded-xl bg-background border-2 transition-all duration-200",
                     form.formState.errors.topic 
@@ -90,6 +101,7 @@ export default function NewScript() {
                   {TONE_OPTIONS.map((tone) => (
                     <label 
                       key={tone.value}
+                      data-testid={`radio-tone-${tone.value}`}
                       className={cn(
                         "relative flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
                         form.watch("tone") === tone.value
@@ -110,6 +122,34 @@ export default function NewScript() {
                 </div>
               </div>
 
+              {/* Voice Selection */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium text-foreground">Voiceover Voice</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {VOICE_OPTIONS.map((v) => (
+                    <label
+                      key={v.value}
+                      data-testid={`radio-voice-${v.value}`}
+                      className={cn(
+                        "relative flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all duration-200",
+                        form.watch("voice") === v.value
+                          ? "border-purple-500 bg-purple-500/5 shadow-inner"
+                          : "border-border hover:border-purple-500/50 hover:bg-white/5"
+                      )}
+                    >
+                      <input
+                        type="radio"
+                        value={v.value}
+                        {...form.register("voice")}
+                        className="sr-only"
+                      />
+                      <span className="font-semibold text-sm">{v.label}</span>
+                      <span className="text-xs text-muted-foreground">{v.desc}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               {/* Length Input */}
               <div className="space-y-3">
                 <div className="flex justify-between">
@@ -122,6 +162,7 @@ export default function NewScript() {
                   max="2000"
                   step="50"
                   {...form.register("length")}
+                  data-testid="input-length"
                   className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
@@ -135,6 +176,7 @@ export default function NewScript() {
                 <button
                   type="submit"
                   disabled={isPending}
+                  data-testid="button-submit"
                   className="
                     px-8 py-3 rounded-xl font-semibold text-lg
                     bg-gradient-to-r from-primary to-purple-600
