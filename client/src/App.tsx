@@ -7,7 +7,9 @@ import { Sidebar } from "@/components/Sidebar";
 
 import Dashboard from "@/pages/Dashboard";
 import NewScript from "@/pages/NewScript";
+import NewSeries from "@/pages/NewSeries";
 import ScriptDetail from "@/pages/ScriptDetail";
+import SeriesDetail from "@/pages/SeriesDetail";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,7 +21,9 @@ function Router() {
         <Switch>
           <Route path="/" component={Dashboard} />
           <Route path="/new" component={NewScript} />
+          <Route path="/new-series" component={NewSeries} />
           <Route path="/script/:id" component={ScriptDetail} />
+          <Route path="/series/:id" component={SeriesDetail} />
           <Route component={NotFound} />
         </Switch>
       </main>

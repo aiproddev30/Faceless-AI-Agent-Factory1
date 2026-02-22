@@ -13,9 +13,10 @@ import {
 interface ScriptCardProps {
   script: Script;
   onDelete: (id: number) => void;
+  showEpisodeNumber?: boolean;
 }
 
-export function ScriptCard({ script, onDelete }: ScriptCardProps) {
+export function ScriptCard({ script, onDelete, showEpisodeNumber }: ScriptCardProps) {
   return (
     <div className="group relative bg-card border border-border/50 hover:border-primary/50 rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5" data-testid={`card-script-${script.id}`}>
       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -48,6 +49,9 @@ export function ScriptCard({ script, onDelete }: ScriptCardProps) {
           </div>
 
           <h3 className="text-lg font-semibold text-foreground mb-3 line-clamp-1 group-hover:text-primary transition-colors" data-testid={`text-topic-${script.id}`}>
+            {showEpisodeNumber && script.episodeNumber != null && (
+              <span className="text-xs font-mono text-muted-foreground mr-2">EP {script.episodeNumber}</span>
+            )}
             {script.topic}
           </h3>
 

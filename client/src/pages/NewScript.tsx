@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateScript } from "@/hooks/use-scripts";
+import { useSeries, useSeriesScripts } from "@/hooks/use-series";
 import { insertScriptSchema, type InsertScript } from "@shared/schema";
-import { useLocation } from "wouter";
-import { ArrowLeft, Sparkles, AlertCircle, Volume2, Loader2, Square } from "lucide-react";
+import { useLocation, useSearch } from "wouter";
+import { ArrowLeft, Sparkles, AlertCircle, Volume2, Loader2, Square, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { buildUrl, api } from "@shared/routes";
@@ -110,9 +111,14 @@ function useVoicePreview() {
 
 export default function NewScript() {
   const [, setLocation] = useLocation();
+  const searchString = useSearch();
+  const searchParams = new URLSearchParams(searchString);
+  const presetSeriesId = searchParams.get("seriesId") ? Number(searchParams.get("seriesId")) : null;
+
   const { mutate: createScript, isPending } = useCreateScript();
   const { playPreview, playingVoice, loadingVoice } = useVoicePreview();
-  
+  const { data: allSeries } = useSeries();
+
   const form = useForm<InsertScript>({
     resolver: zodResolver(insertScriptSchema),
     defaultValues: {
@@ -120,25 +126,60 @@ export default function NewScript() {
       tone: "educational",
       length: 500,
       voice: "alloy",
+      seriesId: presetSeriesId || undefined,
+      episodeNumber: undefined,
     },
   });
 
+  const selectedSeriesId = form.watch("seriesId");
+  const activeSeriesId = selectedSeriesId || presetSeriesId || 0;
+
+  const { data: seriesEpisodes } = useSeriesScripts(activeSeriesId);
+  const nextEpisodeNumber = activeSeriesId && seriesEpisodes
+    ? Math.max(0, ...seriesEpisodes.map(s => s.episodeNumber || 0)) + 1
+    : 1;
+
+  useEffect(() => {
+    if (activeSeriesId && nextEpisodeNumber) {
+      form.setValue("episodeNumber", nextEpisodeNumber);
+    }
+  }, [activeSeriesId, nextEpisodeNumber, form]);
+
   const onSubmit = (data: InsertScript) => {
-    createScript(data, {
-      onSuccess: () => setLocation("/"),
+    const payload = {
+      ...data,
+      seriesId: data.seriesId || undefined,
+      episodeNumber: data.seriesId ? (data.episodeNumber || nextEpisodeNumber) : undefined,
+    };
+    createScript(payload, {
+      onSuccess: () => {
+        if (presetSeriesId) {
+          setLocation(`/series/${presetSeriesId}`);
+        } else {
+          setLocation("/");
+        }
+      },
     });
   };
+
+  const currentSeries = allSeries?.find(s => s.id === activeSeriesId);
 
   return (
     <div className="min-h-screen bg-background p-8 md:pl-72">
       <div className="max-w-3xl mx-auto">
-        <button 
-          onClick={() => setLocation("/")}
+        <button
+          onClick={() => {
+            if (presetSeriesId) {
+              setLocation(`/series/${presetSeriesId}`);
+            } else {
+              setLocation("/");
+            }
+          }}
           className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
           data-testid="button-back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Dashboard
+          {presetSeriesId ? "Back to Series" : "Back to Dashboard"}
         </button>
 
         <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl relative overflow-hidden">
@@ -148,16 +189,68 @@ export default function NewScript() {
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
                 <Sparkles className="w-8 h-8 text-primary" />
-                Generate New Script
+                {presetSeriesId ? "Add Episode" : "Generate New Script"}
               </h1>
               <p className="text-muted-foreground mt-2">
-                Configure your settings and let our AI agents craft the perfect script with voiceover.
+                {presetSeriesId
+                  ? "Add a new episode to your series."
+                  : "Configure your settings and let our AI agents craft the perfect script with voiceover."
+                }
               </p>
             </div>
 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              
-              {/* Topic Input */}
+
+              {currentSeries && (
+                <div className="flex items-center gap-3 bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+                  <Layers className="w-5 h-5 text-purple-400" />
+                  <div>
+                    <p className="text-sm font-medium text-purple-400">Adding to series</p>
+                    <p className="text-foreground font-semibold">{currentSeries.name}</p>
+                  </div>
+                  <div className="ml-auto text-sm text-muted-foreground">
+                    Episode #{form.watch("episodeNumber") || nextEpisodeNumber}
+                  </div>
+                </div>
+              )}
+
+              {!presetSeriesId && allSeries && allSeries.length > 0 && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-foreground">Series (optional)</label>
+                  <select
+                    value={selectedSeriesId || ""}
+                    onChange={(e) => {
+                      const val = e.target.value ? Number(e.target.value) : undefined;
+                      form.setValue("seriesId", val);
+                      if (!val) {
+                        form.setValue("episodeNumber", undefined);
+                      }
+                    }}
+                    data-testid="select-series"
+                    className="w-full px-4 py-3 rounded-xl bg-background border-2 border-border focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all duration-200 appearance-none cursor-pointer"
+                  >
+                    <option value="">Standalone script (no series)</option>
+                    {allSeries.map(s => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {selectedSeriesId && !presetSeriesId && (
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-foreground">Episode Number</label>
+                  <input
+                    type="number"
+                    min="1"
+                    {...form.register("episodeNumber", { valueAsNumber: true })}
+                    data-testid="input-episode-number"
+                    className="w-full px-4 py-3 rounded-xl bg-background border-2 border-border focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all duration-200"
+                    placeholder="Episode number"
+                  />
+                </div>
+              )}
+
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">Video Topic</label>
                 <input
@@ -165,8 +258,8 @@ export default function NewScript() {
                   data-testid="input-topic"
                   className={cn(
                     "w-full px-4 py-3 rounded-xl bg-background border-2 transition-all duration-200",
-                    form.formState.errors.topic 
-                      ? "border-destructive focus:border-destructive focus:ring-4 focus:ring-destructive/10" 
+                    form.formState.errors.topic
+                      ? "border-destructive focus:border-destructive focus:ring-4 focus:ring-destructive/10"
                       : "border-border focus:border-primary focus:ring-4 focus:ring-primary/10"
                   )}
                   placeholder="e.g. The History of Space Exploration..."
@@ -180,12 +273,11 @@ export default function NewScript() {
                 )}
               </div>
 
-              {/* Tone Selection */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">Tone & Style</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {TONE_OPTIONS.map((tone) => (
-                    <label 
+                    <label
                       key={tone.value}
                       data-testid={`radio-tone-${tone.value}`}
                       className={cn(
@@ -195,11 +287,11 @@ export default function NewScript() {
                           : "border-border hover:border-primary/50 hover:bg-white/5"
                       )}
                     >
-                      <input 
-                        type="radio" 
-                        value={tone.value} 
-                        {...form.register("tone")} 
-                        className="sr-only" 
+                      <input
+                        type="radio"
+                        value={tone.value}
+                        {...form.register("tone")}
+                        className="sr-only"
                       />
                       <span className="font-semibold text-sm">{tone.label}</span>
                       <span className="text-xs text-muted-foreground">{tone.desc}</span>
@@ -208,7 +300,6 @@ export default function NewScript() {
                 </div>
               </div>
 
-              {/* Voice Selection */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">Voiceover Voice</label>
                 <p className="text-xs text-muted-foreground -mt-1">Click the speaker icon to hear a preview</p>
@@ -266,7 +357,6 @@ export default function NewScript() {
                 </div>
               </div>
 
-              {/* Length Input */}
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <label className="text-sm font-medium text-foreground">Target Length (Words)</label>
@@ -287,7 +377,6 @@ export default function NewScript() {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <div className="pt-4 border-t border-white/10 flex justify-end">
                 <button
                   type="submit"
@@ -311,7 +400,7 @@ export default function NewScript() {
                   ) : (
                     <>
                       <Sparkles className="w-5 h-5" />
-                      Generate Script
+                      {presetSeriesId ? "Generate Episode" : "Generate Script"}
                     </>
                   )}
                 </button>

@@ -10,17 +10,29 @@ AI-powered system that generates YouTube video scripts and voiceover audio. User
 - **AI**: OpenAI via Replit AI Integrations (env vars: AI_INTEGRATIONS_OPENAI_API_KEY, AI_INTEGRATIONS_OPENAI_BASE_URL)
 
 ## Key Files
-- `shared/schema.ts` - Drizzle schema + Zod insert schemas
+- `shared/schema.ts` - Drizzle schema + Zod insert schemas (scripts + series tables)
 - `shared/routes.ts` - API route definitions with Zod validation
 - `server/routes.ts` - Express route handlers + script generation + voiceover generation
-- `server/storage.ts` - Database CRUD interface
-- `client/src/pages/Dashboard.tsx` - Script list with search/filter
-- `client/src/pages/NewScript.tsx` - Create script form (topic, tone, voice, length)
+- `server/storage.ts` - Database CRUD interface (scripts + series)
+- `client/src/pages/Dashboard.tsx` - Script list with search/filter, series cards, view modes
+- `client/src/pages/NewScript.tsx` - Create script form (topic, tone, voice, length, optional series)
+- `client/src/pages/NewSeries.tsx` - Create series form (name, description)
 - `client/src/pages/ScriptDetail.tsx` - View script content + audio player
-- `client/src/hooks/use-scripts.ts` - TanStack Query hooks with polling
+- `client/src/pages/SeriesDetail.tsx` - View series with episode list + add episode
+- `client/src/hooks/use-scripts.ts` - TanStack Query hooks for scripts with polling
+- `client/src/hooks/use-series.ts` - TanStack Query hooks for series CRUD
+- `client/src/components/SeriesCard.tsx` - Series card with episode count + progress
 
 ## Data Model
-Scripts table: id, topic, tone, length, voice, content, wordCount, status, audioStatus, audioPath, audioError, error, createdAt
+Scripts table: id, topic, tone, length, voice, content, wordCount, status, audioStatus, audioPath, audioError, error, seriesId (nullable), episodeNumber (nullable), createdAt
+Series table: id, name, description (nullable), createdAt
+
+## Routes
+- `/` - Dashboard (series cards + standalone scripts, search + filter)
+- `/new` - New Script form (supports `?seriesId=X` for adding episodes)
+- `/new-series` - New Series form
+- `/script/:id` - Script detail + audio player
+- `/series/:id` - Series detail with episode list
 
 ## Pipeline Flow
 1. User submits form -> POST /api/scripts creates record with status="pending"
@@ -38,6 +50,12 @@ Scripts table: id, topic, tone, length, voice, content, wordCount, status, audio
 alloy, echo, fable, onyx, nova, shimmer (OpenAI TTS voices)
 
 ## Recent Changes (Feb 2026)
+- Added Series model for grouping scripts into multi-episode series
+- Dashboard redesigned: series cards section + standalone scripts section, with view mode tabs
+- Added search bar and tone filter to Dashboard
+- Added Series detail page with episode list and "Add Episode" button
+- Added New Series creation page
+- Updated New Script form with optional series assignment + episode number
 - Added voice selection field to schema and form
 - Added voiceover audio generation pipeline (OpenAI audio API)
 - Added chunked audio generation: scripts split into ~300-word chunks for full-length narration
@@ -45,5 +63,4 @@ alloy, echo, fable, onyx, nova, shimmer (OpenAI TTS voices)
 - Added voice preview on New Script form (cached to storage/output/previews/)
 - Added audio player to script detail page
 - Added audio status badges to cards and detail view
-- Removed dead sidebar links (Asset Library, Video Renders, Settings)
 - Frontend polls every 2s while script or audio is pending/processing

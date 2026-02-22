@@ -69,6 +69,7 @@ export function useCreateScript() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
+      queryClient.invalidateQueries({ queryKey: ["/api/series"] });
       toast({
         title: "Script Queued",
         description: "Your script and voiceover are being generated.",
@@ -134,6 +135,7 @@ export function useDeleteScript() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
+      queryClient.invalidateQueries({ queryKey: ["/api/series"] });
       toast({
         title: "Script Deleted",
         description: "The script has been permanently removed.",

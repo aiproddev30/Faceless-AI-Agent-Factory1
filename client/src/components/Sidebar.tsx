@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PlusCircle, Youtube } from "lucide-react";
+import { LayoutDashboard, PlusCircle, Youtube, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Sidebar() {
@@ -8,6 +8,7 @@ export function Sidebar() {
   const links = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/new", label: "New Script", icon: PlusCircle },
+    { href: "/new-series", label: "New Series", icon: Layers },
   ];
 
   return (

@@ -290,6 +290,69 @@ export async function registerRoutes(
     stream.pipe(res);
   });
 
+  app.get(api.series.list.path, async (req, res) => {
+    const allSeries = await storage.getSeries();
+    res.json(allSeries);
+  });
+
+  app.get(api.series.get.path, async (req, res) => {
+    const s = await storage.getSeriesById(Number(req.params.id));
+    if (!s) {
+      return res.status(404).json({ message: "Series not found" });
+    }
+    res.json(s);
+  });
+
+  app.post(api.series.create.path, async (req, res) => {
+    try {
+      const input = api.series.create.input.parse(req.body);
+      const s = await storage.createSeries(input);
+      res.status(201).json(s);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
+  });
+
+  app.patch(api.series.update.path, async (req, res) => {
+    try {
+      const s = await storage.getSeriesById(Number(req.params.id));
+      if (!s) {
+        return res.status(404).json({ message: "Series not found" });
+      }
+      const input = api.series.update.input.parse(req.body);
+      const updated = await storage.updateSeries(s.id, input);
+      res.json(updated);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
+  });
+
+  app.delete(api.series.delete.path, async (req, res) => {
+    const s = await storage.getSeriesById(Number(req.params.id));
+    if (!s) {
+      return res.status(404).json({ message: "Series not found" });
+    }
+    await storage.deleteSeries(s.id);
+    res.status(204).send();
+  });
+
+  app.get(api.series.scripts.path, async (req, res) => {
+    const seriesScripts = await storage.getScriptsBySeries(Number(req.params.id));
+    res.json(seriesScripts);
+  });
+
   app.get(api.voices.preview.path, async (req, res) => {
     const voice = req.params.voice;
     if (!ALLOWED_VOICES.includes(voice)) {
