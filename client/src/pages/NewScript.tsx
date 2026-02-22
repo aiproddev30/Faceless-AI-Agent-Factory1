@@ -451,7 +451,7 @@ export default function NewScript() {
                   min="100"
                   max="2000"
                   step="50"
-                  {...form.register("length")}
+                  {...form.register("length", { valueAsNumber: true })}
                   data-testid="input-length"
                   className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                 />
