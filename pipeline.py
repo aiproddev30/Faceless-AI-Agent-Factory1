@@ -1,22 +1,23 @@
 import asyncio
+import sys
+import json
 from loguru import logger
+
 from agents.script_writer import ScriptWriterAgent
 from agents.voiceover_agent import VoiceoverAgent
 
 
-async def run():
-    try:
-        topic_data = {
-            "title": "The Future of AI Automation in 2026",
-            "tone": "Professional news documentary",
-            "length": 900
-        }
+# ---------------------------------------------------
+# Core Pipeline Logic (Used by API / CLI)
+# ---------------------------------------------------
 
-        logger.info(f"Starting pipeline for topic: {topic_data['title']}")
+async def run_pipeline(topic_dict: dict):
+    try:
+        logger.info(f"Starting pipeline for topic: {topic_dict.get('title')}")
 
         # 1️⃣ Generate Script
         script_agent = ScriptWriterAgent()
-        script_result = await script_agent.execute(topic_data)
+        script_result = await script_agent.execute(topic_dict)
 
         script_path = script_result.get("script_path")
 
@@ -28,7 +29,8 @@ async def run():
         # 2️⃣ Generate Voiceover
         voice_agent = VoiceoverAgent()
         voice_result = await voice_agent.execute({
-            "script_path": script_path
+            "script_path": script_path,
+            "voice": topic_dict.get("voice", "verse")
         })
 
         audio_path = voice_result.get("audio_path")
@@ -38,30 +40,44 @@ async def run():
 
         logger.info(f"Voiceover generated successfully: {audio_path}")
 
-        print("\n--- PIPELINE SUCCESS ---")
-        print(f"Script Path: {script_path}")
-        print(f"Audio Path: {audio_path}")
+        return {
+            "script_path": script_path,
+            "audio_path": audio_path
+        }
 
     except Exception as e:
         logger.error(f"Pipeline failed: {e}")
-        print("\n--- PIPELINE FAILED ---")
-        print(f"Error: {e}")
+        raise
 
 
-async def run_pipeline(topic_dict: dict):
+# ---------------------------------------------------
+# CLI ENTRY (Used by Node Backend)
+# Example:
+# python pipeline.py "Title" "Tone" 900 "verse"
+# ---------------------------------------------------
 
-    script_agent = ScriptWriterAgent()
-    voice_agent = VoiceoverAgent()
+if __name__ == "__main__":
 
-    script_result = await script_agent.execute(topic_dict)
+    if len(sys.argv) < 5:
+        print(json.dumps({
+            "error": "Usage: python pipeline.py <title> <tone> <length> <voice>"
+        }))
+        sys.exit(1)
 
-    voice_result = await voice_agent.execute({
-     "script_path": script_result["script_path"],
-     "voice": topic_dict.get("voice", "verse")
-})
+    title = sys.argv[1]
+    tone = sys.argv[2]
+    length = int(sys.argv[3])
+    voice = sys.argv[4]
 
-return {
-    "script_path": script_result["script_path"],
-    "audio_path": voice_result["audio_path"]
-}
+    async def main():
+        result = await run_pipeline({
+            "title": title,
+            "tone": tone,
+            "length": length,
+            "voice": voice
+        })
 
+        # IMPORTANT: Clean JSON output for Node to parse
+        print(json.dumps(result))
+
+    asyncio.run(main())
