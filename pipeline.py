@@ -48,5 +48,20 @@ async def run():
         print(f"Error: {e}")
 
 
-if __name__ == "__main__":
-    asyncio.run(run())
+async def run_pipeline(topic_dict: dict):
+
+    script_agent = ScriptWriterAgent()
+    voice_agent = VoiceoverAgent()
+
+    script_result = await script_agent.execute(topic_dict)
+
+    voice_result = await voice_agent.execute({
+     "script_path": script_result["script_path"],
+     "voice": topic_dict.get("voice", "verse")
+})
+
+return {
+    "script_path": script_result["script_path"],
+    "audio_path": voice_result["audio_path"]
+}
+
