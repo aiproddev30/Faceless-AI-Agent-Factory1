@@ -21,35 +21,113 @@ const ALLOWED_VOICES = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
 const PREVIEW_TEXT = "Here's a quick preview of this voice. Imagine it narrating your next viral YouTube video with energy and confidence.";
 const previewGenerating = new Set<string>();
 
+const MAX_CHUNK_WORDS = 300;
+
+function extractNarration(content: string): string {
+  const lines = content.split("\n");
+  const narrationLines: string[] = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    if (trimmed.startsWith("##") || trimmed.startsWith("###")) continue;
+    if (trimmed.startsWith("---")) continue;
+    if (/^\*\*\[.*\]\*\*$/.test(trimmed)) continue;
+    if (/^\*\*B-ROLL.*\*\*/.test(trimmed) || trimmed.startsWith("**B-ROLL")) continue;
+    if (/^B-ROLL:/.test(trimmed)) continue;
+    if (/^\[.*\]$/.test(trimmed)) continue;
+
+    let cleaned = trimmed;
+    cleaned = cleaned.replace(/^(NARRATOR|VO|VOICEOVER)\s*:\s*/i, "");
+    cleaned = cleaned.replace(/\*\*/g, "");
+    cleaned = cleaned.replace(/\*\*B-ROLL:.*$/i, "").trim();
+
+    if (cleaned.length > 5) {
+      narrationLines.push(cleaned);
+    }
+  }
+
+  return narrationLines.join("\n\n");
+}
+
+function splitTextIntoChunks(text: string): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (words.length <= MAX_CHUNK_WORDS) {
+    return [text];
+  }
+
+  const paragraphs = text.split(/\n\n+/).filter(p => p.trim().length > 0);
+  const chunks: string[] = [];
+  let currentChunk = "";
+
+  for (const para of paragraphs) {
+    const currentWords = currentChunk.split(/\s+/).filter(Boolean).length;
+    const paraWords = para.split(/\s+/).filter(Boolean).length;
+
+    if (currentChunk && currentWords + paraWords > MAX_CHUNK_WORDS) {
+      chunks.push(currentChunk.trim());
+      currentChunk = para;
+    } else {
+      currentChunk = currentChunk ? currentChunk + "\n\n" + para : para;
+    }
+  }
+  if (currentChunk.trim()) {
+    chunks.push(currentChunk.trim());
+  }
+
+  return chunks.length > 0 ? chunks : [text];
+}
+
+async function generateAudioForChunk(text: string, voice: string): Promise<Buffer> {
+  const response = await openai.chat.completions.create({
+    model: "gpt-audio",
+    modalities: ["text", "audio"],
+    audio: { voice: voice as any, format: "mp3" },
+    messages: [
+      { role: "system", content: "You are a professional voice actor narrating a YouTube video. Read the following text exactly as written with natural pacing and energy. Do not add any commentary, greetings, or extra words." },
+      { role: "user", content: text },
+    ],
+  });
+
+  const audioData = (response.choices[0]?.message as any)?.audio?.data ?? "";
+  if (!audioData) {
+    throw new Error("No audio data returned from API");
+  }
+  return Buffer.from(audioData, "base64");
+}
+
 async function generateVoiceover(scriptId: number, content: string, voice: string) {
   try {
     await storage.updateScript(scriptId, { audioStatus: "processing" });
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-audio",
-      modalities: ["text", "audio"],
-      audio: { voice: voice as any, format: "mp3" },
-      messages: [
-        { role: "system", content: "You are a professional voice actor. Read the following script exactly as written, with natural pacing and energy. Do not add any commentary." },
-        { role: "user", content: content },
-      ],
-    });
+    const narration = extractNarration(content);
+    if (!narration || narration.trim().length < 10) {
+      console.log(`Voiceover for script ${scriptId}: narration extraction returned too little text, falling back to full content`);
+    }
+    const textForAudio = narration && narration.trim().length >= 10 ? narration : content;
+    const chunks = splitTextIntoChunks(textForAudio);
+    console.log(`Voiceover for script ${scriptId}: ${textForAudio === narration ? 'extracted' : 'using full'} ${textForAudio.split(/\s+/).length} words -> ${chunks.length} chunk(s), voice=${voice}`);
 
-    const audioData = (response.choices[0]?.message as any)?.audio?.data ?? "";
-
-    if (!audioData) {
-      throw new Error("No audio data returned from API");
+    const audioBuffers: Buffer[] = [];
+    for (let i = 0; i < chunks.length; i++) {
+      const wordCount = chunks[i].split(/\s+/).filter(Boolean).length;
+      console.log(`  Chunk ${i + 1}/${chunks.length}: ${wordCount} words`);
+      const buffer = await generateAudioForChunk(chunks[i], voice);
+      console.log(`  Chunk ${i + 1} done: ${(buffer.length / 1024).toFixed(1)}KB`);
+      audioBuffers.push(buffer);
     }
 
-    const audioBuffer = Buffer.from(audioData, "base64");
+    const combinedBuffer = Buffer.concat(audioBuffers);
     const filename = `script-${scriptId}.mp3`;
     const filePath = path.join(AUDIO_DIR, filename);
-    fs.writeFileSync(filePath, audioBuffer);
+    fs.writeFileSync(filePath, combinedBuffer);
 
     await storage.updateScript(scriptId, {
       audioStatus: "complete",
       audioPath: filename,
     });
+
+    console.log(`Voiceover complete for script ${scriptId}: ${(combinedBuffer.length / 1024).toFixed(1)}KB total`);
   } catch (error: any) {
     console.error("Error generating voiceover:", error);
     await storage.updateScript(scriptId, {

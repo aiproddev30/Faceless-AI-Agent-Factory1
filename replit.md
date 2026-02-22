@@ -26,7 +26,12 @@ Scripts table: id, topic, tone, length, voice, content, wordCount, status, audio
 1. User submits form -> POST /api/scripts creates record with status="pending"
 2. Background: generateYoutubeScript() sets status="processing", calls OpenAI GPT for script
 3. On script completion: sets status="complete", then kicks off generateVoiceover()
-4. Voiceover: sets audioStatus="processing", calls OpenAI audio API, saves MP3 to storage/output/audio/
+4. Voiceover pipeline:
+   a. extractNarration() strips non-spoken text (B-ROLL markers, headings, timestamps)
+   b. splitTextIntoChunks() splits narration into ~300-word chunks at paragraph boundaries
+   c. Each chunk generates audio via OpenAI gpt-audio API sequentially
+   d. All chunk buffers concatenated into single MP3, saved to storage/output/audio/
+   e. Falls back to full content if narration extraction yields too little text
 5. Audio served via GET /api/scripts/:id/audio
 
 ## Voices Available
@@ -35,6 +40,9 @@ alloy, echo, fable, onyx, nova, shimmer (OpenAI TTS voices)
 ## Recent Changes (Feb 2026)
 - Added voice selection field to schema and form
 - Added voiceover audio generation pipeline (OpenAI audio API)
+- Added chunked audio generation: scripts split into ~300-word chunks for full-length narration
+- Added narration extraction to strip non-spoken text (B-ROLL, headers) before TTS
+- Added voice preview on New Script form (cached to storage/output/previews/)
 - Added audio player to script detail page
 - Added audio status badges to cards and detail view
 - Removed dead sidebar links (Asset Library, Video Renders, Settings)
