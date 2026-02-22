@@ -84,6 +84,43 @@ export function useCreateScript() {
   });
 }
 
+export function useRegenerateAudio() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async ({ id, voice }: { id: number; voice: string }) => {
+      const url = buildUrl(api.scripts.regenerateAudio.path, { id });
+      const res = await fetch(url, {
+        method: api.scripts.regenerateAudio.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ voice }),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to regenerate audio");
+      }
+      return res.json();
+    },
+    onSuccess: (_, vars) => {
+      queryClient.invalidateQueries({ queryKey: [api.scripts.get.path, vars.id] });
+      queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
+      toast({
+        title: "Regenerating Audio",
+        description: "Voiceover is being regenerated with the new voice.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+}
+
 export function useDeleteScript() {
   const queryClient = useQueryClient();
   const { toast } = useToast();

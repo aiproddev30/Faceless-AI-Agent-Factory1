@@ -152,6 +152,43 @@ export async function registerRoutes(
     res.status(204).send();
   });
 
+  app.post(api.scripts.regenerateAudio.path, async (req, res) => {
+    try {
+      const script = await storage.getScript(Number(req.params.id));
+      if (!script) {
+        return res.status(404).json({ message: "Script not found" });
+      }
+      if (script.status !== "complete" || !script.content) {
+        return res.status(400).json({ message: "Script must be complete before regenerating audio" });
+      }
+      if (script.audioStatus === "processing") {
+        return res.status(400).json({ message: "Audio is currently being generated" });
+      }
+
+      const { voice } = api.scripts.regenerateAudio.input.parse(req.body);
+
+      await storage.updateScript(script.id, {
+        voice,
+        audioStatus: "pending",
+        audioPath: null,
+        audioError: null,
+      });
+
+      generateVoiceover(script.id, script.content, voice).catch(console.error);
+
+      const updated = await storage.getScript(script.id);
+      res.json(updated);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
+  });
+
   app.get(api.scripts.audio.path, async (req, res) => {
     const script = await storage.getScript(Number(req.params.id));
     if (!script || !script.audioPath) {

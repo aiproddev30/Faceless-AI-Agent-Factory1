@@ -1,11 +1,21 @@
-import { useScript } from "@/hooks/use-scripts";
+import { useScript, useRegenerateAudio } from "@/hooks/use-scripts";
 import { useRoute, Link } from "wouter";
-import { ArrowLeft, Copy, Calendar, Tag, Clock, XCircle, AlertTriangle, Volume2, Mic } from "lucide-react";
+import { ArrowLeft, Copy, Calendar, Tag, Clock, XCircle, AlertTriangle, Volume2, Mic, RefreshCw } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { StatusBadge } from "@/components/StatusBadge";
 import { buildUrl, api } from "@shared/routes";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+
+const VOICE_OPTIONS = [
+  { value: "alloy", label: "Alloy", desc: "Neutral and balanced" },
+  { value: "echo", label: "Echo", desc: "Warm and confident" },
+  { value: "fable", label: "Fable", desc: "Expressive storyteller" },
+  { value: "onyx", label: "Onyx", desc: "Deep and authoritative" },
+  { value: "nova", label: "Nova", desc: "Friendly and upbeat" },
+  { value: "shimmer", label: "Shimmer", desc: "Clear and polished" },
+];
 
 export default function ScriptDetail() {
   const [, params] = useRoute("/script/:id");
@@ -13,6 +23,8 @@ export default function ScriptDetail() {
   const { data: script, isLoading, error } = useScript(id);
   const { toast } = useToast();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { mutate: regenerateAudio, isPending: isRegenerating } = useRegenerateAudio();
+  const [selectedVoice, setSelectedVoice] = useState<string | null>(null);
 
   if (isLoading) {
     return (
@@ -45,6 +57,14 @@ export default function ScriptDetail() {
   };
 
   const audioUrl = buildUrl(api.scripts.audio.path, { id: script.id });
+  const voiceToUse = selectedVoice || script.voice;
+
+  const handleRegenerate = () => {
+    regenerateAudio({ id: script.id, voice: voiceToUse });
+    setSelectedVoice(null);
+  };
+
+  const canRegenerate = script.status === "complete" && script.audioStatus !== "processing";
 
   return (
     <div className="min-h-screen bg-background p-8 md:pl-72">
@@ -95,14 +115,14 @@ export default function ScriptDetail() {
             <audio
               ref={audioRef}
               controls
-              className="w-full"
+              className="w-full mb-4"
               src={audioUrl}
               data-testid="audio-player"
             >
               Your browser does not support the audio element.
             </audio>
           ) : script.audioStatus === "failed" ? (
-            <div className="flex items-center gap-3 text-destructive bg-destructive/10 rounded-xl p-4">
+            <div className="flex items-center gap-3 text-destructive bg-destructive/10 rounded-xl p-4 mb-4">
               <XCircle className="w-5 h-5 flex-shrink-0" />
               <div>
                 <p className="font-medium">Audio generation failed</p>
@@ -110,7 +130,7 @@ export default function ScriptDetail() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3 text-blue-400 bg-blue-500/10 rounded-xl p-4">
+            <div className="flex items-center gap-3 text-blue-400 bg-blue-500/10 rounded-xl p-4 mb-4">
               <div className="w-5 h-5 border-2 border-blue-400/30 border-t-blue-400 rounded-full animate-spin flex-shrink-0" />
               <div>
                 <p className="font-medium">
@@ -118,6 +138,47 @@ export default function ScriptDetail() {
                 </p>
                 <p className="text-sm text-muted-foreground">This usually takes 30-60 seconds after the script is ready.</p>
               </div>
+            </div>
+          )}
+
+          {/* Voice Picker + Regenerate */}
+          {canRegenerate && (
+            <div className="border-t border-border pt-4 mt-2">
+              <p className="text-sm font-medium text-muted-foreground mb-3">Change voice and regenerate</p>
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
+                {VOICE_OPTIONS.map((v) => (
+                  <button
+                    key={v.value}
+                    onClick={() => setSelectedVoice(v.value)}
+                    data-testid={`button-voice-${v.value}`}
+                    className={cn(
+                      "flex flex-col items-center p-2.5 rounded-xl border-2 text-center transition-all duration-200 cursor-pointer",
+                      (selectedVoice ?? script.voice) === v.value
+                        ? "border-purple-500 bg-purple-500/10"
+                        : "border-border hover:border-purple-500/50 hover:bg-white/5"
+                    )}
+                  >
+                    <span className="text-xs font-semibold">{v.label}</span>
+                    <span className="text-[10px] text-muted-foreground leading-tight">{v.desc}</span>
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={handleRegenerate}
+                disabled={isRegenerating || (!selectedVoice || selectedVoice === script.voice)}
+                data-testid="button-regenerate-audio"
+                className="
+                  flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm
+                  bg-purple-600 text-white
+                  shadow-lg shadow-purple-600/25
+                  hover:shadow-xl hover:shadow-purple-600/30 hover:bg-purple-500
+                  disabled:opacity-40 disabled:cursor-not-allowed
+                  transition-all duration-200
+                "
+              >
+                <RefreshCw className={cn("w-4 h-4", isRegenerating && "animate-spin")} />
+                {isRegenerating ? "Regenerating..." : "Regenerate Voiceover"}
+              </button>
             </div>
           )}
         </div>

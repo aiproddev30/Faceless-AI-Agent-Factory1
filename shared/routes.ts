@@ -56,6 +56,16 @@ export const api = {
         404: errorSchemas.notFound,
       },
     },
+    regenerateAudio: {
+      method: "POST" as const,
+      path: "/api/scripts/:id/regenerate-audio" as const,
+      input: z.object({ voice: z.enum(["alloy", "echo", "fable", "onyx", "nova", "shimmer"]) }),
+      responses: {
+        200: z.custom<typeof scripts.$inferSelect>(),
+        400: errorSchemas.validation,
+        404: errorSchemas.notFound,
+      },
+    },
   },
 };
 
