@@ -11,6 +11,8 @@ import NewSeries from "@/pages/NewSeries";
 import ScriptDetail from "@/pages/ScriptDetail";
 import SeriesDetail from "@/pages/SeriesDetail";
 import NotFound from "@/pages/not-found";
+import VideoStudio from "@/pages/VideoStudio";
+
 
 function Router() {
   return (
@@ -24,6 +26,8 @@ function Router() {
           <Route path="/new-series" component={NewSeries} />
           <Route path="/script/:id" component={ScriptDetail} />
           <Route path="/series/:id" component={SeriesDetail} />
+          <Route path="/video-studio" component={VideoStudio} />
+          <Route path="/video/:id" component={VideoStudio} />
           <Route component={NotFound} />
         </Switch>
       </main>

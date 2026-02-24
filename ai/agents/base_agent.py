@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from utils.retry import retry_decorator
-from utils.logger import logger
+from ai.utils.retry import retry_decorator
+from ai.utils.logger import logger
+
 
 class BaseAgent(ABC):
     def __init__(self, name: str):
@@ -21,3 +22,4 @@ class BaseAgent(ABC):
     async def _run(self, data: dict) -> dict:
         """Internal execution logic to be implemented by subclasses"""
         pass
+

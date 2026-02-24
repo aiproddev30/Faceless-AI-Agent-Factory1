@@ -1,0 +1,28 @@
+import os
+import base64
+from ai.agents.base_agent import BaseAgent
+from ai.services.openai_client import generate_audio
+from ai.utils.logger import logger
+
+
+class VoiceoverAgent(BaseAgent):
+    def __init__(self):
+        super().__init__(name="VoiceoverAgent")
+        self.output_dir = "storage/output/audio"
+        os.makedirs(self.output_dir, exist_ok=True)
+
+    async def _run(self, input_dict: dict) -> str:
+        text = input_dict["text"]
+        voice = input_dict["voice"]
+        index = input_dict["index"]
+
+        audio_bytes = await generate_audio(text, voice)
+
+        file_path = os.path.join(self.output_dir, f"section_{index}.mp3")
+
+        with open(file_path, "wb") as f:
+            f.write(audio_bytes)
+
+        logger.info(f"Saved section {index} audio.")
+
+        return file_path

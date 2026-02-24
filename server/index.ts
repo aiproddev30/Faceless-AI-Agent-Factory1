@@ -2,26 +2,57 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import path from "path";
 
 const app = express();
 const httpServer = createServer(app);
 
+/**
+ * Allow rawBody access (for webhooks if needed)
+ */
 declare module "http" {
   interface IncomingMessage {
-    rawBody: unknown;
+    rawBody?: Buffer;
   }
 }
 
+/**
+ * Body Parsers
+ */
 app.use(
   express.json({
     verify: (req, _res, buf) => {
       req.rawBody = buf;
     },
-  }),
+  })
 );
 
 app.use(express.urlencoded({ extended: false }));
 
+/**
+ * Static Media Routes
+ * ---------------------
+ * These allow browser access to generated media files
+ */
+
+app.use(
+  "/audio",
+  express.static(path.join(process.cwd(), "storage/output/audio"))
+);
+
+app.use(
+  "/images",
+  express.static(path.join(process.cwd(), "storage/output/images"))
+);
+
+app.use(
+  "/videos",
+  express.static(path.join(process.cwd(), "storage/output/videos"))
+);
+
+/**
+ * Logger Utility
+ */
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -33,10 +64,14 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+/**
+ * API Request Logger
+ */
 app.use((req, res, next) => {
   const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+  const pathName = req.path;
+
+  let capturedJsonResponse: Record<string, any> | undefined;
 
   const originalResJson = res.json;
   res.json = function (bodyJson, ...args) {
@@ -46,58 +81,77 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+
+    if (pathName.startsWith("/api")) {
+      let logLine = `${req.method} ${pathName} ${res.statusCode} in ${duration}ms`;
+
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
-      log(logLine);
+      log(logLine, "api");
     }
   });
 
   next();
 });
 
+/**
+ * Bootstrap Server
+ */
 (async () => {
-  await registerRoutes(httpServer, app);
+  try {
+    // Register API routes
+    await registerRoutes(httpServer, app);
 
-  app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    /**
+     * Global Error Handler
+     */
+    app.use(
+      (err: any, _req: Request, res: Response, next: NextFunction) => {
+        const status = err.status || err.statusCode || 500;
+        const message = err.message || "Internal Server Error";
 
-    console.error("Internal Server Error:", err);
+        console.error("❌ Internal Server Error:", err);
 
-    if (res.headersSent) {
-      return next(err);
+        if (res.headersSent) {
+          return next(err);
+        }
+
+        return res.status(status).json({
+          success: false,
+          message,
+        });
+      }
+    );
+
+    /**
+     * Frontend Handling
+     */
+    if (process.env.NODE_ENV === "production") {
+      serveStatic(app);
+    } else {
+      const { setupVite } = await import("./vite");
+      await setupVite(httpServer, app);
     }
 
-    return res.status(status).json({ message });
-  });
+    /**
+     * Start Server
+     */
+    const port = parseInt(process.env.PORT || "5000", 10);
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (process.env.NODE_ENV === "production") {
-    serveStatic(app);
-  } else {
-    const { setupVite } = await import("./vite");
-    await setupVite(httpServer, app);
+    httpServer.listen(
+      {
+        port,
+        host: "0.0.0.0",
+        reusePort: true,
+      },
+      () => {
+        log(`🚀 Server running on port ${port}`);
+      }
+    );
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+    process.exit(1);
   }
-
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
 })();

@@ -15,7 +15,7 @@ export interface ResearchResult {
 export function useTrends() {
   return useQuery<TrendingTopic[]>({
     queryKey: ["/api/trends"],
-    staleTime: 15 * 60 * 1000,
+    staleTime: 24 * 60 * 60 * 1000,
     retry: 1,
   });
 }

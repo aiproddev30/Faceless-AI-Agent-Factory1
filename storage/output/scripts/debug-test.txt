@@ -1,0 +1,17 @@
+VO:
+Ever seen “Debug Test” flash on a screen and wondered what it means? A debug test is a built-in check used by developers and technicians to verify that hardware or software is working correctly. It can show up in apps, websites, game builds, TVs, or even phones—especially in prototype or service modes.
+
+**B-ROLL:**
+Close-up of code scrolling on a dark screen; quick cuts of a phone, TV, and laptop with “DEBUG” style overlays.
+
+VO:
+During a debug test, the system runs specific tasks—like checking memory, sensors, buttons, network connections, or rendering performance—then reports results. Sometimes it displays logs, error codes, or a simple pass/fail message. If you see it accidentally, it often means a hidden menu was triggered, a beta build is installed, or a device is stuck in diagnostic mode.
+
+**B-ROLL:**
+Animated checklist labeled “Memory,” “Sensors,” “Network,” “Graphics,” each turning green or red.
+
+VO:
+What should you do? First, restart the app or device. If it keeps appearing, update the software, uninstall beta versions, or search the exact error text. For hardware, look up your model’s diagnostic exit steps—or contact support with screenshots.
+
+**B-ROLL:**
+Hands restarting a device; on-screen update progress bar; search bar typing the exact debug message.

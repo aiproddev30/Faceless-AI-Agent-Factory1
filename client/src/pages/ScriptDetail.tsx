@@ -4,7 +4,6 @@ import { ArrowLeft, Copy, Calendar, Tag, Clock, XCircle, AlertTriangle, Volume2,
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { StatusBadge } from "@/components/StatusBadge";
-import { buildUrl, api } from "@shared/routes";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +42,9 @@ export default function ScriptDetail() {
         <div className="text-center">
           <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold">Script Not Found</h2>
-          <Link href="/" className="text-primary hover:underline mt-2 block">Return to Dashboard</Link>
+          <Link href="/" className="text-primary hover:underline mt-2 block">
+            Return to Dashboard
+          </Link>
         </div>
       </div>
     );
@@ -56,7 +57,11 @@ export default function ScriptDetail() {
     }
   };
 
-  const audioUrl = buildUrl(api.scripts.audio.path, { id: script.id });
+  // ✅ STATIC AUDIO PATH (NEW)
+  const audioUrl = script.audioPath
+    ? `/audio/${script.audioPath}`
+    : undefined;
+
   const voiceToUse = selectedVoice || script.voice;
 
   const handleRegenerate = () => {
@@ -64,27 +69,34 @@ export default function ScriptDetail() {
     setSelectedVoice(null);
   };
 
-  const canRegenerate = script.status === "complete" && script.audioStatus !== "processing";
+  const canRegenerate =
+    script.status === "complete" &&
+    script.audioStatus !== "processing";
 
   return (
     <div className="min-h-screen bg-background p-8 md:pl-72">
       <div className="max-w-4xl mx-auto space-y-6">
-        
-        <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-back">
+
+        <Link
+          href="/"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Dashboard
         </Link>
 
-        {/* Header Card */}
+        {/* Header */}
         <div className="bg-card border border-border rounded-2xl p-6 shadow-lg">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2 flex-wrap">
                 <StatusBadge status={script.status} label="Script" />
                 <StatusBadge status={script.audioStatus} label="Audio" />
-                <span className="text-xs text-muted-foreground font-mono">ID: #{script.id}</span>
+                <span className="text-xs text-muted-foreground font-mono">
+                  ID: #{script.id}
+                </span>
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2" data-testid="text-script-topic">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2">
                 {script.topic}
               </h1>
               <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
@@ -98,7 +110,8 @@ export default function ScriptDetail() {
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Calendar className="w-4 h-4" />
-                  {script.createdAt && format(new Date(script.createdAt), "PPP p")}
+                  {script.createdAt &&
+                    format(new Date(script.createdAt), "PPP p")}
                 </span>
               </div>
             </div>
@@ -111,131 +124,84 @@ export default function ScriptDetail() {
             <Volume2 className="w-5 h-5 text-purple-400" />
             Voiceover Audio
           </h2>
-          {script.audioStatus === "complete" ? (
+
+          {script.audioStatus === "complete" && audioUrl ? (
             <audio
               ref={audioRef}
               controls
+              preload="metadata"
               className="w-full mb-4"
               src={audioUrl}
-              data-testid="audio-player"
             >
               Your browser does not support the audio element.
             </audio>
           ) : script.audioStatus === "failed" ? (
-            <div className="flex items-center gap-3 text-destructive bg-destructive/10 rounded-xl p-4 mb-4">
-              <XCircle className="w-5 h-5 flex-shrink-0" />
-              <div>
-                <p className="font-medium">Audio generation failed</p>
-                <p className="text-sm text-muted-foreground">{script.audioError || "Unknown error"}</p>
-              </div>
+            <div className="text-destructive bg-destructive/10 rounded-xl p-4 mb-4">
+              <p className="font-medium">Audio generation failed</p>
+              <p className="text-sm text-muted-foreground">
+                {script.audioError || "Unknown error"}
+              </p>
             </div>
           ) : (
-            <div className="flex items-center gap-3 text-blue-400 bg-blue-500/10 rounded-xl p-4 mb-4">
-              <div className="w-5 h-5 border-2 border-blue-400/30 border-t-blue-400 rounded-full animate-spin flex-shrink-0" />
-              <div>
-                <p className="font-medium">
-                  {script.status === "complete" ? "Generating voiceover..." : "Waiting for script to complete..."}
-                </p>
-                <p className="text-sm text-muted-foreground">This usually takes 30-60 seconds after the script is ready.</p>
-              </div>
+            <div className="text-blue-400 bg-blue-500/10 rounded-xl p-4 mb-4">
+              <p className="font-medium">
+                {script.status === "complete"
+                  ? "Generating voiceover..."
+                  : "Waiting for script to complete..."}
+              </p>
             </div>
           )}
 
-          {/* Voice Picker + Regenerate */}
+          {/* Regenerate */}
           {canRegenerate && (
             <div className="border-t border-border pt-4 mt-2">
-              <p className="text-sm font-medium text-muted-foreground mb-3">Change voice and regenerate</p>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
                 {VOICE_OPTIONS.map((v) => (
                   <button
                     key={v.value}
                     onClick={() => setSelectedVoice(v.value)}
-                    data-testid={`button-voice-${v.value}`}
                     className={cn(
-                      "flex flex-col items-center p-2.5 rounded-xl border-2 text-center transition-all duration-200 cursor-pointer",
+                      "p-2 rounded-xl border-2 text-xs",
                       (selectedVoice ?? script.voice) === v.value
                         ? "border-purple-500 bg-purple-500/10"
-                        : "border-border hover:border-purple-500/50 hover:bg-white/5"
+                        : "border-border hover:border-purple-500/50"
                     )}
                   >
-                    <span className="text-xs font-semibold">{v.label}</span>
-                    <span className="text-[10px] text-muted-foreground leading-tight">{v.desc}</span>
+                    {v.label}
                   </button>
                 ))}
               </div>
+
               <button
                 onClick={handleRegenerate}
-                disabled={isRegenerating || (!selectedVoice || selectedVoice === script.voice)}
-                data-testid="button-regenerate-audio"
-                className="
-                  flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm
-                  bg-purple-600 text-white
-                  shadow-lg shadow-purple-600/25
-                  hover:shadow-xl hover:shadow-purple-600/30 hover:bg-purple-500
-                  disabled:opacity-40 disabled:cursor-not-allowed
-                  transition-all duration-200
-                "
+                disabled={
+                  isRegenerating ||
+                  (!selectedVoice || selectedVoice === script.voice)
+                }
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg disabled:opacity-40"
               >
-                <RefreshCw className={cn("w-4 h-4", isRegenerating && "animate-spin")} />
-                {isRegenerating ? "Regenerating..." : "Regenerate Voiceover"}
+                <RefreshCw
+                  className={cn("w-4 h-4", isRegenerating && "animate-spin")}
+                />
+                {isRegenerating
+                  ? "Regenerating..."
+                  : "Regenerate Voiceover"}
               </button>
             </div>
           )}
         </div>
 
-        {/* Content Area */}
-        <div className="bg-card border border-border rounded-2xl shadow-lg min-h-[500px] flex flex-col relative overflow-hidden">
-          
-          <div className="border-b border-border p-4 bg-muted/30 flex justify-between items-center gap-2">
-            <h2 className="font-semibold flex items-center gap-2">
-              Script Content
-              {script.wordCount && (
-                <span className="text-xs font-normal text-muted-foreground bg-white/5 px-2 py-0.5 rounded">
-                  {script.wordCount} words
-                </span>
-              )}
-            </h2>
-            {script.content && (
-              <button 
-                onClick={copyToClipboard}
-                data-testid="button-copy"
-                className="text-sm flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors"
-              >
-                <Copy className="w-4 h-4" />
-                Copy Text
-              </button>
-            )}
-          </div>
-
-          <div className="p-8 flex-1 relative">
-            {script.status === "complete" ? (
-              <div className="prose prose-invert max-w-none font-mono text-sm md:text-base leading-relaxed whitespace-pre-wrap" data-testid="text-script-content">
-                {script.content}
-              </div>
-            ) : script.status === "failed" ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-                <XCircle className="w-16 h-16 text-destructive mb-4" />
-                <h3 className="text-xl font-bold text-destructive mb-2">Generation Failed</h3>
-                <p className="text-muted-foreground max-w-md">
-                  {script.error || "An unknown error occurred while generating this script. Please try again."}
-                </p>
-              </div>
-            ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 bg-black/20">
-                <div className="relative">
-                  <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-6" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Clock className="w-6 h-6 text-primary" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Generating Script...</h3>
-                <p className="text-muted-foreground max-w-md">
-                  Our AI agents are researching and writing your script. This usually takes about 30-60 seconds.
-                </p>
-              </div>
-            )}
-          </div>
-          
+        {/* Script Content */}
+        <div className="bg-card border border-border rounded-2xl shadow-lg p-8">
+          {script.status === "complete" ? (
+            <div className="whitespace-pre-wrap font-mono text-sm">
+              {script.content}
+            </div>
+          ) : (
+            <div className="text-muted-foreground">
+              Generating script...
+            </div>
+          )}
         </div>
 
       </div>

@@ -1,0 +1,17 @@
+VO:
+AI agents aren’t just chatbots anymore—they’re digital workers. They can browse, plan, write code, book meetings, and even run tasks while you sleep.
+
+**B-ROLL:**
+Fast-cut montage: chatbot transforming into a robotic “assistant” icon; tabs opening, calendar fills, code compiling.
+
+VO:
+The big shift? They don’t wait for commands—they pursue goals. Give an agent a target, and it breaks it into steps, checks results, and adjusts.
+
+**B-ROLL:**
+Animated flowchart: “Goal” → “Plan” → “Tools” → “Feedback” looping; progress bar climbing.
+
+VO:
+But power comes with risk: mistakes, bias, security leaks. The next era is guardrails—so agents help, not harm. Ready or not, the agent age is here.
+
+**B-ROLL:**
+Split-screen: green “approved” checklist vs red “warning” alerts; lock icon, then a confident “AI Agent” dashboard.

@@ -18,14 +18,20 @@ interface ScriptCardProps {
 
 export function ScriptCard({ script, onDelete, showEpisodeNumber }: ScriptCardProps) {
   return (
-    <div className="group relative bg-card border border-border/50 hover:border-primary/50 rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5" data-testid={`card-script-${script.id}`}>
+    <div
+      className="group relative bg-card border border-border/50 hover:border-primary/50 rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
+      data-testid={`card-script-${script.id}`}
+    >
       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
         <DropdownMenu>
-          <DropdownMenuTrigger className="p-2 hover:bg-white/5 rounded-lg transition-colors outline-none" data-testid={`button-menu-${script.id}`}>
+          <DropdownMenuTrigger
+            className="p-2 hover:bg-white/5 rounded-lg transition-colors outline-none"
+            data-testid={`button-menu-${script.id}`}
+          >
             <MoreVertical className="w-4 h-4 text-muted-foreground" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40 bg-card border-border">
-            <DropdownMenuItem 
+            <DropdownMenuItem
               className="text-red-500 focus:text-red-500 focus:bg-red-500/10 cursor-pointer"
               data-testid={`button-delete-${script.id}`}
               onClick={(e) => {
@@ -48,9 +54,14 @@ export function ScriptCard({ script, onDelete, showEpisodeNumber }: ScriptCardPr
             </div>
           </div>
 
-          <h3 className="text-lg font-semibold text-foreground mb-3 line-clamp-1 group-hover:text-primary transition-colors" data-testid={`text-topic-${script.id}`}>
+          <h3
+            className="text-lg font-semibold text-foreground mb-3 line-clamp-1 group-hover:text-primary transition-colors"
+            data-testid={`text-topic-${script.id}`}
+          >
             {showEpisodeNumber && script.episodeNumber != null && (
-              <span className="text-xs font-mono text-muted-foreground mr-2">EP {script.episodeNumber}</span>
+              <span className="text-xs font-mono text-muted-foreground mr-2">
+                EP {script.episodeNumber}
+              </span>
             )}
             {script.topic}
           </h3>
@@ -60,7 +71,17 @@ export function ScriptCard({ script, onDelete, showEpisodeNumber }: ScriptCardPr
             <StatusBadge status={script.audioStatus} label="Audio" />
           </div>
 
-          <div className="space-y-2 mb-4">
+          {/* 🎬 Create Video Button */}
+          <div className="mt-4">
+            <Link
+              href={`/video/${script.id}`}
+              className="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all"
+            >
+              🎬 Create Video
+            </Link>
+          </div>
+
+          <div className="space-y-2 mb-4 mt-4">
             <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
               <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">
                 {script.tone}
@@ -71,14 +92,17 @@ export function ScriptCard({ script, onDelete, showEpisodeNumber }: ScriptCardPr
               </span>
               <span className="flex items-center gap-1">
                 <Hash className="w-3 h-3" />
-                {script.wordCount ? `${script.wordCount} words` : `~${script.length} target`}
+                {script.wordCount
+                  ? `${script.wordCount} words`
+                  : `~${script.length} target`}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-2 text-xs text-muted-foreground pt-4 border-t border-border/50">
             <Calendar className="w-3 h-3" />
-            {script.createdAt && format(new Date(script.createdAt), "MMM d, yyyy")}
+            {script.createdAt &&
+              format(new Date(script.createdAt), "MMM d, yyyy")}
           </div>
         </div>
       </Link>

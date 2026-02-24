@@ -1,5 +1,5 @@
 from tenacity import retry, stop_after_attempt, wait_exponential
-from utils.logger import logger
+from ai.utils.logger import logger
 
 def log_retry_attempt(retry_state):
     logger.warning(f"Retrying call... Attempt #{retry_state.attempt_number}. Delay: {retry_state.next_action.sleep}s")
