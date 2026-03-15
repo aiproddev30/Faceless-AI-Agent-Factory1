@@ -21,7 +21,7 @@ export function useTrends() {
 }
 
 export function useResearch() {
-  return useMutation<ResearchResult, Error, { topic: string }>({
+  return useMutation<ResearchResult, Error, { topic: string; style_mode?: string }>({
     mutationFn: async (data) => {
       const res = await apiRequest("POST", "/api/research", data);
       return res.json();

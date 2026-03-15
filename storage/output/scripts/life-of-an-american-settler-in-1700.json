@@ -1,0 +1,90 @@
+{
+  "title": "Life of an American settler in 1700",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "History Intro",
+      "voText": "[HISTORY_INTRO]",
+      "visualPrompt": "history while you sleep intro",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Opening Hook",
+      "voText": "The first light of dawn crept over the dense forest of the Virginia frontier, casting long shadows across the simple log cabin of the Cooper family. Thomas Cooper stirred from his slumber on a straw-filled mattress, the chill of the early morning air biting through the thin woolen blanket. Outside, the world was still wrapped in a hush, save for the distant call of a mourning dove and the faint rustling of leaves stirred by a gentle breeze. Today, like every other day, was a fight for survival and a testament to the resilience of the human spirit.",
+      "visualPrompt": "dawn on a frontier homestead",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 42.0
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Chapter One \u2014 Morning Chores",
+      "voText": "narration...",
+      "visualPrompt": "historical scene",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Chapter Two \u2014 A Settler's Breakfast",
+      "voText": "narration...",
+      "visualPrompt": "historical scene",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Chapter Three \u2014 Into the Fields",
+      "voText": "narration...",
+      "visualPrompt": "historical scene",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Chapter Four \u2014 Trading and Barter",
+      "voText": "narration...",
+      "visualPrompt": "historical scene",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Chapter Five \u2014 Community and Conflict",
+      "voText": "narration...",
+      "visualPrompt": "historical scene",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 8,
+      "title": "Chapter Six \u2014 Evening Reflections",
+      "voText": "narration...",
+      "visualPrompt": "historical scene",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 9,
+      "title": "Closing Reflection",
+      "voText": "As the stars emerged one by one in the vast Virginia sky, the Cooper family gathered by the hearth, the warmth of the fire a welcome contrast to the crisp night air. The crackling of the flames and the gentle murmur of a lullaby sung by Mary Cooper lulled young Samuel to sleep, his small body nestled against his mother's side. Outside, the world was silent save for the occasional hoot of an owl and the distant howl of a wolf. In the comforting embrace of night, dreams danced softly, inviting the weary settlers to close their eyes and drift away.",
+      "visualPrompt": "history while you sleep outro",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 43.3
+    }
+  ],
+  "youtubeHooks": [
+    "Experience a day in the life of a 1700s American settler.",
+    "Discover the challenges and triumphs of frontier life.",
+    "Step back in time to the Virginia frontier, 1700."
+  ],
+  "tweetHooks": [
+    "Step into the shoes of an American settler in 1700 for a day.",
+    "A day on the frontier: the life of a 1700s settler.",
+    "Explore the resilience and hardships of early American settlers."
+  ],
+  "episodeSummary": "Follow the Cooper family through a day in 1700, experiencing the daily challenges and simple joys of life on the Virginia frontier. From dawn to nightfall, discover the resilience and community spirit that defined the settler experience.",
+  "totalEstimatedDuration": 88.1,
+  "styleMode": "history"
+}

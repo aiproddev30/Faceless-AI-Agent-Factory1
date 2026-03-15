@@ -1,83 +1,90 @@
+import random
 import os
 import httpx
 from ai.utils.logger import logger
 
-BASE_URL = "https://api.pexels.com/videos/search"
+VIDEO_URL = "https://api.pexels.com/videos/search"
+IMAGE_URL = "https://api.pexels.com/v1/search"
 
+def _get_key() -> str:
+    key = os.getenv("PEXELS_API_KEY")
+    if not key:
+        raise RuntimeError("PEXELS_API_KEY is not set in Replit Secrets.")
+    return key
 
-async def search_video(query: str, per_page: int = 5) -> str:
+def _orientation(video_format: str) -> str:
+    """Map video format to Pexels orientation parameter."""
+    return "landscape" if video_format == "youtube" else "portrait"
+
+async def search_video(query: str, per_page: int = 15, count: int = 1, video_format: str = "youtube"):
     """
-    Search Pexels for a portrait-friendly video.
-    Returns direct MP4 download URL.
+    Search Pexels for video clips.
+    count=1  returns a single URL string  (backward compatible)
+    count>1  returns a list of URL strings
     """
-
-    api_key = os.getenv("PEXELS_API_KEY")
-
-    if not api_key:
-        raise RuntimeError("PEXELS_API_KEY is not set.")
-
-    headers = {
-        "Authorization": api_key
+    headers = {"Authorization": _get_key()}
+    params  = {
+        "query":       query,
+        "per_page":    per_page,
+        "orientation": _orientation(video_format),
     }
-
-    params = {
-        "query": query,
-        "per_page": per_page,
-        "orientation": "portrait"
-    }
-
     async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.get(BASE_URL, headers=headers, params=params)
-
-    if response.status_code != 200:
-        logger.error(f"Pexels API error: {response.text}")
-        raise RuntimeError("Pexels API request failed.")
-
-    data = response.json()
-    videos = data.get("videos", [])
-
+        r = await client.get(VIDEO_URL, headers=headers, params=params)
+    if r.status_code != 200:
+        raise RuntimeError(f"Pexels video API error {r.status_code} for: '{query}'")
+    videos = r.json().get("videos", [])
+    random.shuffle(videos)
     if not videos:
-        raise RuntimeError(f"No videos found for query: {query}")
-
-    # -----------------------------------------
-    # 1️⃣ Flatten all available files
-    # -----------------------------------------
-    all_files = []
+        raise RuntimeError(f"No Pexels videos found for: '{query}'")
+    urls = []
     for video in videos:
-        for vf in video.get("video_files", []):
-            all_files.append(vf)
+        url = _best_mp4(video.get("video_files", []), video_format)
+        if url:
+            urls.append(url)
+        if len(urls) >= count:
+            break
+    if not urls:
+        raise RuntimeError(f"No MP4 files found for: '{query}'")
+    logger.info(f"Pexels video: {len(urls)} clip(s) for '{query}' [{_orientation(video_format)}]")
+    return urls[0] if count == 1 else urls
 
-    # -----------------------------------------
-    # 2️⃣ Filter MP4 only
-    # -----------------------------------------
-    mp4_files = [
-        f for f in all_files
-        if f.get("file_type") == "video/mp4"
-    ]
+async def search_image(query: str, count: int = 1, video_format: str = "youtube"):
+    """
+    Fallback: search Pexels photos when no video is found.
+    count=1 returns string, count>1 returns list.
+    """
+    headers = {"Authorization": _get_key()}
+    params  = {
+        "query":       query,
+        "per_page":    max(count, 5),
+        "orientation": _orientation(video_format),
+    }
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        r = await client.get(IMAGE_URL, headers=headers, params=params)
+    if r.status_code != 200:
+        raise RuntimeError(f"Pexels image API error {r.status_code} for: '{query}'")
+    photos = r.json().get("photos", [])
+    if not photos:
+        raise RuntimeError(f"No Pexels images found for: '{query}'")
+    if video_format == "youtube":
+        urls = [p["src"].get("landscape") or p["src"]["large"] for p in photos[:count]]
+    else:
+        urls = [p["src"].get("portrait") or p["src"]["large"] for p in photos[:count]]
+    logger.info(f"Pexels image: {len(urls)} image(s) for '{query}' [{_orientation(video_format)}]")
+    return urls[0] if count == 1 else urls
 
-    if not mp4_files:
-        raise RuntimeError("No MP4 video files found.")
-
-    # -----------------------------------------
-    # 3️⃣ Prefer vertical clips
-    # -----------------------------------------
-    vertical_files = [
-        f for f in mp4_files
-        if f.get("height", 0) > f.get("width", 0)
-    ]
-
-    candidates = vertical_files if vertical_files else mp4_files
-
-    # -----------------------------------------
-    # 4️⃣ Choose highest resolution
-    # -----------------------------------------
-    best_file = max(
-        candidates,
-        key=lambda x: x.get("height", 0)
-    )
-
-    logger.info(
-        f"Pexels selected video {best_file.get('width')}x{best_file.get('height')}"
-    )
-
-    return best_file["link"]
+def _best_mp4(video_files: list, video_format: str = "youtube") -> str | None:
+    """Pick best MP4 matching the target orientation."""
+    mp4s = [f for f in video_files if f.get("file_type") == "video/mp4"]
+    if not mp4s:
+        return None
+    if video_format == "youtube":
+        # Prefer landscape (width > height)
+        oriented = [f for f in mp4s if f.get("width", 0) > f.get("height", 0)]
+    else:
+        # Prefer portrait (height > width)
+        oriented = [f for f in mp4s if f.get("height", 0) > f.get("width", 0)]
+    candidates = oriented or mp4s
+    best = max(candidates, key=lambda x: x.get("width", 0))
+    logger.info(f"Pexels selected: {best.get('width')}x{best.get('height')}")
+    return best.get("link")

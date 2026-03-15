@@ -1,0 +1,53 @@
+VO:
+[HISTORY_INTRO]
+
+BROLL:
+history while you sleep intro
+
+VO:
+The village lies wrapped in a cloak of silence, the air cool and crisp under the fading night sky. Just before the sun peeks over the horizon, a faint light begins to stir in the eastern sky, hinting at the day to come. The world is still, as if holding its breath, waiting for the first sounds of life to break the spell. Somewhere, a rooster crows, its call sharp and clear, signaling the start of a new day.
+
+BROLL:
+historical scene at dawn in a village
+
+VO:
+In the soft light of dawn, a farmer rises from his straw-filled mattress...
+
+BROLL:
+a farmer waking up in a medieval cottage
+
+VO:
+The marketplace slowly comes to life as merchants set up their stalls...
+
+BROLL:
+a bustling medieval marketplace
+
+VO:
+The aroma of freshly baked bread fills the air...
+
+BROLL:
+a medieval kitchen with bread baking
+
+VO:
+Children play in the village square, their laughter ringing out...
+
+BROLL:
+children playing in a medieval village square
+
+VO:
+As the sun dips below the horizon, the village is bathed in a golden glow...
+
+BROLL:
+a medieval village at sunset
+
+VO:
+Candles flicker in windows as the village settles into the quiet of night...
+
+BROLL:
+a medieval village at night with candlelit windows
+
+VO:
+The world has quieted, leaving only the soft rustle of leaves and the distant call of a night bird...
+
+BROLL:
+history while you sleep outro

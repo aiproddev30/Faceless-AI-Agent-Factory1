@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:01,712
+In today's world, AI robots are revolutionizing factory
+
+2
+00:00:01,712 --> 00:00:03,424
+operations, enhancing productivity and efficiency. But how did
+
+3
+00:00:03,424 --> 00:00:05,137
+we reach this pivotal moment in industrial history?
+
+4
+00:00:05,137 --> 00:00:06,849
+Let's explore the evolution of these remarkable machines.
+
+5
+00:00:13,699 --> 00:00:15,109
+The concept of automation dates back to ancient
+
+6
+00:00:15,109 --> 00:00:16,519
+times, with early inventions like water clocks and
+
+7
+00:00:16,519 --> 00:00:17,929
+mechanical puppets. However, the real leap began in
+
+8
+00:00:17,929 --> 00:00:19,339
+the mid-20th century with the introduction of programmable
+
+9
+00:00:19,339 --> 00:00:20,750
+machines.
+
+10
+00:00:27,800 --> 00:00:29,512
+In the 1960s, the Unimate, the first industrial
+
+11
+00:00:29,512 --> 00:00:31,224
+robot, was deployed in a General Motors plant.
+
+12
+00:00:31,224 --> 00:00:32,937
+This marked the dawn of robotics in manufacturing,
+
+13
+00:00:32,937 --> 00:00:34,649
+leading to rapid advancements in technology and capabilities.
+
+14
+00:00:41,500 --> 00:00:43,000
+As technology progressed, AI began to be integrated
+
+15
+00:00:43,000 --> 00:00:44,500
+into robotics. By the 2000s, machines could learn
+
+16
+00:00:44,500 --> 00:00:46,000
+from their environments and adapt to complex tasks,
+
+17
+00:00:46,000 --> 00:00:47,500
+significantly boosting production efficiency.
+
+18
+00:00:53,500 --> 00:00:55,112
+Today, factories are populated with collaborative robots, or
+
+19
+00:00:55,112 --> 00:00:56,724
+cobots, working alongside humans. These robots enhance safety
+
+20
+00:00:56,724 --> 00:00:58,337
+and productivity, handling repetitive tasks while allowing humans
+
+21
+00:00:58,337 --> 00:00:59,949
+to focus on more complex operations.
+
+22
+00:01:06,399 --> 00:01:08,062
+Looking ahead, the future of AI robots in
+
+23
+00:01:08,062 --> 00:01:09,724
+factories is promising. With advancements in machine learning
+
+24
+00:01:09,724 --> 00:01:11,387
+and robotics, we can expect even smarter and
+
+25
+00:01:11,387 --> 00:01:13,049
+more autonomous systems that will redefine manufacturing.
+
+26
+00:01:19,699 --> 00:01:21,249
+As we embrace this technological evolution, it's vital
+
+27
+00:01:21,249 --> 00:01:22,799
+to stay informed. Subscribe to our channel and
+
+28
+00:01:22,799 --> 00:01:24,349
+join us on this journey into the future
+
+29
+00:01:24,349 --> 00:01:25,899
+of AI robotics in factories.

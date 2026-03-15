@@ -1,0 +1,53 @@
+VO:
+[HISTORY_INTRO]
+
+BROLL:
+history while you sleep intro
+
+VO:
+As the first light of dawn begins to creep over the horizon, the world stirs from its slumber. The air is thick with the chill of early morning, and the faintest whisper of a breeze carries the earthy scent of damp soil. In a small village nestled in the heart of medieval England, the stillness is palpable, broken only by the distant crowing of a rooster heralding the day. Shadows stretch across the cobblestone streets, where homes of wood and thatch huddle together, their silhouettes dark against the softening light. Inside one of these humble dwellings, a peasant family lies wrapped in blankets, their breath visible in the cold air. The flickering embers of the hearth cast a soft glow, illuminating the rough-hewn furniture and the simple pots hanging from the walls. As a new day approaches, the faint sounds of livestock stirring and the rustle of leaves hint at the labor that awaits. The village is on the brink of awakening, each shadow and sound hinting at the ordinary yet profound rituals of life that will unfold in the hours to come.
+
+BROLL:
+historical scene
+
+VO:
+As dawn breaks, the first rays of sunlight pour into the small cottage, illuminating the faces of the family members still nestled in their straw-filled beds. The mother, a sturdy woman with calloused hands, stirs awake, her senses sharpening to the sounds of the world outside. She rises from the warmth of her bed, her bare feet meeting the cold stone floor, sending a shiver up her spine. The scent of smoke from the dying embers in the hearth mingles with the earthy aroma of the thatch and the faint, lingering sweetness of last night’s bread. She moves quietly, careful not to wake her children, gathering her woolen shawl around her shoulders before stoking the fire back to life. The crackle of the wood and the soft hiss of the smoke create a comforting rhythm, a familiar song of morning. Outside, the village begins to stir. The farmer's son, already dressed in his rough tunic, steps out into the crisp air, the chill biting at his cheeks. He makes his way to the livestock, the soft mooing of cows and the clucking of hens filling the air, an orchestra of morning sounds that marks the beginning of another day of toil. He takes a moment to breathe in the fragrance of the fields, dew-kissed and vibrant, a reminder of the life that pulses just beneath the surface of the earth. As he tends to the animals, the sun continues to rise, casting a golden hue over the village, further igniting the spark of the day ahead.
+
+BROLL:
+historical scene
+
+VO:
+With the sun fully risen, its warmth embraces the fields, and the day’s labor begins in earnest. The farmer, a stocky man with sun-weathered skin, moves deliberately across the tilled earth, the rhythmic sound of his plow slicing through the soil echoing in the quiet morning air. Each thrust of the plow sends up a small cloud of dust, a testament to the labor that has shaped this land through generations. Nearby, his wife gathers herbs from their small garden, the vibrant green of the plants contrasting sharply against the browns of the earth. The air is fragrant with the scent of fresh earth and growing things, a heady mix that fills her lungs and inspires her spirit. As she works, she hums an old tune, one passed down through the years, a melody that blends seamlessly with the sounds of nature. The village is alive with the busy sounds of morning — the clanging of blacksmith tools, the distant laughter of children rushing to help their parents, and the occasional call of a merchant setting up his stall in the market square. Each sound weaves together to create a tapestry of life, a vivid reminder of the community that thrives here. As the sun climbs higher in the sky, the heat begins to settle in, and the farmer pauses to wipe the sweat from his brow, the salty taste lingering on his lips. He takes a moment to survey the fields, a sea of green stretching out before him, a promise of the harvest to come.
+
+BROLL:
+historical scene
+
+VO:
+The sun hangs high in the sky, casting long shadows over the village as the day's labor continues. The clatter of wooden bowls and the sizzling of bread on the hearth signal the approach of midday. The farmer's wife, now red-cheeked from her work, gathers her children around the rough-hewn table, their faces bright with anticipation. A simple meal is laid out before them — steaming pottage, a mix of barley and vegetables, accompanied by coarse bread and a small portion of cheese. The aroma fills the air, rich and earthy, mingling with the scent of freshly cut hay piled in the corner. As they sit together, the family shares stories of their morning, laughter punctuating the meal as the children mimic the sounds of the animals they’ve encountered. Outside, the village square buzzes with life, merchants calling out their wares, the jangle of coins echoing as peasants barter for goods. The farmer’s son, his stomach full, slips away to join his friends, their shouts and laughter blending with the sounds of clanging metal and the distant strains of a lute being played by a wandering minstrel. The community thrives in these moments, bonds deepening over shared meals and laughter, a tapestry of lives interwoven through the simple act of breaking bread together. The sun continues its ascent, and with it rises the spirit of camaraderie that defines this village.
+
+BROLL:
+historical scene
+
+VO:
+As the afternoon stretches long and languid, the heat of the sun begins to soften, casting a warm glow over the village. The sounds of hammers striking metal echo from the blacksmith’s forge, accompanied by the hiss of water splashing onto hot iron, a dance of fire and water that fills the air with a smoky aroma. The farmer returns to his fields, his muscles aching from the labor but his heart light with the camaraderie of the day. He works alongside his neighbors, a rhythm of cooperation and community, the gentle pull of friendship binding them as they toil under the sun. Nearby, children play in the cool shade of an ancient oak, their laughter mingling with the rustling leaves, a reminder of innocence amidst the labor. As the sun begins to dip towards the horizon, the village gathers around the well, drawing water for the evening meal, the sound of the buckets splashing breaking the calm of the afternoon. A few women sit nearby, their chatter punctuated by the clinking of their needles as they knit and sew, creating garments that will adorn their families. Each stitch is a thread of love, woven into the fabric of daily life. As the golden light begins to fade, the village pauses, a collective breath held in the warmth of shared moments before returning to the tasks that await them.
+
+BROLL:
+historical scene
+
+VO:
+As the sun sets, casting a warm orange glow across the landscape, the village begins to settle into a gentle rhythm of evening. The farmer, weary but content, returns home, his hands still carrying the scent of earth and labor. The hearth is alive with a crackling fire, the flickering flames dancing shadows across the walls, creating a cozy cocoon of warmth. The family gathers once more, sharing stories of their day, their voices soft and melodic, weaving a tapestry of memories that will linger long after the fire’s glow fades. The supper is simple yet nourishing, the flavors of the pottage richer now, infused with the herbs gathered earlier. Outside, the sounds of the village begin to shift; the laughter of children fades as they are called inside, and the distant echo of a lute being played drifts through the air, a serenade to the settling night. The farmer’s wife hums a lullaby, her voice blending with the crackle of the fire, creating a soothing atmosphere of comfort and safety. As darkness falls, the stars begin to twinkle overhead, each one a distant reminder of the vastness of the world beyond their small village. The family’s laughter mingles with the sounds of the night, a gentle lull as the day draws to a close, the warmth of togetherness wrapping around them like a soft blanket.
+
+BROLL:
+historical scene
+
+VO:
+With the village enveloped in darkness, the only sounds are the gentle whispers of the wind and the distant call of an owl, its haunting hoot echoing through the night. The farmer’s family nestles into their beds, the soft rustle of straw filling the air as they settle down, the warmth of the fire still lingering in the cool night. Outside, the moon casts a silvery light over the fields, illuminating the hard work and dreams that lie beneath the surface. The farmer reflects on the day’s labor, the joy of shared moments, and the hope for tomorrow. Sleep begins to embrace him, wrapping around him like a comforting shroud, as the world outside slowly drifts into silence. The flickering of candles in nearby homes begins to fade, one by one, until the darkness blankets the village completely. It is a serene stillness, a pause between day and night, where the worries of the world are held at bay, cradled in the arms of the night. As the stars glimmer overhead, the promise of a new day waits just beyond the horizon, silent and patient, ready to unfold.
+
+BROLL:
+historical scene
+
+VO:
+The village of medieval England settles into a deep, tranquil slumber, each home a flickering beacon of life slowly dimming to darkness. Candles extinguish one by one, leaving behind the faintest traces of warmth and light, as the world sleeps, cradled in the arms of night. The air is calm, heavy with the whispers of dreams that weave through the village like gentle threads, connecting the hearts of its inhabitants. Outside, the stars twinkle like distant dreams, and the moon watches over the sleeping world, a silent guardian of the night. This is the rhythm of life, a dance of day and night, labor and rest, where each moment is a precious bead strung along the thread of existence. As the listener drifts into sleep, may they carry with them the echoes of laughter, the scents of fresh earth, and the warmth of community, allowing the peace of this medieval village to fill their dreams, soothing them into a deep, restful slumber.
+
+BROLL:
+history while you sleep outro

@@ -1,0 +1,63 @@
+{
+  "title": "Does your dog love you?",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "The Bond Begins",
+      "voText": "For thousands of years, humans and dogs have shared a unique bond. This relationship began when wolves, the ancestors of dogs, were drawn to human settlements. They found food and safety, and in return, they offered companionship and protection.",
+      "visualPrompt": "dogs and humans together ancient times",
+      "suggestedVisualStyle": "aerial",
+      "estimatedDuration": 16.7
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Understanding Love",
+      "voText": "But do dogs really love us? While love is a human emotion, studies suggest that dogs experience attachment similar to our own. They show affection through body language, vocalizations, and behavior.",
+      "visualPrompt": "dog cuddling with owner",
+      "suggestedVisualStyle": "slow-zoom",
+      "estimatedDuration": 13.3
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Scientific Insights",
+      "voText": "Research has revealed that when a dog looks at its owner, it releases oxytocin, the same hormone associated with love in humans. This chemical reaction strengthens their bond and enhances feelings of trust.",
+      "visualPrompt": "scientist observing dog behavior",
+      "suggestedVisualStyle": "diagram",
+      "estimatedDuration": 14.1
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Key Developments",
+      "voText": "Over the years, dogs have been selectively bred for various traits, enhancing their ability to connect with humans. Breeds known for companionship often display more affectionate behaviors.",
+      "visualPrompt": "different dog breeds playing together",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 11.6
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Modern Relationships",
+      "voText": "Today, dogs are often viewed as family members. They participate in daily activities, provide emotional support, and contribute significantly to our mental well-being. Their loyalty can be unmatched.",
+      "visualPrompt": "family enjoying time with dog",
+      "suggestedVisualStyle": "aerial",
+      "estimatedDuration": 12.0
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Future Outlook",
+      "voText": "As our understanding of canine emotions deepens, future studies may reveal even more about how dogs perceive love. This could enhance training methods and improve our relationships with them.",
+      "visualPrompt": "researchers studying dog emotions",
+      "suggestedVisualStyle": "animation",
+      "estimatedDuration": 12.4
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Call to Action",
+      "voText": "So, does your dog love you? The evidence suggests they do! Cherish your furry friend and continue to strengthen that unparalleled bond. Share your experiences in the comments below.",
+      "visualPrompt": "people interacting with dogs happily",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 12.4
+    }
+  ],
+  "totalEstimatedDuration": 92.5,
+  "styleMode": "timeline"
+}

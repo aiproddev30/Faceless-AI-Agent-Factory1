@@ -1,0 +1,90 @@
+{
+  "title": "Test",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "History Intro",
+      "voText": "[HISTORY_INTRO]",
+      "visualPrompt": "history while you sleep intro",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Opening Hook",
+      "voText": "The village lies wrapped in a cloak of silence, the air cool and crisp under the fading night sky. Just before the sun peeks over the horizon, a faint light begins to stir in the eastern sky, hinting at the day to come. The world is still, as if holding its breath, waiting for the first sounds of life to break the spell. Somewhere, a rooster crows, its call sharp and clear, signaling the start of a new day.",
+      "visualPrompt": "historical scene at dawn in a village",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 33.9
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Chapter One \u2014 Morning Rituals",
+      "voText": "In the soft light of dawn, a farmer rises from his straw-filled mattress...",
+      "visualPrompt": "a farmer waking up in a medieval cottage",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 5.6
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Chapter Two \u2014 Work and Commerce",
+      "voText": "The marketplace slowly comes to life as merchants set up their stalls...",
+      "visualPrompt": "a bustling medieval marketplace",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 5.1
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Chapter Three \u2014 Food and Meals",
+      "voText": "The aroma of freshly baked bread fills the air...",
+      "visualPrompt": "a medieval kitchen with bread baking",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 3.9
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Chapter Four \u2014 Social Life and Community",
+      "voText": "Children play in the village square, their laughter ringing out...",
+      "visualPrompt": "children playing in a medieval village square",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 4.3
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Chapter Five \u2014 Evening",
+      "voText": "As the sun dips below the horizon, the village is bathed in a golden glow...",
+      "visualPrompt": "a medieval village at sunset",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 6.4
+    },
+    {
+      "sceneNumber": 8,
+      "title": "Chapter Six \u2014 Nighttime",
+      "voText": "Candles flicker in windows as the village settles into the quiet of night...",
+      "visualPrompt": "a medieval village at night with candlelit windows",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 5.6
+    },
+    {
+      "sceneNumber": 9,
+      "title": "Closing Reflection",
+      "voText": "The world has quieted, leaving only the soft rustle of leaves and the distant call of a night bird...",
+      "visualPrompt": "history while you sleep outro",
+      "suggestedVisualStyle": "history",
+      "estimatedDuration": 8.1
+    }
+  ],
+  "youtubeHooks": [
+    "Experience a day in the life of a medieval village.",
+    "Discover the daily rituals of history's forgotten people.",
+    "Uncover the sounds and scents of a bygone era."
+  ],
+  "tweetHooks": [
+    "Step back in time for a day in a medieval village.",
+    "Explore the daily life of history's ordinary people.",
+    "Feel the past come alive as night falls on history."
+  ],
+  "episodeSummary": "Journey through a day in a medieval village, from dawn to dusk, exploring the lives of ordinary people. Feel the textures and hear the sounds of a world long past as the village settles into night.",
+  "totalEstimatedDuration": 73.3,
+  "styleMode": "history"
+}

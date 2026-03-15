@@ -1,0 +1,53 @@
+VO:
+[HISTORY_INTRO]
+
+BROLL:
+history while you sleep intro
+
+VO:
+In the moments just before dawn, silence blankets the small settlement. The air is crisp and carries the earthy scent of dew on timber and thatch. A gentle breeze stirs the leaves of the surrounding forest, whispering promises of a new day. Inside a modest log home, a farmer stirs beneath a woolen blanket, the warmth of the dying fire barely reaching the corners of the room. His wife, already awake, moves quietly, lighting a candle with practiced care. The flicker of its flame dances on rough-hewn walls, marking the beginning of yet another day in the life of an American settler.
+
+BROLL:
+historical scene
+
+VO:
+The morning begins with the soft clatter of a wooden bucket against the stone well. The farmer, now fully awake, pulls up fresh, cold water, his breath visible in the brisk morning air. The scent of freshly drawn water mixes with the earthy aroma of the surrounding woods, a comforting familiarity. Inside, his wife prepares a simple breakfast of cornmeal porridge, the aroma of cooking grains mingling with the smoke from the hearth. The children, still rubbing sleep from their eyes, gather around the table. The day stretches ahead, filled with the promise of labor and the hope of a good harvest.
+
+BROLL:
+historical scene
+
+VO:
+As the sun climbs higher, the settlement comes alive with activity. The farmer heads to his fields, the soil cool and damp beneath his boots. The rhythmic sound of a hoe breaking earth echoes in the morning air, a steady beat against the backdrop of birdsong. In a nearby clearing, other settlers exchange goods — baskets of vegetables, freshly caught fish, and handmade tools. The air buzzes with low conversation and the occasional bark of laughter. Bartering is a way of life here, currency often taking the form of goods and services, a testament to the community's resilience and interdependence.
+
+BROLL:
+historical scene
+
+VO:
+Midday brings a pause in labor as families gather for the main meal of the day. The scent of roasting meat mingles with the earthy aroma of boiled corn and beans. Bread, a staple, is passed around, its crust warm and inviting. The sound of cheerful chatter fills the room, a comforting symphony of clinking wooden bowls and laughter. Meals are a time of connection, a brief respite from the demands of survival. Outside, the sun casts long shadows, a gentle reminder of the day's passing and the work still to be done.
+
+BROLL:
+historical scene
+
+VO:
+As the sun begins its descent, the community gathers in the central clearing for news and tales from the wider world. The air is filled with the scent of woodsmoke and the distant call of evening birds. Stories of adventure and cautionary tales weave through the crowd, each voice adding to the tapestry of shared experience. Children play in the fading light, their laughter a bright counterpoint to the more somber stories of frontier dangers. This sense of community, of shared struggle and triumph, binds the settlers together, a bulwark against the uncertainties of life on the edge of wilderness.
+
+BROLL:
+historical scene
+
+VO:
+As darkness falls, the day's labors give way to quiet reflection. The farmer sits by the hearth, the warmth of the fire a welcome relief from the chill creeping in through the walls. The soft glow of candlelight illuminates his wife's deft hands as she mends clothing, the sound of needle piercing fabric a gentle counterpoint to the crackle of the fire. Outside, the stars emerge, a glittering canopy over the sleeping settlement. The air is cool and carries the faint scent of pine, a reminder of the vast wilderness that surrounds them.
+
+BROLL:
+historical scene
+
+VO:
+Night settles over the settlement, a heavy blanket of calm and quiet. The last of the candles are extinguished, plunging the room into darkness save for the dim glow of embers in the hearth. The sounds of the night — the distant hoot of an owl, the rustle of leaves in the breeze — lull the settlers into a gentle slumber. The world outside recedes, leaving only the immediate warmth and safety of home. And as sleep overtakes them, they dream of the days to come, of harvests and hearths, of life in a land that is both harsh and full of promise.
+
+BROLL:
+historical scene
+
+VO:
+The settlement is now cloaked in silence, the deep, restorative quiet of night enveloping all. In this tranquil darkness, dreams intertwine with reality, weaving the fabric of hope and resilience that define the settler's life. Candles are out, fires smoldering, and the world sleeps. Just as you, dear listener, are about to. Let the calm of this bygone day guide you gently into slumber, where history whispers softly in the dark.
+
+BROLL:
+history while you sleep outro

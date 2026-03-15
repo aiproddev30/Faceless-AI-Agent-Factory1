@@ -1,0 +1,55 @@
+{
+  "title": "History of Hamburgers",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "Opening Hook",
+      "voText": "Imagine a juicy, grilled patty nestled between two soft buns. This iconic dish, known as the hamburger, has a rich history that spans centuries and continents.",
+      "visualPrompt": "close-up of a sizzling hamburger on a grill, smoke rising, vibrant colors of fresh ingredients around it, warm lighting",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 11.1
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Early History",
+      "voText": "The origins of the hamburger can be traced back to the 12th century, in Hamburg, Germany, where minced beef was popular. German immigrants brought this culinary tradition to America in the 19th century.",
+      "visualPrompt": "historical images of Hamburg, Germany, featuring old streets and traditional food markets, sepia tones",
+      "suggestedVisualStyle": "slow-zoom",
+      "estimatedDuration": 14.1
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Key Developments",
+      "voText": "In the late 1800s, the hamburger began to take shape as we know it today. The first recorded instance of a 'hamburger sandwich' appeared at the 1904 St. Louis World's Fair.",
+      "visualPrompt": "black and white footage of the 1904 World's Fair, showcasing food stalls and visitors enjoying various dishes, nostalgic atmosphere",
+      "suggestedVisualStyle": "animation",
+      "estimatedDuration": 13.3
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Modern Era",
+      "voText": "Post-World War II, the hamburger exploded in popularity with the rise of fast food chains. McDonald's and Burger King became household names, making the hamburger a global phenomenon.",
+      "visualPrompt": "busy fast food restaurant with customers ordering hamburgers, bright colors and cheerful ambiance, lively atmosphere",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 12.0
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Future Outlook",
+      "voText": "Today, the hamburger continues to evolve, with plant-based alternatives gaining traction. As consumers seek healthier options, the future of the hamburger looks to be both diverse and exciting.",
+      "visualPrompt": "a modern kitchen with chefs preparing gourmet burgers, including plant-based options, bright and inviting lighting",
+      "suggestedVisualStyle": "aerial",
+      "estimatedDuration": 12.0
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Call to Action",
+      "voText": "Join us in celebrating this beloved dish! Explore local burger joints or try making your own gourmet version at home. What will your next hamburger creation be?",
+      "visualPrompt": "a vibrant burger-making scene with friends cooking together, laughter and joy evident, warm and inviting atmosphere",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 11.6
+    }
+  ],
+  "totalEstimatedDuration": 74.1,
+  "styleMode": "timeline"
+}

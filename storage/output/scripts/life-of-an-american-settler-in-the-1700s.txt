@@ -1,0 +1,53 @@
+VO:
+[HISTORY_INTRO]
+
+BROLL:
+history while you sleep intro
+
+VO:
+In the faint pre-dawn light, a log cabin stands quietly amidst the thick woods of the New World. The air is crisp and laden with the earthy scent of dew-kissed leaves. Inside, a family stirs beneath heavy woolen blankets as the first birdsong pierces the stillness. The hearth, now just embers, awaits the rekindling that will signal the start of another hard day. Outside, the village lies dormant, a collection of simple homes and barns, each a testament to resilience and survival. Soon, smoke will spiral from chimneys, and the rhythm of life will begin anew.
+
+BROLL:
+historical scene
+
+VO:
+As the sun inches over the horizon, a farmer named John rises from his straw-filled mattress, the cold wooden floor biting at his bare feet. He moves quietly so as not to wake his sleeping wife and children. The cabin is modest, its walls lined with shelves holding jars of preserved fruits and vegetables. John pulls on his rough linen shirt and trousers, the fabric worn and softened by many seasons of hard labor. Outside, the world is still shadowed, the fields a dark expanse waiting for the sun's touch. He steps into his boots and heads to the barn, the scent of hay and the low murmurs of animals greeting him.
+
+BROLL:
+historical scene
+
+VO:
+With the morning chores completed, John turns his attention to the fields. He and his eldest son, Thomas, walk the familiar path to the edge of their land where rows of corn stand tall and proud. The earth is rich and dark, freshly turned by the plow. The air is filled with the sound of rustling leaves and the distant call of a neighbor's rooster. They work side by side, the rhythm of planting and tending as natural as breathing. As the sun climbs higher, the warmth seeps into their bones, driving away the morning chill.
+
+BROLL:
+historical scene
+
+VO:
+Noon arrives, and the family gathers for their midday meal. The air inside the cabin is fragrant with the aroma of stew bubbling over the fire. The table is simple, set with wooden bowls and spoons. A loaf of coarse bread, baked earlier, sits at its center. They eat in comfortable silence, the crackle of the fire a constant companion. Each bite is a reminder of their hard work, the fruits of their labor nourishing body and spirit alike. Outside, the sun blazes down, casting a golden glow over the landscape.
+
+BROLL:
+historical scene
+
+VO:
+In the afternoon, John and his family make their way to the village center. The dirt path is well-trodden, lined with wildflowers and the occasional curious squirrel. The village is a hub of activity, with neighbors chatting and bartering goods. The air is filled with laughter and the clatter of horse hooves on cobblestones. They stop by the blacksmith’s shop, the heat from the forge palpable even from a distance. Here, news and stories are exchanged as readily as goods, binding the community together in a shared tapestry of life.
+
+BROLL:
+historical scene
+
+VO:
+As the day begins to wane, the sky painted with hues of orange and pink, the family returns home. The air cools, carrying with it the scent of evening primrose. The work of the day is done, and the quiet satisfaction of accomplishment settles over them. Inside, the cabin is warm and inviting, the glow of candlelight dancing on the walls. They gather around the hearth, sharing stories and plans for the days to come. The crackle of the fire and the gentle murmur of voices weave a comforting lullaby.
+
+BROLL:
+historical scene
+
+VO:
+Night falls gently, wrapping the world in a soft embrace. The stars begin to twinkle, their light a distant echo of the day. The family settles into their beds, the cabin now quiet except for the occasional creak of settling wood. The air is cool and sweet, a gentle breeze rustling the leaves outside. As they drift into sleep, the rhythm of their day lulls them into dreams, the promise of another dawn just hours away. The world outside is still and peaceful, a reminder of the simple beauty of life.
+
+BROLL:
+historical scene
+
+VO:
+The village rests under a blanket of stars, the only sounds the whispering breeze and the occasional hoot of an owl. Candles flicker and fade, one by one, leaving the world in gentle darkness. In the quiet, the day's labors fade into memory, replaced by the soft promise of rest. As the village sleeps, so too does the listener, cradled by the rhythms of another time, another place. The night deepens, a vast and peaceful canopy, inviting dreams and the soothing embrace of sleep.
+
+BROLL:
+history while you sleep outro

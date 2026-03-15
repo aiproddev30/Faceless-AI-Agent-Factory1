@@ -1,0 +1,55 @@
+{
+  "title": "History of Pasta",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "Opening Hook",
+      "voText": "Pasta: a beloved staple across the globe. But did you know its story spans centuries and continents? Let's explore the fascinating history of this culinary icon.",
+      "visualPrompt": "close-up of a steaming bowl of pasta with fresh herbs sprinkled on top, warm kitchen setting, inviting and cozy atmosphere",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 11.1
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Early History",
+      "voText": "The origins of pasta can be traced back to ancient civilizations. Evidence suggests that noodles were being made in China as early as 2000 BC, while the Etruscans in Italy were creating similar dishes.",
+      "visualPrompt": "ancient pottery displaying early pasta-making tools, dimly lit archaeological site, mysterious and historical ambiance",
+      "suggestedVisualStyle": "slow-zoom",
+      "estimatedDuration": 14.6
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Key Developments",
+      "voText": "In the 8th century, Arabs introduced durum wheat to Sicily, revolutionizing pasta production. By the 13th century, dried pasta became a common food source, enhancing its popularity across Europe.",
+      "visualPrompt": "vintage footage of a bustling Sicilian market with vendors selling durum wheat, vibrant colors, lively atmosphere",
+      "suggestedVisualStyle": "aerial",
+      "estimatedDuration": 12.4
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Modern Era",
+      "voText": "The 19th century brought industrialization, making pasta production faster and more efficient. Today, pasta is produced in countless shapes and varieties, enjoyed globally in diverse cuisines.",
+      "visualPrompt": "modern pasta factory with machinery producing various pasta shapes, bright lighting, energetic and industrious mood",
+      "suggestedVisualStyle": "animation",
+      "estimatedDuration": 11.1
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Future Outlook",
+      "voText": "As we look ahead, pasta continues to evolve. With the rise of gluten-free and plant-based options, the future of pasta is as exciting as its past.",
+      "visualPrompt": "a table set with an array of modern pasta dishes, including gluten-free and plant-based options, bright and inviting setting",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 11.1
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Call to Action",
+      "voText": "So, next time you twirl spaghetti on your fork, remember its rich history. Subscribe for more culinary journeys and explore the stories behind your favorite foods.",
+      "visualPrompt": "a person enjoying a plate of pasta at a beautifully set dinner table, warm candlelight, intimate and inviting atmosphere",
+      "suggestedVisualStyle": "cinematic",
+      "estimatedDuration": 11.1
+    }
+  ],
+  "totalEstimatedDuration": 71.4,
+  "styleMode": "timeline"
+}

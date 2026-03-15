@@ -1,0 +1,53 @@
+VO:
+[HISTORY_INTRO]
+
+BROLL:
+history while you sleep intro
+
+VO:
+The first light of dawn crept over the horizon, casting long shadows over the rough-hewn log cabins of a small settlement nestled in the Shenandoah Valley. The air was crisp, biting against the skin, carrying the earthy scent of dew-soaked soil mixed with the faint smoke of dying fires. Thomas Cooper stirred awake, the chill of the early morning seeping through the thin wool blanket covering him. He listened for a moment, to the stillness—broken only by the distant howl of a lone wolf—and knew it was time to rise.
+
+BROLL:
+historical scene of a 1700s American settlement at dawn
+
+VO:
+The morning unfolded with the rhythmic sound of an axe splitting wood, echoing through the trees. Thomas Cooper, a farmer by necessity and a craftsman by trade, worked with steady determination. Each swing of the axe was precise, the wood yielding under its sharp edge. The scent of pine filled the air, mingling with the cool, damp smell of the forest. Thomas paused to wipe the sweat from his brow, his breath visible in the chilly air. He glanced at the rising sun, a golden orb just peeking over the horizon. There was much to do. Today, like every day, was a race against time.
+
+BROLL:
+a settler chopping wood in the early morning
+
+VO:
+As the sun climbed higher, casting its warm glow over the valley, the smell of baking bread wafted from the Cooper household. Inside, Sarah Cooper busied herself at the hearth, her hands deftly kneading dough. The kitchen was filled with the comforting aroma of yeast and roasting venison, a rare treat saved for special occasions. The room was warm, the fire crackling merrily in the stone fireplace. Thomas entered, his boots leaving a trail of dust across the wooden floor. He smiled at Sarah, grateful for the brief respite and the simple pleasure of a shared meal.
+
+BROLL:
+a settler household kitchen with bread baking
+
+VO:
+The afternoon sun was relentless, casting long shadows across the fields. Thomas worked tirelessly, his hands calloused and worn from years of toil. The corn needed tending, weeds threatening to choke the life from the tender stalks. The earth was warm beneath his feet, the smell of fresh-turned soil rising around him. A bead of sweat trickled down his spine as he paused to survey his work. Each row was a testament to his labor, a promise of sustenance for the coming winter. He could hear the distant laughter of children playing in the nearby creek—a brief reminder of the joys that punctuated their arduous lives.
+
+BROLL:
+a settler working in the fields under the afternoon sun
+
+VO:
+As the sun dipped below the horizon, painting the sky in hues of orange and purple, the settlers gathered at the community hall. The air buzzed with chatter and laughter, the warmth of camaraderie a welcome balm against the encroaching night. Thomas joined his neighbors, the room filled with the smell of pipe smoke and the sweet notes of a fiddle. Stories were shared—some of triumph, others of sorrow—each one a thread in the rich tapestry of their shared existence. The night stretched on, the flickering candlelight casting dancing shadows on the wooden walls.
+
+BROLL:
+settlers gathered in a community hall at dusk
+
+VO:
+The stars were a blanket of diamonds against the velvet sky as Thomas made his way home, the cool night air a gentle caress against his skin. The world was hushed, the only sound the occasional rustle of leaves in the breeze. He paused at the edge of his fields, the land stretching out before him like a promise. The scent of the earth was strong, grounding him in his place in the world. Despite the challenges, there was a deep sense of fulfillment in knowing that this land was his, hard-won through sweat and perseverance.
+
+BROLL:
+a settler walking under a starry night sky
+
+VO:
+Back in the cabin, the fire had burned low, casting a soft glow across the room. Sarah was already asleep, her breathing a gentle rhythm in the quiet night. Thomas settled into his chair by the hearth, the warmth soothing his tired muscles. He closed his eyes, the crackle of the fire a lullaby that carried him toward sleep. Outside, the world was at peace, the whisper of the wind through the trees a reminder of the vastness that surrounded them. In this moment, the struggles of the day faded away, leaving only the profound silence of the night.
+
+BROLL:
+a quiet cabin interior with a low fire
+
+VO:
+As the last candle flickered and went out, the settlement was wrapped in darkness. Each cabin stood silent, cradled by the night—a testament to the resilience and determination of those who called this place home. The stars watched over them, guardians in the vast expanse of the sky. The world slept, the gentle hum of life continuing its endless cycle. In the quiet of the night, dreams were woven, and hopes renewed—awaiting the promise of a new dawn.
+
+BROLL:
+history while you sleep outro

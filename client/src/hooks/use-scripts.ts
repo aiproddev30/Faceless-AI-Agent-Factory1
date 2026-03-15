@@ -52,13 +52,11 @@ export function useCreateScript() {
       const { researchContext, ...rest } = data;
       const payload = { ...rest, length: Number(rest.length) };
       const validated = api.scripts.create.input.parse(payload);
-      
       const res = await fetch(api.scripts.create.path, {
         method: api.scripts.create.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...validated, researchContext }),
       });
-
       if (!res.ok) {
         if (res.status === 400) {
           const error = api.scripts.create.responses[400].parse(await res.json());
@@ -71,17 +69,69 @@ export function useCreateScript() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
       queryClient.invalidateQueries({ queryKey: ["/api/series"] });
-      toast({
-        title: "Script Queued",
-        description: "Your script and voiceover are being generated.",
-      });
+      toast({ title: "Script Queued", description: "Your script and voiceover are being generated." });
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
+  });
+}
+
+// ── NEW: update script content ────────────────────────────────────────────────
+export function useUpdateScript() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async ({ id, updates }: { id: number; updates: { content?: string } }) => {
+      const url = buildUrl(api.scripts.update.path, { id });
+      const res = await fetch(url, {
+        method: api.scripts.update.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
       });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to update script");
+      }
+      return res.json();
+    },
+    onSuccess: (_, vars) => {
+      queryClient.invalidateQueries({ queryKey: [api.scripts.get.path, vars.id] });
+      queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
+    },
+    onError: (error) => {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
+  });
+}
+
+// ── NEW: generate audio for first time ───────────────────────────────────────
+export function useGenerateAudio() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async ({ id, voice }: { id: number; voice: string }) => {
+      const url = buildUrl(api.scripts.generateAudio.path, { id });
+      const res = await fetch(url, {
+        method: api.scripts.generateAudio.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ voice }),
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to generate audio");
+      }
+      return res.json();
+    },
+    onSuccess: (_, vars) => {
+      queryClient.invalidateQueries({ queryKey: [api.scripts.get.path, vars.id] });
+      queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
+      toast({ title: "Generating Voiceover", description: "Your voiceover is being created." });
+    },
+    onError: (error) => {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     }
   });
 }
@@ -98,7 +148,6 @@ export function useRegenerateAudio() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ voice }),
       });
-
       if (!res.ok) {
         const error = await res.json();
         throw new Error(error.message || "Failed to regenerate audio");
@@ -108,17 +157,10 @@ export function useRegenerateAudio() {
     onSuccess: (_, vars) => {
       queryClient.invalidateQueries({ queryKey: [api.scripts.get.path, vars.id] });
       queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
-      toast({
-        title: "Regenerating Audio",
-        description: "Voiceover is being regenerated with the new voice.",
-      });
+      toast({ title: "Regenerating Audio", description: "Voiceover is being regenerated with the new voice." });
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     }
   });
 }
@@ -137,17 +179,10 @@ export function useDeleteScript() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [api.scripts.list.path] });
       queryClient.invalidateQueries({ queryKey: ["/api/series"] });
-      toast({
-        title: "Script Deleted",
-        description: "The script has been permanently removed.",
-      });
+      toast({ title: "Script Deleted", description: "The script has been permanently removed." });
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     }
   });
 }

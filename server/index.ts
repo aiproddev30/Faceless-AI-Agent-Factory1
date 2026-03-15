@@ -49,6 +49,10 @@ app.use(
   "/videos",
   express.static(path.join(process.cwd(), "storage/output/videos"))
 );
+app.use(
+  "/storage",
+  express.static(path.join(process.cwd(), "storage"))
+);
 
 /**
  * Logger Utility

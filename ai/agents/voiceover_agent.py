@@ -16,7 +16,9 @@ class VoiceoverAgent(BaseAgent):
         voice = input_dict["voice"]
         index = input_dict["index"]
 
-        audio_bytes = await generate_audio(text, voice)
+        style_mode = input_dict.get("style_mode", "timeline")
+        speed = 0.88 if style_mode == "history" else 1.0
+        audio_bytes = await generate_audio(text, voice, speed=speed)
 
         file_path = os.path.join(self.output_dir, f"section_{index}.mp3")
 

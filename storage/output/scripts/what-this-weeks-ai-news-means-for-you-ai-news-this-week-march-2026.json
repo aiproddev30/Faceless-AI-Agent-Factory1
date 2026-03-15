@@ -1,0 +1,66 @@
+{
+  "title": "What this week's AI news means for you \u2014 AI news this week March 2026",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "Morse Intro",
+      "voText": "[MORSE_INTRO]",
+      "visualPrompt": "morse code intro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Hook",
+      "voText": "Imagine you're a freelance writer, sitting at your desk, staring at a blank screen. You know that AI tools can help you create content faster, but you're also worried they might take away your job. This week on AI Weekly Buzz we covered the launch of Sarvam 105B and Meta's fair use controversy. I picked these two because out of everything we reported on this week, these are the ones most likely to show up in your actual life. Let's talk about what they really mean for you.",
+      "visualPrompt": "person looking at phone confused ai news",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 37.7
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Deep Dive \u2014 Sarvam 105B Launch",
+      "voText": "Picture a tech-savvy teacher in India, excitedly logging into her computer to explore the new Sarvam 105B model. She\u2019s heard it can revolutionize how her students engage with learning materials. This week, the Indian consortium launched Sarvam 105B, a new open-source language model with 105 billion parameters. It positions itself as a formidable alternative to models like GPT-4, aiming to democratize AI for educators and developers. This initiative means that instead of relying solely on expensive proprietary tools, you can access powerful AI resources for free. But here's the catch: if you\u2019re a teacher, this could change your classroom dynamics dramatically. Instead of traditional teaching methods, you'll find yourself competing with AI that can generate lesson plans and quizzes at the click of a button. Your job may feel threatened, and your teaching style might need to adapt quickly to stay relevant. If you want to harness this new tool rather than be overshadowed by it, go to sarvam.ai, sign up for an account, and explore the resources available there. In just ten minutes, you could discover new ways to enhance your teaching and engage your students more effectively.",
+      "visualPrompt": "relevant query",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 81.0
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Bridge",
+      "voText": "That was a lot to take in, especially if you\u2019re someone who feels their job might be at risk. The second story I want to talk about is different \u2014 but in some ways it's even more personal.",
+      "visualPrompt": "ai weekly buzz transition",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 16.3
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Deep Dive \u2014 Meta's Fair Use Controversy",
+      "voText": "Imagine you\u2019re a self-publishing author, pouring your heart into your latest book, just to hear that someone is arguing that using pirated material might be fair game in the world of AI. You feel a sinking feeling in your stomach because this could undermine your hard work. Meta recently stirred up a storm by claiming that uploading pirated books via BitTorrent could fall under fair use, especially in the context of AI. This has ignited fierce debates in the copyright community about how AI technologies use existing works to create new content. For you, as an author, this could mean that your intellectual property isn't as protected as you thought, allowing others to potentially exploit your work without proper compensation. The uncomfortable truth is that if this argument gains traction, it could lead to more people using your ideas without asking for permission, threatening your livelihood. To protect yourself, consider registering your work with the copyright office if you haven\u2019t already. Go to copyright.gov, and follow the straightforward steps to ensure your rights are legally recognized. In just ten minutes, you can take a crucial step that helps safeguard your creative efforts.",
+      "visualPrompt": "relevant query",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 82.3
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Outro",
+      "voText": "When we look at these two stories \u2014 the rise of Sarvam and Meta\u2019s controversial stance \u2014 they reveal a shared pattern: as AI advances, it's reshaping industries and challenging personal rights. The people who navigate this well are not the ones who know the most about AI \u2014 they are the ones who stay curious and keep taking small steps. That is exactly what you are doing right now. The full episode is linked below if you want the complete picture. I will see you in the next one.",
+      "visualPrompt": "ai weekly buzz outro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 38.6
+    }
+  ],
+  "youtubeHooks": [
+    "Are you worried about your job because of AI?",
+    "How can you protect your creative work in the age of AI?",
+    "What does the launch of Sarvam 105B mean for you?"
+  ],
+  "tweetHooks": [
+    "AI is changing the classroom \u2014 are you ready?",
+    "Can pirated content be fair use? Meta thinks so.",
+    "Sarvam 105B: A game changer for creators and educators?"
+  ],
+  "episodeSummary": "This week, we explored how AI advancements like Sarvam 105B could reshape education and the troubling implications of Meta's fair use claims for creators. Both stories highlight the urgent need for individuals to adapt and protect their work in an evolving landscape.",
+  "totalEstimatedDuration": 256.3,
+  "styleMode": "impact"
+}

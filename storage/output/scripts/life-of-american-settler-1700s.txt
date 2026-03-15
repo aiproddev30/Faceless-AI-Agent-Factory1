@@ -1,0 +1,53 @@
+VO:
+[HISTORY_INTRO]
+
+BROLL:
+history while you sleep intro
+
+VO:
+In the dim light before dawn, the world is hushed. The cabin is still, its wooden walls groaning softly as the night air begins to yield to the rising sun. Outside, a gentle breeze stirs the leaves, whispering secrets to the earth that only the morning dew can hear. Inside, the air is scented with the rich smell of woodsmoke and the faint, earthy aroma of freshly harvested corn stored for the coming winter. A family of settlers stirs from slumber, their breath visible in the cool air as they prepare to face a new day. The rooster crows, its call echoing through the trees, signaling the beginning of the day's labor. As the first rays of sunlight pierce through the gaps in the cabin's walls, life stirs, and the day begins.
+
+BROLL:
+historical scene
+
+VO:
+The sun creeps over the horizon, casting a golden glow over the fields. The air is crisp, carrying the promise of a new day. A young farmer, John, stretches his limbs, feeling the familiar ache from yesterday's toil. The earth beneath his feet is cool, dotted with dew that glistens like tiny jewels in the morning light. He takes a moment to breathe in the fresh air, the scent of soil and grass filling his lungs. His wife, Mary, stirs the embers in the hearth, coaxing them back to life. The comforting crackle of the fire fills the cabin as she prepares a simple breakfast. The aroma of cornmeal porridge mingles with the smokiness of the room. Their children, still sleepy-eyed, gather around the table, their laughter a soft melody that dances through the air. As John steps outside, the morning sun warms his skin, and the world around him begins to wake.
+
+BROLL:
+historical scene
+
+VO:
+The fields stretch out before John, a patchwork of greens and browns under the vast sky. The land is both a friend and a foe, offering sustenance yet demanding relentless effort. He grips the plow, feeling the rough wood against his calloused hands, and begins the day's work. The rhythm of the plow slicing through the earth is steady, almost meditative. Each furrow turned reveals the rich, dark soil beneath, promising a bountiful harvest. The sun climbs higher, warming the land and the sweat on his brow. Nearby, Mary tends to the vegetable garden, her hands deftly weeding and nurturing the plants. The scents of basil, thyme, and rosemary rise in the warm air, mingling with the earthy fragrance of the soil. Their work is a dance with nature, a partnership forged out of necessity and respect.
+
+BROLL:
+historical scene
+
+VO:
+As the sun reaches its zenith, the air becomes heavy with heat. The family retreats to the shade of a large oak tree, its canopy offering a respite from the relentless sun. The rustle of leaves overhead is soothing, a gentle lullaby that calms the weariness in their bones. They share a simple meal of bread, cheese, and apples, the flavors bright and satisfying. The children play nearby, their laughter like the tinkling of bells in the afternoon stillness. John leans back against the rough bark of the tree, closing his eyes for a moment, letting the sounds and scents of the day wash over him. The world is alive with the hum of insects and the distant song of a bird. It's a brief pause, a moment to gather strength before returning to the fields.
+
+BROLL:
+historical scene
+
+VO:
+The afternoon sun casts long shadows across the fields. The air is thick with the scent of clover and wildflowers. John returns to his labor, his shirt damp with sweat, clinging to his back. Each movement is deliberate, the weight of the plow heavy but familiar. Mary joins him, her presence a comfort, her hands skilled and sure. Together, they work in harmony, their shared effort a testament to their partnership. The land responds to their care, the crops growing strong under their watchful eyes. In the distance, the forest stands sentinel, its cool depths a promise of rest at day's end. The rhythm of work continues, an ancient song passed down through the generations.
+
+BROLL:
+historical scene
+
+VO:
+As the sun begins its descent, the sky painted in hues of orange and pink, the family gathers once more. The air cools, carrying the scent of woodsmoke and the promise of a hearty meal. Inside the cabin, Mary stirs a pot over the fire, the aroma of stew rich and inviting. The children set the table, their chatter a comforting background to the evening's preparations. John washes the day's dust from his hands, the water cool and refreshing. As they sit to eat, the cabin is filled with warmth and the soft glow of candlelight. The meal is simple, yet satisfying, each bite a reminder of the day's labor and the bounty of the land. Laughter and conversation weave through the air, binding them together in the fading light.
+
+BROLL:
+historical scene
+
+VO:
+Night descends gently, wrapping the world in its embrace. The stars begin to twinkle in the vast expanse above, their light a distant echo of the day's sun. The family gathers around the hearth, the fire's glow casting flickering shadows on the walls. The sound of the crackling fire is comforting, a constant in the quiet of the night. John reads from the family Bible, his voice low and steady, a balm to soothe the day's weariness. Mary mends a shirt by candlelight, her needle moving deftly through the fabric. The children listen, their eyes growing heavy with sleep. As the last embers fade, the cabin is enveloped in darkness, filled with the soft sounds of slumber. Outside, the world is still, the only sound the whisper of the wind through the trees.
+
+BROLL:
+historical scene
+
+VO:
+The village settles into the quiet of the night, each cabin a beacon of warmth in the surrounding darkness. Candles flicker out one by one, leaving only the soft glow of moonlight to watch over the sleeping world. The land rests, gathering strength for another day. The air is cool, filled with the scents of earth and the distant tang of pine. The gentle rustle of leaves is a lullaby, soothing and constant. In the stillness, there is a peace, a momentary pause in the endless cycle of life. The world breathes softly, cradling its inhabitants in dreams and the promise of a new dawn. As the night deepens, sleep descends, gentle and inevitable, like the closing of a book as the stars keep their silent vigil.
+
+BROLL:
+history while you sleep outro
