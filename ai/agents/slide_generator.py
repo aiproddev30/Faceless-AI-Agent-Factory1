@@ -174,6 +174,14 @@ def generate_slides_for_script(scenes, episode=1, week="March 8, 2026", video_fo
             scene_title = "THAT'S YOUR SIGNAL"
         elif raw_title.lower() in ["bridge", "transition"]:
             scene_title = "AND ANOTHER THING..."
+        elif raw_title.lower() in ["quick hits", "quick hit", "rapid fire"]:
+            scene_title = "QUICK HITS"
+        elif "story of the week" in raw_title.lower():
+            scene_title = raw_title.replace("Story of the Week — ", "").replace("Story of the Week: ", "").upper()
+        elif raw_title.lower().startswith("story one") or raw_title.lower().startswith("story two") or raw_title.lower().startswith("story three"):
+            # Extract just the headline after the dash
+            parts = raw_title.split("—")
+            scene_title = parts[1].strip() if len(parts) > 1 else raw_title
         else:
             scene_title = raw_title
         path = generate_slide(
@@ -197,5 +205,7 @@ def _infer_tag(title):
     if any(w in t for w in ["model","gpt","gemini","claude","llm","release","launch"]): return "NEW MODELS"
     if any(w in t for w in ["robot","hardware","chip","nvidia","compute"]): return "AI HARDWARE"
     if any(w in t for w in ["job","work","employ","automat"]): return "FUTURE OF WORK"
-    if any(w in t for w in ["intro","welcome","hook","opening"]): return "THIS WEEK"
+    if any(w in t for w in ["intro","welcome","hook","opening","morse"]): return "THIS WEEK"
+    if any(w in t for w in ["quick hit","rapid","also this"]): return "QUICK HITS"
+    if "story of the week" in t: return "STORY OF THE WEEK"
     return "AI NEWS"

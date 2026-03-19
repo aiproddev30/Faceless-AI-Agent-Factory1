@@ -4,8 +4,9 @@ import json
 from ai.agents.base_agent import BaseAgent
 from ai.services.openai_client import generate_script
 from ai.utils.logger import logger
+from ai.agents.history_script_chunker import generate_chunked_history
 
-NARRATION_WPM = 140  # average words per minute for documentary narration
+NARRATION_WPM = 175  # actual OpenAI TTS speed at 0.88x  # average words per minute for documentary narration
 
 
 class ScriptWriterAgent(BaseAgent):
@@ -23,15 +24,19 @@ class ScriptWriterAgent(BaseAgent):
         research          = topic_dict.get("research_context", "")
         previously_covered = topic_dict.get("previously_covered", [])
         script_model       = topic_dict.get("script_model", "openai")
-        prompt             = self._build_prompt(title, tone, length, style_mode, research, previously_covered)
-        model_arg          = "groq:llama-3.3-70b-versatile" if script_model == "groq" else None
-        raw_response = await generate_script(prompt, model=model_arg)
+        if style_mode == "history":
+            progress_cb = topic_dict.get("progress_callback", None)
+            scene_data = await generate_chunked_history(topic_dict, progress_callback=progress_cb)
+        else:
+            prompt             = self._build_prompt(title, tone, length, style_mode, research, previously_covered)
+            model_arg          = "groq:llama-3.3-70b-versatile" if script_model == "groq" else None
+            raw_response = await generate_script(prompt, model=model_arg)
 
-        # Try to parse as structured JSON — fall back to old VO/BROLL format
-        scene_data = self._extract_json(raw_response)
-        if not scene_data:
-            logger.warning("JSON parse failed — falling back to VO/BROLL parser")
-            scene_data = self._legacy_parse(raw_response, title)
+            # Try to parse as structured JSON — fall back to old VO/BROLL format
+            scene_data = self._extract_json(raw_response)
+            if not scene_data:
+                logger.warning("JSON parse failed — falling back to VO/BROLL parser")
+                scene_data = self._legacy_parse(raw_response, title)
 
         # Calculate how long each scene will take to narrate
         for scene in scene_data["scenes"]:
@@ -97,31 +102,87 @@ class ScriptWriterAgent(BaseAgent):
             if previously_covered:
                 prev_text = "\nPREVIOUSLY COVERED (do NOT repeat these stories):\n" + "\n".join(f"- {s}" for s in previously_covered) + "\n"
             return f"""You are the scriptwriter for AI Weekly Buzz — a weekly AI news show on YouTube.
-Write an engaging 8-9 minute episode (target: 1,200-1,400 words of voiceover).
+
+MISSION: Cut through the noise. Every week millions of AI headlines compete for attention. Your job is to identify the ones that actually matter to real people and explain them in plain English with a point of view.
+
+CHANNEL VOICE: You are a sharp well-informed friend. Not a newsreader. Not a professor. Someone who reads everything so your viewer does not have to and tells them what it actually means for their life job and future.
+
 Topic: "{title}"
-Tone: Professional but conversational — like a sharp well-informed friend, NOT a newsreader.
-RESEARCH CONTEXT (use ALL specific facts, names, dates from this):
+Target: {length} words of voiceover total. This is NON-NEGOTIABLE. Count every word you write.
+Approximate scene word budgets based on your {length} word target (MUST hit these — do not write less):
+- Scene 2 Hook: {max(90, length // 13)} words
+- Scene 3 Story One: {max(150, length // 8)} words
+- Scene 4 Story Two: {max(150, length // 8)} words
+- Scene 5 Story Three: {max(150, length // 8)} words
+- Scene 6 Story of the Week: {max(300, length // 4)} words
+- Scene 7 Quick Hits: {max(80, length // 15)} words
+- Scene 8 Outro: {max(70, length // 17)} words
+Do NOT stop writing a scene until you have reached its word budget. Write full sentences. No bullet points.
+
+RESEARCH CONTEXT (use ALL specific facts, names, dates, numbers — do not invent anything):
 {research_text}{prev_text}
-STRICT STRUCTURE (8 scenes total):
+
+EDITORIAL JUDGMENT:
+From all the research above select the 4-5 most impactful stories. Ask yourself: would a nurse, a teacher, a software developer, or a small business owner care about this? If yes it is in. If it is only interesting to AI researchers or investors cut it.
+Your Story of the Week is the one story that will change how someone thinks about AI this week. It gets the most time and the deepest treatment.
+
+STRICT STRUCTURE (8 scenes, ~1,200 words total):
+
 Scene 1: MORSE INTRO — voText must be exactly: [MORSE_INTRO]
-Scene 2: HOOK (60-70 words) — Tease the Story of the Week. Bold opener. End with "This is AI Weekly Buzz. Let's get into it."
-Scene 3: BUSINESS & JOBS story (150-175 words) — Setup/Twist/Impact
-Scene 4: POLICY & ETHICS story (150-175 words) — Setup/Twist/Impact
-Scene 5: REAL WORLD APPLICATIONS story (150-175 words) — Setup/Twist/Impact
-Scene 6: NEW MODELS & TOOLS story (150-175 words) — Setup/Twist/Impact
-Scene 7: STORY OF THE WEEK (280-320 words) — The most impactful story. Deeper treatment. Why it matters long term.
-Scene 8: OUTRO (80-90 words) — Reference Story of the Week + specific engagement ask + "New episode next week on AI Weekly Buzz. I'll see you in the next one."
+
+Scene 2: HOOK (90-110 words)
+Open on the single most jaw-dropping fact or development from this week. No welcome back or hi everyone. Drop straight into the story. Make the viewer feel like they almost missed something huge.
+End with exactly: "This is AI Weekly Buzz. Let's get into it."
+
+Scene 3: STORY ONE — write AT LEAST 160 words, target 180 words
+The second most important story this week. Write full flowing narration — not bullet points.
+Open with one punchy headline sentence. Then: full context of what happened with specific names companies numbers dates. Then: why it matters to a normal person — name the exact type of person affected and how their life or work changes. Then: one forward-looking sentence on what comes next.
+DO NOT move to the next scene until you have written at least 160 words for this scene.
+
+Scene 4: STORY TWO — write AT LEAST 160 words, target 180 words
+The third most important story. Different category from Story One — if Story One was about a model release make this about policy jobs or real-world impact.
+Same format as Scene 3. Full narration. No bullet points. At least 160 words.
+DO NOT move to the next scene until you have written at least 160 words for this scene.
+
+Scene 5: STORY THREE — write AT LEAST 160 words, target 180 words
+Fourth most important story. Again a different angle from the previous two stories.
+Same format as Scene 3. Full narration. At least 160 words.
+DO NOT move to the next scene until you have written at least 160 words for this scene.
+
+Scene 6: STORY OF THE WEEK — write AT LEAST 350 words, target 400 words
+The biggest story of the week. This is the centerpiece of the episode. Three mandatory movements — write each one fully:
+
+WHAT HAPPENED (write at least 100 words): Full context. Names dates numbers sequence of events in order. Assume the viewer has never heard this story before. Give them everything they need to understand it.
+
+WHY THIS CHANGES EVERYTHING (write at least 150 words): The real-world consequence. Who is affected — be uncomfortably specific. Name industries job titles dollar amounts careers relationships. Do not soften it. This is the moment the viewer feels the weight of the story.
+
+WHAT TO WATCH (write at least 80 words): The next domino. What specific event signal or decision in the next 30 days will tell us where this is heading? Give the viewer one concrete thing to watch for.
+
+DO NOT move to the next scene until you have written at least 350 words for this scene.
+
+Scene 7: QUICK HITS — write AT LEAST 80 words
+2-3 rapid-fire stories from the RESEARCH CONTEXT ONLY. Do NOT invent stories. Only use facts from the research provided above.
+One to two sentences each. Fast pace. Start with: "Also this week..."
+If the research only has 2 quick hit stories, expand each to 2 sentences to reach 80 words.
+DO NOT make this section shorter than 80 words.
+
+Scene 8: OUTRO — write AT LEAST 80 words, target 90 words
+Do not summarize. Zoom out. What do all these stories have in common? What does this week tell us about where AI is actually heading?
+Land on something human. A thought that makes the viewer feel informed and capable not overwhelmed.
+End with exactly: "New episode next week on AI Weekly Buzz. I'll see you in the next one."
+DO NOT make this shorter than 80 words.
+
 Return ONLY valid JSON. No markdown. No code fences.
 {{
   "title": "{title}",
   "scenes": [
-    {{"sceneNumber": 1, "title": "Morse Intro", "voText": "[MORSE_INTRO]", "visualPrompt": "morse code intro", "suggestedVisualStyle": "news"}},
-    {{"sceneNumber": 2, "title": "Hook", "voText": "hook text...", "visualPrompt": "ai news technology", "suggestedVisualStyle": "news"}},
-    {{"sceneNumber": 3, "title": "Business & Jobs — headline", "voText": "story...", "visualPrompt": "relevant query", "suggestedVisualStyle": "news", "source": "", "category": "Business & Jobs"}},
-    {{"sceneNumber": 4, "title": "Policy & Ethics — headline", "voText": "story...", "visualPrompt": "relevant query", "suggestedVisualStyle": "news", "source": "", "category": "Policy & Ethics"}},
-    {{"sceneNumber": 5, "title": "Real World Applications — headline", "voText": "story...", "visualPrompt": "relevant query", "suggestedVisualStyle": "news", "source": "", "category": "Real World Applications"}},
-    {{"sceneNumber": 6, "title": "New Models & Tools — headline", "voText": "story...", "visualPrompt": "relevant query", "suggestedVisualStyle": "news", "source": "", "category": "New Models & Tools"}},
-    {{"sceneNumber": 7, "title": "Story of the Week — headline", "voText": "deep dive...", "visualPrompt": "relevant query", "suggestedVisualStyle": "news", "source": "", "category": "Story of the Week"}},
+    {{"sceneNumber": 1, "title": "Morse Intro", "voText": "[MORSE_INTRO]", "visualPrompt": "morse code animation", "suggestedVisualStyle": "news"}},
+    {{"sceneNumber": 2, "title": "Hook", "voText": "hook text...", "visualPrompt": "ai technology news breaking", "suggestedVisualStyle": "news"}},
+    {{"sceneNumber": 3, "title": "Story One — headline here", "voText": "story...", "visualPrompt": "relevant 3-5 word query", "suggestedVisualStyle": "news", "source": "", "category": ""}},
+    {{"sceneNumber": 4, "title": "Story Two — headline here", "voText": "story...", "visualPrompt": "relevant 3-5 word query", "suggestedVisualStyle": "news", "source": "", "category": ""}},
+    {{"sceneNumber": 5, "title": "Story Three — headline here", "voText": "story...", "visualPrompt": "relevant 3-5 word query", "suggestedVisualStyle": "news", "source": "", "category": ""}},
+    {{"sceneNumber": 6, "title": "Story of the Week — headline here", "voText": "deep dive...", "visualPrompt": "relevant 3-5 word query", "suggestedVisualStyle": "news", "source": "", "category": "Story of the Week"}},
+    {{"sceneNumber": 7, "title": "Quick Hits", "voText": "quick hits...", "visualPrompt": "ai news technology montage", "suggestedVisualStyle": "news"}},
     {{"sceneNumber": 8, "title": "Outro", "voText": "outro text...", "visualPrompt": "ai weekly buzz outro", "suggestedVisualStyle": "news"}}
   ],
   "youtubeHooks": ["hook 1", "hook 2", "hook 3"],

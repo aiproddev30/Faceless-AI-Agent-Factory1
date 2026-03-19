@@ -45,6 +45,7 @@ class MediaAgent(BaseAgent):
         os.makedirs(self.output_dir, exist_ok=True)
 
     async def _run(self, data: dict) -> dict:
+        logger.info(f"[media_agent] TOP-LEVEL data keys: {list(data.keys())}, episode={data.get('episode')}, week={data.get('week')}")
         sections     = data.get("sections", data.get("scenes", []))
         topic        = data.get("topic", "")
         visual_style = data.get("visualStyle", "realistic")
@@ -54,7 +55,19 @@ class MediaAgent(BaseAgent):
         for scene in sections:
             prompt    = scene.get("visualPrompt", scene.get("broll", scene.get("title", "nature")))
             scene_num = scene.get("sceneNumber", scene.get("scene_number", 0))
-            duration  = scene.get("estimatedDuration", scene.get("estimated_duration", 10))
+            # Use actual audio duration from DB (saved during voiceover generation)
+            _vo = scene.get("voText", scene.get("vo", "")).strip()
+            if _vo in ("[MORSE_INTRO]", "[HISTORY_INTRO]"):
+                duration = 5.17 if _vo == "[MORSE_INTRO]" else 10.0
+            else:
+                duration = scene.get("actualDuration",
+                           scene.get("actual_duration",
+                           scene.get("estimatedDuration",
+                           scene.get("estimated_duration", 10))))
+            # For morse/history intro scenes — use fixed known duration
+            _vo = scene.get("voText", scene.get("vo", "")).strip()
+            if _vo in ("[MORSE_INTRO]", "[HISTORY_INTRO]"):
+                duration = 5.17 if _vo == "[MORSE_INTRO]" else 10.0
             title     = scene.get("title", "")
             vo        = scene.get("voText", scene.get("vo", ""))
             style     = scene.get("suggestedVisualStyle", "cinematic")
@@ -79,7 +92,8 @@ class MediaAgent(BaseAgent):
             # --- News: branded slide generator ---
             elif visual_style == "news":
                 try:
-                    episode     = data.get("episode", 1)
+                    episode     = data.get("episode", data.get("episode_number", data.get("episodeNumber", 1)))
+                    logger.info(f"[media_agent] episode={episode} week={data.get('week','')}")
                     week        = data.get("week", "")
                     if not week:
                         from datetime import date

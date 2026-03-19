@@ -144,6 +144,8 @@ export default function NewScript() {
   const [historyScriptType, setHistoryScriptType] = useState("daily_life");
   const [scriptModel, setScriptModel] = useState("openai");
   const [showResearch, setShowResearch] = useState(false);
+  const [chapterProgress, setChapterProgress] = useState<{scene_title: string, scene_number: number, total_scenes: number, status: string, word_count?: number}[]>([]);
+  const [currentChapter, setCurrentChapter] = useState<string>("");
 
   const form = useForm<InsertScript>({
     resolver: zodResolver(insertScriptSchema),
@@ -334,9 +336,13 @@ export default function NewScript() {
                   </button>
                   {showResearch && (
                     <div className="bg-cyan-950/20 border border-cyan-500/20 rounded-xl p-4 space-y-3">
-                      <div className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed max-h-64 overflow-y-auto" data-testid="text-research-content">
-                        {researchResult.research}
-                      </div>
+                      <textarea
+                        className="text-sm text-foreground/90 leading-relaxed max-h-64 overflow-y-auto w-full bg-transparent resize-none outline-none"
+                        rows={8}
+                        data-testid="text-research-content"
+                        value={researchResult.research}
+                        onChange={e => setResearchResult({...researchResult, research: e.target.value})}
+                      />
                       {researchResult.sources && researchResult.sources.length > 0 && (
                         <div className="border-t border-cyan-500/10 pt-3">
                           <p className="text-xs font-medium text-muted-foreground mb-2">Sources:</p>
@@ -513,15 +519,64 @@ export default function NewScript() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex justify-end">
-                <button type="submit" disabled={isPending} data-testid="button-submit"
-                  className="px-8 py-3 rounded-xl font-semibold text-lg bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-200 flex items-center gap-2">
-                  {isPending ? (
-                    <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Generating...</>
-                  ) : (
-                    <><Sparkles className="w-5 h-5" />{presetSeriesId ? "Generate Episode" : "Generate Script"}</>
-                  )}
-                </button>
+              <div className="pt-4 border-t border-white/10 space-y-4">
+
+                {isPending && autoStyleMode === "history" && (
+                  <div className="w-full bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 space-y-3">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-amber-400 font-medium flex items-center gap-2">
+                        <div className="w-3 h-3 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin" />
+                        {chapterProgress.length === 0 ? "Writing episode script..." : "Generating voiceover..."}
+                      </span>
+                      <span className="text-amber-400/60 text-xs">
+                        Script → Voiceover → Complete
+                      </span>
+                    </div>
+                    {chapterProgress.length > 0 && (
+                      <div className="space-y-1.5">
+                        {chapterProgress.map((p, i) => (
+                          <div key={i} className="flex items-center gap-2 text-xs">
+                            <div className={cn(
+                              "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 text-[10px]",
+                              p.status === "done"        ? "bg-green-500/20 text-green-400" :
+                              p.status === "writing"     ? "bg-amber-500/20 text-amber-400" :
+                              p.status === "summarising" ? "bg-blue-500/20 text-blue-400" :
+                                                           "bg-white/5 text-white/20"
+                            )}>
+                              {p.status === "done" ? "✓" : p.status === "writing" ? "…" : p.status === "summarising" ? "~" : "·"}
+                            </div>
+                            <span className={cn(
+                              p.status === "done"    ? "text-white/60" :
+                              p.status === "writing" ? "text-amber-400" :
+                                                       "text-white/30"
+                            )}>
+                              {p.scene_title}
+                            </span>
+                            {p.word_count && (
+                              <span className="text-white/20 ml-auto">{p.word_count.toLocaleString()}w</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {chapterProgress.length === 0 && (
+                      <p className="text-xs text-amber-400/50">Writing script then generating voiceover — typically 3–5 min for 2,000 words...</p>
+                    )}
+                  </div>
+                )}
+
+                <div className="flex justify-end">
+                  <button type="submit" disabled={isPending} data-testid="button-submit"
+                    className="px-8 py-3 rounded-xl font-semibold text-lg bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transition-all duration-200 flex items-center gap-2">
+                    {isPending ? (
+                      <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      {autoStyleMode === "history" ? "Writing chapters..." : "Generating..."}</>
+                    ) : (
+                      <><Sparkles className="w-5 h-5" />{presetSeriesId ? "Generate Episode" : "Generate Script"}</>
+                    )}
+                  </button>
+                </div>
+
               </div>
 
             </form>

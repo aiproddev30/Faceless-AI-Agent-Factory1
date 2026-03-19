@@ -1,0 +1,92 @@
+{
+  "title": "Top AI News Week 9th-15th",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "Morse Intro",
+      "voText": "[MORSE_INTRO]",
+      "visualPrompt": "morse code intro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 0.3
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Hook",
+      "voText": "Welcome to a week where AI isn't just making headlines, it's rewriting them. From groundbreaking protocols to geopolitical impacts, this week is packed with stories that shape the future of technology and society. This is AI Weekly Buzz. Let's get into it.",
+      "visualPrompt": "ai news technology",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 14.4
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Business & Jobs \u2014 AI Engineer Demand Surges",
+      "voText": "In a major boost for AI careers, Web Directions has announced an impressive lineup of speakers for their AI Engineer tracks. This move highlights the growing demand for AI-focused skills as companies across the globe seek to harness AI's potential. As businesses adapt to this AI-driven landscape, the need for skilled professionals is skyrocketing, making it an exciting time for those in the field.",
+      "visualPrompt": "ai engineer conference",
+      "suggestedVisualStyle": "news",
+      "source": "Web Directions",
+      "category": "Business & Jobs",
+      "estimatedDuration": 21.9
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Policy & Ethics \u2014 LegalTech Resources in Focus",
+      "voText": "Navigating the legal landscape is getting a tech upgrade. A curated list of LegalTech resources was shared this week, spotlighting the tools and datasets that are transforming legal processes. This intersection of AI and the legal sector is not only streamlining operations but also raising important questions about ethics and policy, as the law catches up with technology.",
+      "visualPrompt": "legaltech resources",
+      "suggestedVisualStyle": "news",
+      "source": "LegalTech Community",
+      "category": "Policy & Ethics",
+      "estimatedDuration": 19.9
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Real World Applications \u2014 AI and Geopolitical Impacts",
+      "voText": "AI isn't just about tech; it's about real-world consequences. The ongoing Iran conflict has affected India's fertilizer supply, with broader economic implications. Discussions this week focused on how AI can help mitigate such disruptions, showing once again that artificial intelligence is a tool for global stability as much as it is for innovation.",
+      "visualPrompt": "geopolitical impacts",
+      "suggestedVisualStyle": "news",
+      "source": "Global Economic Forum",
+      "category": "Real World Applications",
+      "estimatedDuration": 18.2
+    },
+    {
+      "sceneNumber": 6,
+      "title": "New Models & Tools \u2014 Model Context Protocol Revolution",
+      "voText": "Say hello to the future of model interactions. The Model Context Protocol (MCP) is gaining traction as a standardized approach to AI integration, moving beyond traditional APIs. This evolution allows for more seamless and sophisticated interactions between models, paving the way for innovations that were previously out of reach.",
+      "visualPrompt": "model context protocol",
+      "suggestedVisualStyle": "news",
+      "source": "Tech Innovations Journal",
+      "category": "New Models & Tools",
+      "estimatedDuration": 16.8
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Story of the Week \u2014 AI's Role in Global Stability",
+      "voText": "As tensions rise globally, AI's ability to influence stability becomes crucial. This week, discussions centered on AI's role in mitigating the economic ripple effects of the Iran conflict on India's fertilizer supply. By providing predictive analytics and optimizing supply chains, AI can help countries navigate complex geopolitical landscapes, highlighting its potential as a stabilizing force in uncertain times. This isn't just about tech; it's about global resilience.",
+      "visualPrompt": "ai global stability",
+      "suggestedVisualStyle": "news",
+      "source": "International Relations Journal",
+      "category": "Story of the Week",
+      "estimatedDuration": 23.0
+    },
+    {
+      "sceneNumber": 8,
+      "title": "Outro",
+      "voText": "From global stability to innovative protocols, AI continues to reshape our world. If you found our Story of the Week on AI's role in geopolitical stability insightful, don't forget to like and subscribe. New episode next week on AI Weekly Buzz. I'll see you in the next one.",
+      "visualPrompt": "ai weekly buzz outro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 16.5
+    }
+  ],
+  "youtubeHooks": [
+    "How AI is reshaping global stability \u2014 find out now!",
+    "Why AI skills are more in demand than ever!",
+    "LegalTech's rise: What it means for the future of law."
+  ],
+  "tweetHooks": [
+    "AI's role in global stability is more crucial than ever. Here's why. #AIWeeklyBuzz",
+    "Demand for AI engineers is skyrocketing. Are you ready? #AIJobs",
+    "LegalTech is revolutionizing law. Check out the latest tools! #AIandLaw"
+  ],
+  "episodeSummary": "This week's episode dives into AI's role in global stability, the surge in demand for AI engineers, and revolutionary LegalTech tools. Discover how AI is shaping the future of technology and society.",
+  "totalEstimatedDuration": 131.0,
+  "styleMode": "news"
+}

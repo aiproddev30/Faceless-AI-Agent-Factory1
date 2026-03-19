@@ -20,6 +20,9 @@ async def run_video_pipeline(
     selected_scenes: list | None = None,
     visual_style:    str = "realistic",
     video_format:    str = "youtube",
+    chapters:        list | None = None,
+    episode:         int = 1,
+    week:            str = "",
 ) -> dict:
     """
     Runs the video generation pipeline:
@@ -43,6 +46,8 @@ async def run_video_pipeline(
     pipeline_data = {
         "sections":     sections,
         "audio_path":   audio_path,
+        "episode":      episode,
+        "week":         week,
         "script_id":    script_id,
         "topic":        scene_data.get("title", "") if scene_data else "",
         "visualStyle":  visual_style,
@@ -77,7 +82,8 @@ async def run_video_pipeline(
         safe_title = re.sub(r"[^a-z0-9]+", "_", title.lower()).strip("_")
         out_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                                "storage", "output", "video", f"history_{safe_title}.mp4")
-        video_path = render_history_video(audio_path, title, output_path=out_path)
+        chapter_list = chapters or (scene_data.get("chapters", []) if scene_data else [])
+        video_path = render_history_video(audio_path, title, output_path=out_path,chapters=chapter_list)
         logger.info(f"History video rendered: {video_path}")
         return {
             "status":    "complete",
@@ -128,7 +134,7 @@ def _scenes_to_sections(scene_data: dict) -> list:
             "visual_prompt":      s["visualPrompt"],
             "scene_number":       s["sceneNumber"],
             "title":              s["title"],
-            "estimated_duration": s.get("estimatedDuration", 10.0),
+            "estimated_duration": s.get("actualDuration", s.get("estimatedDuration", 10.0)),
             "visual_style":       s.get("suggestedVisualStyle", "cinematic"),
         }
         for s in scene_data.get("scenes", [])

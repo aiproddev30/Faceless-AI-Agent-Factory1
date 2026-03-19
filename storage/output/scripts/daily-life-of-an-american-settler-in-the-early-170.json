@@ -1,0 +1,140 @@
+{
+  "title": "Daily Life of an American settler in the early 1700s. ",
+  "styleMode": "history",
+  "scriptType": "daily_life",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "History Intro",
+      "voText": "[HISTORY_INTRO]",
+      "visualPrompt": "history while you sleep intro",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": null,
+      "wordCount": 0,
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Opening Hook",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": null,
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Waking & Morning",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Waking & Morning",
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Work & Commerce",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Work & Commerce",
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Food & Meals",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Food & Meals",
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Social Life",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Social Life",
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Evening",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Evening",
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 8,
+      "title": "Night",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Night",
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    },
+    {
+      "sceneNumber": 9,
+      "title": "Closing Reflection",
+      "voText": "",
+      "visualPrompt": "Daily Life of an American settler in the early 1700s.  historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": null,
+      "wordCount": 0,
+      "estimatedDuration": 0.0
+    }
+  ],
+  "chapters": [
+    {
+      "index": 2,
+      "title": "Waking & Morning",
+      "scene_number": 3
+    },
+    {
+      "index": 3,
+      "title": "Work & Commerce",
+      "scene_number": 4
+    },
+    {
+      "index": 4,
+      "title": "Food & Meals",
+      "scene_number": 5
+    },
+    {
+      "index": 5,
+      "title": "Social Life",
+      "scene_number": 6
+    },
+    {
+      "index": 6,
+      "title": "Evening",
+      "scene_number": 7
+    },
+    {
+      "index": 7,
+      "title": "Night",
+      "scene_number": 8
+    }
+  ],
+  "totalEstimatedDuration": 0.4,
+  "totalWordCount": 0,
+  "youtubeHooks": [
+    "What was daily life really like in Daily Life of an American settler in the early 1700s. ?",
+    "The history of Daily Life of an American settler in the early 1700s.  \u2014 the full story",
+    "History While You Sleep: Daily Life of an American settler in the early 1700s. "
+  ],
+  "tweetHooks": [
+    "New episode: Daily Life of an American settler in the early 1700s.  \u2014 history for your sleep playlist"
+  ],
+  "episodeSummary": "A full History While You Sleep episode about Daily Life of an American settler in the early 1700s. . 0 words, approximately 0 minutes of narration."
+}

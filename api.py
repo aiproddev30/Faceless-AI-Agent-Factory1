@@ -47,15 +47,20 @@ async def handle_script_mode(input_data):
 async def handle_preview_clips(input_data):
     from ai.agents.media_agent import MediaAgent
     from ai.video_pipeline import _build_pipeline_data
+    from datetime import date
     scene_data   = input_data.get("sceneData")
     topic        = input_data.get("topic", "")
     visual_style = input_data.get("visualStyle", "realistic")
     video_format = input_data.get("videoFormat", "youtube")
+    episode      = input_data.get("episode", 1)
+    week         = input_data.get("week", "") or date.today().strftime("%B %-d, %Y")
     if not scene_data:
         raise ValueError("sceneData required")
     pipeline_data = _build_pipeline_data(scene_data, audio_path="", script_id=0, topic=topic)
     pipeline_data["visualStyle"]  = visual_style
     pipeline_data["video_format"] = video_format
+    pipeline_data["episode"]      = episode
+    pipeline_data["week"]         = week
     agent  = MediaAgent()
     result = await agent.execute(pipeline_data)
     return result["sections"]
@@ -77,6 +82,12 @@ async def handle_video_mode(input_data):
     scene_data   = input_data.get("sceneData")
     visual_style = input_data.get("visualStyle", "realistic")
     video_format = input_data.get("videoFormat", "youtube")
+    chapters     = input_data.get("chapters", [])
+    episode      = input_data.get("episode", 1)
+    week         = input_data.get("week", "")
+    if not week:
+        from datetime import date
+        week = date.today().strftime("%B %-d, %Y")
     if not script_id:
         raise ValueError("scriptId is required for video mode")
     if not audio_path:
@@ -89,7 +100,10 @@ async def handle_video_mode(input_data):
         scene_data=scene_data,
         selected_scenes=selected_scenes,
         visual_style=visual_style,
+        episode=episode,
+        week=week,
         video_format=video_format,
+        chapters=chapters,
     )
 
 async def handle_generate_cards(input_data):
@@ -192,10 +206,10 @@ async def handle_research(input_data):
     if newsapi_key:
         try:
             categories = {
-                "New Models & Tools": "new AI model release tool launch 2026",
-                "Business & Jobs": "AI company jobs layoffs investment funding 2026",
-                "Policy & Ethics": "AI regulation copyright ethics policy government 2026",
-                "Real World Applications": "AI healthcare education finance real world impact 2026",
+                "New Models & Tools": "AI model release benchmark GPT Claude Gemini Grok 2026",
+                "Business & Jobs": "AI company revenue valuation funding layoffs workforce 2026",
+                "Policy & Ethics": "AI regulation government Pentagon military ethics OpenAI Anthropic 2026",
+                "Real World Applications": "AI healthcare education jobs automation consumer product 2026",
             }
             category_articles = {cat: [] for cat in categories}
             async with httpx.AsyncClient(timeout=15.0) as client:
@@ -242,7 +256,9 @@ async def handle_research(input_data):
             story_ids = r.json()[:80]
             ai_keywords = ["ai", "gpt", "llm", "openai", "anthropic", "gemini", "claude",
                            "machine learning", "neural", "model", "robot", "deepmind",
-                           "nvidia", "artificial intelligence", "mistral", "stable diffusion"]
+                           "nvidia", "artificial intelligence", "mistral", "mcp", "agent",
+                           "copilot", "cursor", "perplexity", "grok", "xai", "chatbot",
+                           "siri", "alexa", "automation", "gpu", "inference", "rag"]
             hn_stories = []
             import asyncio
             async def fetch_story(sid):
@@ -269,10 +285,54 @@ async def handle_research(input_data):
 
     reddit_context = ""
 
+    # ── 3b. Fetch RSS feeds from top AI publications ──────────────
+    rss_context = ""
+    rss_feeds = [
+        ("TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/"),
+        ("The Verge AI",  "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"),
+        ("VentureBeat AI","https://venturebeat.com/category/ai/feed/"),
+    ]
+    try:
+        import xml.etree.ElementTree as ET
+        from datetime import datetime, timezone, timedelta
+        cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            for feed_name, feed_url in rss_feeds:
+                try:
+                    r = await client.get(feed_url, headers={"User-Agent": "Mozilla/5.0"})
+                    if r.status_code != 200:
+                        continue
+                    root = ET.fromstring(r.text)
+                    ns = {"atom": "http://www.w3.org/2005/Atom"}
+                    # Handle both RSS and Atom formats
+                    items = root.findall(".//item") or root.findall(".//atom:entry", ns)
+                    feed_stories = []
+                    for item in items[:8]:
+                        title_el = item.find("title")
+                        link_el  = item.find("link") or item.find("atom:link", ns)
+                        desc_el  = item.find("description") or item.find("atom:summary", ns)
+                        title = title_el.text.strip() if title_el is not None and title_el.text else ""
+                        link  = link_el.text.strip() if link_el is not None and link_el.text else (link_el.get("href", "") if link_el is not None else "")
+                        desc  = desc_el.text.strip()[:200] if desc_el is not None and desc_el.text else ""
+                        # Strip HTML from desc
+                        import re as _re
+                        desc = _re.sub(r"<[^>]+>", "", desc).strip()[:200]
+                        if title:
+                            feed_stories.append(f"- {title}: {desc}")
+                            sources.append({"title": title, "url": link})
+                    if feed_stories:
+                        rss_context += f"\n[{feed_name}]\n" + "\n".join(feed_stories[:5]) + "\n"
+                except Exception:
+                    pass
+    except Exception:
+        pass
+
     # ── 4. Use GPT to synthesize into research summary ────────────
     combined_context = ""
     if news_context:
-        combined_context += "NEWS ARTICLES:\n" + news_context + "\n"
+        combined_context += "AI EDITORIAL BRIEF (GPT-4o curated):\n" + news_context + "\n"
+    if rss_context:
+        combined_context += "TOP AI PUBLICATIONS:\n" + rss_context + "\n"
     if hn_context:
         combined_context += "HACKER NEWS TRENDING:\n" + hn_context + "\n"
     prompt = f"""You are a research assistant for the AI Weekly Buzz YouTube channel.

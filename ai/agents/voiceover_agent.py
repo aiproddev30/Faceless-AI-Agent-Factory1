@@ -13,6 +13,10 @@ class VoiceoverAgent(BaseAgent):
 
     async def _run(self, input_dict: dict) -> str:
         text = input_dict["text"]
+
+        # Skip TTS for placeholder scenes
+        if text.strip().startswith("[") and text.strip().endswith("]"):
+            return None
         voice = input_dict["voice"]
         index = input_dict["index"]
 

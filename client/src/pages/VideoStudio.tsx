@@ -378,7 +378,7 @@ export default function VideoStudio() {
           scenes,
           visualStyle,
           videoFormat,
-          episode:  (window as any).__aiwb_episode ?? 1,
+          episode:  (script as any)?.episodeNumber ?? 1,
           week:     (window as any).__aiwb_week ?? "",
         });
         if (!res.ok) throw new Error(await res.text());

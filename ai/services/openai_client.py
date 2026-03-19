@@ -66,7 +66,7 @@ async def generate_script(prompt: str, model: str = None) -> str:
                 model=groq_model,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.7,
-                max_tokens=8000,
+                max_tokens=4000,  # Groq free tier rate limit
             )
             return response.choices[0].message.content or ""
 
@@ -76,8 +76,9 @@ async def generate_script(prompt: str, model: str = None) -> str:
             model=use_model,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
-            max_tokens=16000,
-            response_format={"type": "json_object"},
+            max_tokens=4000,  # enough for 1,400 words per chapter plus JSON wrapper
+            timeout=120.0,
+            # response_format only for explicit JSON requests — handled per-caller
         )
         content = response.choices[0].message.content
         if not content:

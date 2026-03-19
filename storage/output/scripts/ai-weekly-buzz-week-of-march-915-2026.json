@@ -1,0 +1,90 @@
+{
+  "title": "AI Weekly Buzz \u2014 Week of March 9\u201315, 2026",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "Morse Intro",
+      "voText": "[MORSE_INTRO]",
+      "visualPrompt": "morse code animation",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 0.3
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Hook",
+      "voText": "Imagine refusing to build a weapon for the Pentagon and then being labeled a national security risk. On March 6, the Trump administration designated Anthropic a 'supply chain risk,' effectively barring it from defense contracts. Now Anthropic is suing the Pentagon, marking a pivotal moment in AI ethics and policy. This is AI Weekly Buzz. Let's get into it.",
+      "visualPrompt": "ai technology news breaking",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 20.2
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Story One \u2014 OpenAI Releases GPT-5.4: The AI That Can Now Use Your Computer",
+      "voText": "OpenAI has launched GPT-5.4, its most advanced model yet, capable of autonomously using computers. Released on March 5, GPT-5.4 features a massive 1-million-token context window and improved efficiency, outperforming human benchmarks on real desktop tasks. This development could revolutionize how software developers and businesses automate tasks, making operations more efficient. Looking ahead, expect rapid adoption and potential debates on ethical implications.",
+      "visualPrompt": "OpenAI GPT-5.4 computer",
+      "suggestedVisualStyle": "news",
+      "source": "TechCrunch, Cyber Security News",
+      "category": "Technology",
+      "estimatedDuration": 20.9
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Story Two \u2014 Meta May Cut 16,000 Jobs to Fund AI Spending",
+      "voText": "Meta is reportedly planning its largest layoff ever, potentially cutting 16,000 jobs as it shifts focus to AI. This move aims to offset costs from building AI infrastructure and could impact tech workers globally. With Meta's capital expenditure wildly increasing, this is a stark reminder of how AI is reshaping job markets, potentially leading to more layoffs in the tech industry.",
+      "visualPrompt": "Meta layoffs AI spending",
+      "suggestedVisualStyle": "news",
+      "source": "Reuters, CNBC",
+      "category": "Economy",
+      "estimatedDuration": 20.9
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Story Three \u2014 The Man Who Thinks ChatGPT Is a Dead End Just Raised $1 Billion",
+      "voText": "Yann LeCun's new venture, AMI Labs, raised $1.03 billion to pursue 'world models'\u2014a bold alternative to language models. With backing from major investors like Nvidia and Jeff Bezos, AMI Labs aims to revolutionize industries like healthcare and robotics. This massive seed round signals strong market interest in AI that understands the physical world, though commercial applications are years away.",
+      "visualPrompt": "Yann LeCun AMI Labs",
+      "suggestedVisualStyle": "news",
+      "source": "TechCrunch, The Next Web",
+      "category": "Innovation",
+      "estimatedDuration": 20.2
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Story of the Week \u2014 Anthropic Sues the Pentagon: The AI Company That Refused to Build a Weapon",
+      "voText": "Anthropic is taking a stand against the Pentagon, filing lawsuits in San Francisco and D.C. after being labeled a 'supply chain risk' for refusing to build autonomous weapons or engage in mass surveillance. This designation could cost Anthropic billions in revenue as contracts are canceled and partners pull out. The stakes are high for tech ethics, affecting AI competitiveness and regulatory landscapes. Watch for court decisions and the ripple effects on government and industry partnerships.",
+      "visualPrompt": "Anthropic Pentagon lawsuit",
+      "suggestedVisualStyle": "news",
+      "source": "CNN, TechCrunch, CNBC, NPR",
+      "category": "Story of the Week",
+      "estimatedDuration": 25.7
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Quick Hits",
+      "voText": "Also this week: OpenClaw became the most-starred project on GitHub, surpassing React and Linux. Morgan Stanley warns that GPT-5.4 could drive large-scale job reductions. Atlassian announced 1,600 layoffs to refocus on AI, incurring up to $236 million in restructuring costs.",
+      "visualPrompt": "ai news technology montage",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 13.7
+    },
+    {
+      "sceneNumber": 8,
+      "title": "Outro",
+      "voText": "This week underscores a critical moment for AI, where ethics, economics, and innovation collide. Companies and governments are forced to choose between rapid AI advancements and ethical boundaries. As AI continues to revolutionize industries, we must remain informed and vigilant. New episode next week on AI Weekly Buzz. I'll see you in the next one.",
+      "visualPrompt": "ai weekly buzz outro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 18.9
+    }
+  ],
+  "youtubeHooks": [
+    "Anthropic vs. Pentagon: A showdown in AI ethics!",
+    "OpenAI's GPT-5.4 can now use your computer. What does this mean for you?",
+    "Meta's massive layoffs: A shift in the tech industry?"
+  ],
+  "tweetHooks": [
+    "Anthropic takes on the Pentagon in a legal battle over AI ethics!",
+    "GPT-5.4 from OpenAI: The AI that can use your computer! #AI #OpenAI",
+    "Meta may cut 16,000 jobs to fund AI. Is this the future of tech?"
+  ],
+  "episodeSummary": "Anthropic sues the Pentagon over ethical AI concerns, while OpenAI releases GPT-5.4 with groundbreaking capabilities. Meta plans massive layoffs to fund AI spending, and Yann LeCun's new venture raises $1 billion for world models.",
+  "totalEstimatedDuration": 140.8,
+  "styleMode": "news"
+}

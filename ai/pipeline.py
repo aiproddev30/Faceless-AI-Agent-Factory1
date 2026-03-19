@@ -86,7 +86,22 @@ async def run_pipeline(
             "index":  idx,
             "run_id": run_id,
         })
-        enriched_sections.append({**section, "audio_path": audio_path})
+            # Get actual audio duration for accurate slide timing
+        actual_duration = section.get("estimated_duration", 10.0)
+        if audio_path and os.path.exists(str(audio_path)):
+            try:
+                probe = subprocess.run([
+                    "ffprobe", "-v", "quiet",
+                    "-show_entries", "format=duration",
+                    "-of", "default=noprint_wrappers=1",
+                    str(audio_path)
+                ], capture_output=True, text=True)
+                dur = float(probe.stdout.strip().split("=")[-1])
+                if dur > 0:
+                    actual_duration = dur
+            except Exception:
+                pass
+        enriched_sections.append({**section, "audio_path": audio_path, "actual_duration": actual_duration})
 
     # ── 3. Stitch all section audio into one MP3 ──────────────────
     final_audio = os.path.join(AUDIO_DIR, f"{run_id}.mp3")
@@ -94,10 +109,11 @@ async def run_pipeline(
 
     with open(list_file, "w", encoding="utf-8") as f:
         for sec in enriched_sections:
-            f.write(f"file '{os.path.abspath(sec['audio_path'])}'\n")
+            if sec.get('audio_path') is not None:
+                f.write(f"file '{os.path.abspath(sec['audio_path'])}'\n")
 
     run_ffmpeg(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
-                "-i", list_file, "-c", "copy", final_audio])
+                "-i", list_file, "-c:a", "libmp3lame", "-q:a", "2", final_audio])
     os.remove(list_file)
 
     logger.info(f"[{run_id}] Audio complete: {final_audio}")
@@ -109,6 +125,7 @@ async def run_pipeline(
         "final_audio_path": final_audio,
         "scene_data":       scene_data,
         "sections":         enriched_sections,
+        "chapters":         scene_data.get("chapters", []) if scene_data else [],
     }
 
 

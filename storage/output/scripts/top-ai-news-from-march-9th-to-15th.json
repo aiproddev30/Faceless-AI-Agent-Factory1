@@ -1,0 +1,72 @@
+{
+  "title": "Top AI News from March 9th to 15th",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "Morse Intro",
+      "voText": "[MORSE_INTRO]",
+      "visualPrompt": "morse code intro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 0.3
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Hook",
+      "voText": "Google just shook the AI world with a $32 billion move that could redefine industry landscapes. This is AI Weekly Buzz. Let's get into it.",
+      "visualPrompt": "ai news technology",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 8.6
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Story One \u2014 Google's $32 Billion Acquisition",
+      "voText": "Google has made a $32 billion acquisition, signaling a major shift in AI investment. Analysts, like those at Wiz, are closely watching how this will impact the competitive landscape. This move underscores the escalating stakes in AI strategy, hinting at more aggressive expansions and possibly reshaping market dynamics.",
+      "visualPrompt": "google headquarters",
+      "suggestedVisualStyle": "business",
+      "source": "Wiz investor analysis",
+      "category": "Business & Jobs",
+      "estimatedDuration": 16.5
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Story Two \u2014 Controversial FCC Statement",
+      "voText": "The Head of the FCC has threatened broadcaster licenses over critical coverage of the Iran war, raising alarms about AI's role in media regulation. This has sparked debates over freedom of the press and the ethical implications of AI in controlling narratives, highlighting the tension between technology and human rights.",
+      "visualPrompt": "fcc building",
+      "suggestedVisualStyle": "policy",
+      "source": "Policy & Ethics reports",
+      "category": "Policy & Ethics",
+      "estimatedDuration": 17.1
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Story of the Week \u2014 US Army's $20 Billion AI Contract",
+      "voText": "The US Army has signed a contract worth up to $20 billion with Anduril, emphasizing AI's critical role in defense. This contract represents a significant investment in AI-driven military capabilities, marking a new era in defense technology. The impact is profound: AI is set to transform military operations, potentially altering global power dynamics. All eyes are now on how Anduril will execute this massive project, with implications for both national security and international relations. The defense sector's reliance on AI is poised to grow, with more contracts likely on the horizon. Keep an eye on how other nations respond to this AI-driven defense strategy.",
+      "visualPrompt": "us army technology",
+      "suggestedVisualStyle": "military",
+      "source": "Real World Applications",
+      "category": "Story of the Week",
+      "estimatedDuration": 35.7
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Outro",
+      "voText": "This week highlights AI's diverse impact across business, ethics, and defense. From Google's bold acquisition to the ethical dilemmas in media, AI's influence is undeniable. New episode next week on AI Weekly Buzz. I'll see you in the next one.",
+      "visualPrompt": "ai weekly buzz outro",
+      "suggestedVisualStyle": "news",
+      "estimatedDuration": 13.7
+    }
+  ],
+  "youtubeHooks": [
+    "Google's $32B AI Power Move",
+    "FCC's AI Media Regulation Controversy",
+    "AI's $20B Military Leap with US Army"
+  ],
+  "tweetHooks": [
+    "Google's $32B acquisition reshapes AI landscape!",
+    "FCC's media regulation with AI sparks ethics debate.",
+    "US Army invests $20B in AI: A new defense era begins."
+  ],
+  "episodeSummary": "This week's AI news features Google's game-changing $32 billion acquisition, the FCC's controversial stance on AI media regulation, and the US Army's massive $20 billion AI contract with Anduril. These stories showcase AI's profound influence on business, ethics, and defense.",
+  "totalEstimatedDuration": 91.9,
+  "styleMode": "news"
+}

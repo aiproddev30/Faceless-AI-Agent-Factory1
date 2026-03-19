@@ -1,0 +1,47 @@
+VO:
+[MORSE_INTRO]
+
+BROLL:
+morse code animation
+
+VO:
+Imagine refusing to build a weapon for the Pentagon and then being labeled a national security risk. On March 6, the Trump administration designated Anthropic a 'supply chain risk,' effectively barring it from defense contracts. Now Anthropic is suing the Pentagon, marking a pivotal moment in AI ethics and policy. This is AI Weekly Buzz. Let's get into it.
+
+BROLL:
+ai technology news breaking
+
+VO:
+OpenAI has launched GPT-5.4, its most advanced model yet, capable of autonomously using computers. Released on March 5, GPT-5.4 features a massive 1-million-token context window and improved efficiency, outperforming human benchmarks on real desktop tasks. This development could revolutionize how software developers and businesses automate tasks, making operations more efficient. Looking ahead, expect rapid adoption and potential debates on ethical implications.
+
+BROLL:
+OpenAI GPT-5.4 computer
+
+VO:
+Meta is reportedly planning its largest layoff ever, potentially cutting 16,000 jobs as it shifts focus to AI. This move aims to offset costs from building AI infrastructure and could impact tech workers globally. With Meta's capital expenditure wildly increasing, this is a stark reminder of how AI is reshaping job markets, potentially leading to more layoffs in the tech industry.
+
+BROLL:
+Meta layoffs AI spending
+
+VO:
+Yann LeCun's new venture, AMI Labs, raised $1.03 billion to pursue 'world models'—a bold alternative to language models. With backing from major investors like Nvidia and Jeff Bezos, AMI Labs aims to revolutionize industries like healthcare and robotics. This massive seed round signals strong market interest in AI that understands the physical world, though commercial applications are years away.
+
+BROLL:
+Yann LeCun AMI Labs
+
+VO:
+Anthropic is taking a stand against the Pentagon, filing lawsuits in San Francisco and D.C. after being labeled a 'supply chain risk' for refusing to build autonomous weapons or engage in mass surveillance. This designation could cost Anthropic billions in revenue as contracts are canceled and partners pull out. The stakes are high for tech ethics, affecting AI competitiveness and regulatory landscapes. Watch for court decisions and the ripple effects on government and industry partnerships.
+
+BROLL:
+Anthropic Pentagon lawsuit
+
+VO:
+Also this week: OpenClaw became the most-starred project on GitHub, surpassing React and Linux. Morgan Stanley warns that GPT-5.4 could drive large-scale job reductions. Atlassian announced 1,600 layoffs to refocus on AI, incurring up to $236 million in restructuring costs.
+
+BROLL:
+ai news technology montage
+
+VO:
+This week underscores a critical moment for AI, where ethics, economics, and innovation collide. Companies and governments are forced to choose between rapid AI advancements and ethical boundaries. As AI continues to revolutionize industries, we must remain informed and vigilant. New episode next week on AI Weekly Buzz. I'll see you in the next one.
+
+BROLL:
+ai weekly buzz outro

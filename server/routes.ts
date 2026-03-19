@@ -211,7 +211,8 @@ export async function registerRoutes(
       if (result.status === "error") throw new Error(result.error);
 
       const data = result.data;
-      const fullScript = data?.sections?.map((s: any) => s.vo).join("\n\n") || "";
+      // sections use 'vo' for news/timeline, 'voText' for history chunker
+      const fullScript = data?.sections?.map((s: any) => s.vo || s.voText || "").join("\n\n") || "";
       const wordCount = fullScript.trim().split(/\s+/).filter(Boolean).length;
 
       let audioPath = data?.final_audio_path || null;
@@ -228,7 +229,17 @@ export async function registerRoutes(
         sections:    data?.sections?.map((s: any) => ({
           vo: s.vo, broll: s.broll || s.visual_prompt,
         })) || [],
-        sceneData: data?.scene_data || null,
+        sceneData: (() => {
+          const sd = data?.scene_data;
+          if (!sd || !data?.sections) return sd || null;
+          // Merge actual audio durations from sections into sceneData.scenes
+          const scenes = (sd.scenes || []).map((scene: any, i: number) => {
+            const sec = data.sections[i];
+            const actualDur = sec?.actual_duration;
+            return actualDur ? { ...scene, actualDuration: actualDur } : scene;
+          });
+          return { ...sd, scenes };
+        })(),
         youtubeHooks: data?.scene_data?.youtubeHooks || [],
         tweetHooks: data?.scene_data?.tweetHooks || [],
         episodeSummary: data?.scene_data?.episodeSummary || null,
@@ -280,6 +291,8 @@ export async function registerRoutes(
         topic:       script.topic,
         visualStyle: req.body?.visualStyle ?? 'realistic',
         videoFormat: req.body?.videoFormat ?? 'youtube',
+        episode:     (script as any).episodeNumber ?? 1,
+        week:        req.body?.week ?? "",
       }, 60_000);
       if (result.status === 'error') throw new Error(result.error);
       res.json(result.data);
@@ -326,10 +339,11 @@ export async function registerRoutes(
         scriptText:     script.content || "",
         audioPath:      fullAudioPath,
         sceneData:      (script as any).sceneData ?? null,
+        chapters:       (script as any).sceneData?.chapters ?? [],
         selectedScenes,
         visualStyle:    req.body?.visualStyle ?? 'realistic',
         videoFormat:    req.body?.videoFormat ?? 'youtube',
-        episode:        req.body?.episode ?? 1,
+        episode:        req.body?.episode ?? (script as any).episodeNumber ?? 1,
         week:           req.body?.week ?? "",
       }, req.body?.visualStyle === "history" ? 1_800_000 : 600_000);
 
@@ -378,12 +392,14 @@ export async function registerRoutes(
       const voice = req.body?.voice || script.voice;
       await storage.updateScript(id, { audioStatus: "processing", audioError: null } as any);
 
+      const styleMode = (script as any).styleMode || "timeline";
+      const regenTimeout = styleMode === "history" ? 1_800_000 : 300_000;
       const result = await runPythonPipeline({
         mode:  "regenerate_audio",
         id,
         voice,
         text:  script.content || "",
-      }, 120_000);
+      }, regenTimeout);
 
       if (result.status === "error") throw new Error(result.error);
 

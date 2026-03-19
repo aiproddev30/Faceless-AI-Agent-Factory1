@@ -1,0 +1,140 @@
+{
+  "title": "Test Rome",
+  "styleMode": "history",
+  "scriptType": "daily_life",
+  "scenes": [
+    {
+      "sceneNumber": 1,
+      "title": "History Intro",
+      "voText": "[HISTORY_INTRO]",
+      "visualPrompt": "history while you sleep intro",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": null,
+      "wordCount": 0,
+      "estimatedDuration": 0.4
+    },
+    {
+      "sceneNumber": 2,
+      "title": "Opening Hook",
+      "voText": "In the stillness of a Roman dawn, the year 12 BC, the air clings to the scent of damp earth and smoke from last night's fires... the Tiber River, a gentle hum in the distance, its waters lapping against the stone embankments. The city, a vast and sprawling metropolis, lies shrouded in darkness, its inhabitants lost in the depths of slumber. The only sound, the occasional hoot of an owl, or the distant bark of a dog, echoes through the empty streets. \n\nIn a small insula, a tenement building near the Forum Romanum, a young woman, Aurelia, stirs in her bed... her breathing slow, her body warm beneath the woolen blanket. She shares the cramped room with her husband, Marcus, a scribe, and their two children, who sleep soundly, their small bodies tangled together on a pallet in the corner. The room is dimly lit, the only light coming from a small, flickering oil lamp that casts shadows on the walls... the smell of olive oil and smoke hanging heavy in the air.\n\nAs the darkness begins to recede, the first hints of a new day creep into the sky... a pale, silvery light, like the gentle lapping of waves on a still pond. The stars, still visible, twinkle like diamonds scattered across the velvet expanse... the constellation of Orion, a gleaming sickle in the western sky. Aurelia's eyes, slowly opening, drink in the familiar contours of her small world... the rough-hewn wooden chest, the clay jug, the woven basket. And as she lies there, the silence of the night begins to give way to the soft, golden light of dawn... the first, faint glow of sunrise, a gentle whisper on the horizon. \n\nThe world, for a moment, holds its breath... the city, a sleeping giant, stirs, and the day, like a slow, unfolding flower, begins to bloom. The darkness, gradually, relinquishes its hold... the light, a warm, golden caress, touches the rooftops, and the sky, a deep, burning blue, slowly comes alive. In this fleeting instant, all is quiet, all is still... the world, poised on the threshold of a new day, waits, and Aurelia, her heart beating slowly, her breath, a soft, gentle sigh, waits with it. \n\nAs the light, slowly, creeps across the sky, the stars, one by one, fade from view... the world, gradually, awakens from its slumber. The silence, slowly, gives way to the sounds of the city... the clucking of chickens, the barking of dogs, the murmur of voices, distant, but growing louder. And Aurelia, her eyes, slowly, adjusting to the light, smiles, softly, to herself... the day, a new, unfolding tapestry, waiting to be woven. \n\nThe light, now, a warm, golden glow, touches the faces of the sleeping children... their small, peaceful features, a testament to the beauty of innocence. The room, slowly, comes alive... the shadows, retreating, as the light, gradually, fills the space. And Aurelia, her heart, full of love, and her spirit, full of wonder, slowly, rises from her bed... the day, a new, exciting journey, waiting to be explored. \n\nAs the sun, slowly, rises above the horizon... the sky, a deep, burning blue, gradually, comes alive. The world, now, is full of sound... the clanging of pots, the chatter of people, the wailing of animals. And Aurelia, her senses, slowly, awakening, smiles, softly, to herself... the day, a new, unfolding adventure, waiting to be lived. The light, now, a warm, golden glow, fills the room... and Aurelia, her heart, full of joy, and her spirit, full of wonder, steps, slowly, into the new day. \n\nIn the stillness, now, of a Roman dawn... the year 12 BC, the air clings to the scent of damp earth, and smoke from last night's fires... the Tiber River, a gentle hum, in the distance. The city, a vast, and sprawling metropolis, lies, slowly, awakening... its inhabitants, lost, in the depths of slumber, slowly, stirring. And Aurelia, her eyes, slowly, opening... drinks, in the familiar contours, of her small world... the rough-hewn wooden chest, the clay jug, the woven basket. The darkness, now, is almost gone... the light, a warm, golden caress, touches, the rooftops... and the sky, a deep, burning blue, slowly, comes alive.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": null,
+      "wordCount": 701,
+      "estimatedDuration": 300.4
+    },
+    {
+      "sceneNumber": 3,
+      "title": "Waking & Morning",
+      "voText": "As the first light of dawn creeps over the rooftops, the household of Aurelia and Marcus stirs... slowly, like a gentle breeze rustling the leaves of the fig tree in the courtyard. The sound of whispers and creaking wooden floorboards fills the air, accompanied by the sweet scent of burning incense and the faint smell of freshly baked bread wafting from the kitchen. The temperature is still cool, carrying the chill of the night, but the promise of a warm day is evident in the soft, golden light that seeps through the shutters.\n\nAurelia rises from her bed, her feet touching the cold, terracotta floor... she winces slightly, before padding softly to the lararium, the family shrine, to offer the morning prayers. The flickering flame of the oil lamp casts shadows on the walls as she whispers the familiar words, her voice barely audible over the distant sound of birds chirping in the trees outside. The air is filled with the scent of frankincense and myrrh, carried on the gentle morning breeze.\n\nIn the kitchen, the slave, Elara, is already at work, her hands moving deftly as she prepares the morning meal... the sound of sizzling meat and the clinking of pottery fills the air, mingling with the aroma of freshly baked bread and the sweetness of dried fruits. The smell of olive oil and garlic wafts through the room, teasing the senses and enticing the appetite. Marcus, meanwhile, emerges from his room, his face creased from sleep, and makes his way to the courtyard, where he takes a deep breath of the cool morning air... feeling the dew-kissed grass beneath his feet, and listening to the sound of the city slowly coming to life.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Waking & Morning",
+      "wordCount": 285,
+      "estimatedDuration": 122.1
+    },
+    {
+      "sceneNumber": 4,
+      "title": "Work & Commerce",
+      "voText": "As Marcus steps out of the courtyard, the warm sunlight casts a gentle glow on the cobblestone streets of Rome... the sound of hammering on metal, the smell of freshly baked bread wafting from the nearby bakery, and the chatter of pedestrians filling the air. He makes his way to the Forum Romanum, where the market is already bustling with activity. The smell of olives, garlic, and fresh vegetables fills his nostrils as he navigates through the crowded stalls. Aurelia is already there, expertly haggling with a merchant over the price of a batch of freshly picked grapes... her voice rising and falling in a soothing cadence, like a gentle stream.\n\nThe merchant, a gruff but kind-eyed man named Gaius, eventually agrees to her price, and they seal the deal with a firm handshake. Marcus watches as Aurelia skillfully sorts the grapes into baskets, her fingers moving deftly as she works. The sun beats down on them, warming the stones beneath their feet... the sound of clucking chickens and lowing oxen providing a soothing background hum. Nearby, a group of artisans are busy at work, their chisels and hammers ringing out as they shape and mold the marble and stone that will become the decorative facades of Rome's grand buildings.\n\nAs the morning wears on, the market grows more crowded, the noise and activity reaching a fever pitch... the smells of cooking meat, fresh bread, and roasting coffee beans mingling in a heady aroma that fills the air. Marcus and Aurelia take a short break, sitting down on a nearby bench to share a cup of wine and a few bites of bread... the cool liquid and soft bread a welcome respite from the heat and chaos of the market. Elara joins them, her eyes shining with excitement as she talks about her latest project, a intricate weaving she is creating for a wealthy client... her fingers moving nimbly as she demonstrates the complex patterns and stitches. The three of them sit in comfortable silence for a moment, watching as the people of Rome go about their daily lives... the sound of laughter, conversation, and commerce filling the air, a soothing background hum that seems to vibrate deep within their very being.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Work & Commerce",
+      "wordCount": 372,
+      "estimatedDuration": 159.4
+    },
+    {
+      "sceneNumber": 5,
+      "title": "Food & Meals",
+      "voText": "As the morning sun reaches its peak, the smell of roasting meats and freshly baked bread wafts through the streets of Rome, enticing the senses and signaling the approach of the midday meal. Marcus, Aurelia, and Elara make their way to the family's domus, where the sound of sizzling and simmering fills the air, accompanied by the gentle chatter of the household slaves as they prepare the day's main feast. The aroma of stewing vegetables and herbs, such as thyme and rosemary, teases the nostrils, and the warmth of the kitchen, heated by the cooking fires, envelops them like a gentle hug... as they enter the cozy space.\n\nIn the kitchen, the family's cook, a stout woman named Grania, expertly tends to the various dishes, her hands moving with the precision of a seasoned artisan. She is preparing a traditional Roman meal, consisting of a starter, known as gustatio, followed by the main course, primae mensae, and finishing with a dessert, known as secundae mensae. The starter, a selection of fresh vegetables, fruits, and nuts, is carefully arranged on a platter, while the main course, a hearty stew made with beef, vegetables, and grains, simmers gently in a large pot, filling the air with its savory aroma. The sound of chopping and stirring, the clinking of pots and pans, creates a soothing melody that seems to match the rhythm of their growling stomachs.\n\nAs they take their seats at the table, the family is joined by Gaius, who has just returned from his morning duties at the Forum Romanum. The table is set with fine linens, and the meal is served in a series of delicate, ceramic dishes, adorned with intricate patterns and designs. The food is a testament to the family's social status, with an assortment of exotic spices, such as pepper and garum, a fish sauce, adding flavor to the dishes. The family eats together, savoring the flavors and textures of the meal, and engaging in lively conversation, their words and laughter mingling with the sounds of the kitchen... as they enjoy each other's company.\n\nThe meal is a leisurely affair, with each course served separately, allowing the family to fully appreciate the flavors and aromas of each dish. The starter, a refreshing mix of fresh vegetables and fruits, is followed by the main course, the hearty stew, which is served with a side of warm bread and a dollop of garum. The bread, freshly baked that morning, is still warm, and its crispy crust gives way to a soft, airy interior, perfect for sopping up the savory juices of the stew. As they eat, the family discusses their plans for the day, their conversations flowing easily, like the gentle lapping of waves against the shore... as the warmth and comfort of the meal seep into their souls.\n\nAs the meal draws to a close, the family lingers at the table, enjoying each other's company, and the warmth and comfort of the meal. The sound of clinking dishes, and the murmur of conversation, creates a sense of contentment, a feeling of being together, and being at peace... as the world outside, with all its worries and cares, fades into the background. The meal, a simple, yet profound, ritual, has brought them together, and reminded them of the beauty, and wonder, of everyday life... and as they finish their meal, they feel grateful, and at peace, their hearts full, and their spirits renewed.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Food & Meals",
+      "wordCount": 574,
+      "estimatedDuration": 246.0
+    },
+    {
+      "sceneNumber": 6,
+      "title": "Social Life",
+      "voText": "As the warm sunlight casts a gentle glow over the domus, Marcus, Aurelia, and their family finish their meal, the scent of fresh bread and olives lingering in the air... the sound of clinking dishes and muted chatter fills the room. The afternoon stretches out before them, a time for socializing, for connecting with their community. Aurelia rises from her seat, smoothing her tunic, and suggests a visit to the well, where the women of the neighborhood gather to share gossip and news. The sound of her sandals on the stone floor is soft, a gentle accompaniment to the hum of conversation. \n\nMarcus, meanwhile, heads to the tavern, where the men are already deep in discussion, their voices rising and falling in a lively cadence... the smell of wine and roasting meats wafts out into the street, enticing passersby. Gaius and Grania join him, and together they make their way through the crowded room, exchanging greetings and nods with the other patrons. The atmosphere is convivial, with laughter and argument flowing freely, as the men debate the latest news from the imperial court. \n\nOutside, in the square, a group of elderly women sit on a bench, watching the world go by, their faces lined with age and experience... the warm sun on their skin, the gentle breeze rustling their hair. They talk of their families, of their children and grandchildren, of the latest births and marriages. Elara joins them, listening intently as they share their wisdom and stories, the sound of their voices a soothing background hum. The temple, nearby, is a hub of activity, with priests and devotees coming and going, the scent of incense and flowers wafting out into the air... the soft chanting of the priests creates a sense of peace, a sense of connection to something greater. \n\nAs the afternoon wears on, the conversations turn to politics, to the latest decrees from the emperor, and their impact on ordinary people... the sound of hammers ringing out from the nearby workshops, the smell of freshly cut wood and metal. The men in the tavern discuss the implications of the new taxes, while the women at the well talk of the latest rumors and scandals. The sun begins to dip, casting a golden glow over the scene, and the pace of conversation slows, as the participants begin to feel the weight of the day... the sound of birds singing in the distance, the gentle rustle of leaves in the trees. The world is at peace, for this moment, at least, and the people of Rome are content to simply be, to enjoy each other's company, and the beauty of the world around them. The air is filled with the sweet scent of blooming flowers, and the soft murmur of conversation, as the day slowly comes to a close.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Social Life",
+      "wordCount": 470,
+      "estimatedDuration": 201.4
+    },
+    {
+      "sceneNumber": 7,
+      "title": "Evening",
+      "voText": "As the sun's warmth fades from the terracotta rooftops, the sky is set aflame with hues of crimson and gold... the day's final breath. The air cools, carrying the scent of woodsmoke and baking bread, wafting from the domus, where Aurelia tends to the evening meal. The sound of sizzling meat and simmering stews fills the courtyard, enticing the family to gather around the table. Marcus, Gaius, and Elara settle in, their faces aglow in the warm light of candles, the flickering flames casting a peaceful ambiance.\n\nThe evening meal is a time for sharing stories, and Grania regales the family with tales of her day, her voice weaving in and out of the clinking of dishes and the murmur of contented sighs. As they eat, the world outside slows its pace, the bustling streets of Rome growing quieter, the only sounds the distant clang of a blacksmith's hammer, the occasional barking of dogs, and the soft strumming of a lyre from a nearby tavern. The music drifts on the breeze, a soothing serenade to the night, as the family savors each bite, their conversations meandering like the Tiber River.\n\nAs the meal comes to a close, the family lingers, reluctant to break the spell of the evening, the warmth and love that fills the room... a sense of togetherness that is hard to leave behind. But as the stars begin to twinkle in the night sky, they know it's time to tend to the rituals of nightfall. Marcus rises, his chair scraping against the stone floor, and begins to lock the doors, the sound of the wooden bar sliding into place a reassuring signal that the day is truly at an end. The fire is banked, the embers glowing softly, like the dying breath of the sun, as Aurelia says a quiet prayer, her voice a gentle whisper, a soothing melody that seems to match the rhythm of the crickets outside.\n\nThe family retires to their respective quarters, the only sound the creaking of the wooden bed frames, the rustle of linen, and the soft murmur of goodnights... the darkness a comforting shroud that envelops them all. As they drift off to sleep, the city outside grows quieter still, the silence punctuated only by the occasional hooting of an owl, the distant rumble of a night watchman's drum, and the soft, golden glow of candlelight, fading like the dying embers of the fire, into the darkness of the night... and the peacefulness of rest.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Evening",
+      "wordCount": 415,
+      "estimatedDuration": 177.9
+    },
+    {
+      "sceneNumber": 8,
+      "title": "Night",
+      "voText": "As the last remnants of sunlight fade from the Roman sky, the city begins to transform, its sounds and scents shifting like the shadows that stretch across the domus. The air cools, carrying the sweet fragrance of blooming jasmine and the distant smell of woodsmoke from the taverns that still hum with activity. Marcus, now reclining on his couch, listens to the night sounds: the hooting of owls in the distance, the occasional bark of a dog, and the creaking of wooden shutters as the city's inhabitants settle in for the night.\n\nAurelia, beside him, stirs the embers of the dying fire, the soft crackle and glow casting a warm, golden light on the quiet faces of their family. Gaius and Grania, already asleep, lie entwined on their own couch, their gentle snores a soothing background hum. Elara, however, remains awake, her eyes fixed on the small, flickering flame as if mesmerized by its gentle dance. The world outside is dark and quiet, the only sounds the distant clang of a blacksmith's hammer, the soft lowing of cattle in a nearby stable, and the occasional, mournful cry of a night watchman.\n\nAs the night deepens, the shadows in the room seem to grow longer, as if darkness itself is slowly, inexorably seeping into the heart of the domus. The air grows cooler, the silence more profound, and Marcus feels his eyelids beginning to droop, his breath slowing as his body relaxes into the stillness. Aurelia's hand, still warm from the fire, finds its way into his, her touch a gentle, comforting presence in the darkness. The city outside may be vast and unknowable, full of dangers and mysteries, but in this quiet, peaceful space, all seems right with the world.\n\nThe darkness is almost palpable, a living, breathing entity that wraps itself around the sleeping forms, holding them close in its soft, black folds. The stars twinkle like diamonds in the sky above, casting a faint, ethereal glow over the rooftops and the sleeping city. In the distance, the sound of a lyre drifts through the night air, its melancholy melody weaving in and out of the other sounds, a reminder that even in the stillness, there is always beauty to be found. As the last of the family's waking members succumb to sleep, the city itself seems to sigh, its sounds and scents fading into the background as the darkness deepens, and the world slips, slowly, into the quiet, peacefulness of night...",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": "Night",
+      "wordCount": 413,
+      "estimatedDuration": 177.0
+    },
+    {
+      "sceneNumber": 9,
+      "title": "Closing Reflection",
+      "voText": "As the last embers of the day's activities fade, the Roman city succumbs to the gentle darkness of night... and the world slows its pace. The stars twinkle above, a celestial showcase of light and sound, a reminder of the vastness that lies beyond the confines of this ancient metropolis. The air is filled with the sweet scent of blooming flowers and the distant chirping of crickets, a soothing serenade that lulls the city into a peaceful slumber. \nIn this era, life was a delicate balance of beauty and hardship... of grandeur and simplicity. The people of Rome, like Marcus, Aurelia, and their loved ones, navigated the complexities of daily life with a sense of wonder and awe. They woke with the sun, worked with the rhythm of the day, and rested under the watchful eyes of the stars. \nThe sound of laughter, the smell of freshly baked bread, and the feel of warm sunlight on skin were all integral parts of their existence. And yet, it was not without its challenges... the struggles of making a living, of raising a family, of finding one's place in the world. But it was in these moments, in the stillness of the night, that they found solace... that they reflected on the beauty of their lives, on the love that they shared, and on the memories that they created. \nAs the night deepens, the city's sounds grow fainter... the murmur of conversation, the clinking of cups, the distant rumble of carts. The world is slowly coming to a standstill, like the gentle lapping of waves against the shore. And in this quiet, we find a sense of peace... a sense of connection to the people who lived, laughed, and loved in this ancient city. \nThe last candle flickers, its flame dancing in the darkness... a final, fleeting moment of light in a world that is slowly surrendering to the night. The darkness gathers, a soft, enveloping blanket that wraps around the city, around the world... and all is quiet. The stars shine bright, a celestial showcase of light and sound, a reminder of the beauty and wonder that lies just beyond the reach of our mortal grasp. \nAnd so, we let the silence wash over us... a soothing balm that calms the mind and soothes the soul. The world is at peace, and we are a part of it... connected to the people, the places, and the moments that have shaped the course of history. The darkness deepens, and we drift, carried on the gentle tide of the night... into the stillness, into the quiet, into the peace that lies at the heart of it all. \nIn the end, it is not the grandeur of the city, nor the complexity of its people, that we remember... but the simple, everyday moments that make life beautiful, difficult, and extraordinary. The sound of a loved one's voice, the smell of a home-cooked meal, the feel of warm sunlight on skin... these are the things that make us human, that make us alive. \nAnd as the last remnants of the day's activities fade into the darkness, we are left with the gentle glow of memory... a soft, flickering flame that burns bright in the darkness, a reminder of the beauty, the wonder, and the peace that lies at the heart of it all. The world is quiet, the city is still, and we are at peace... our hearts filled with the love, the laughter, and the memories of a day well-lived. \nThe darkness gathers, a soft, enveloping blanket that wraps around the world... and all is quiet. The stars shine bright, a celestial showcase of light and sound, a reminder of the beauty and wonder that lies just beyond the reach of our mortal grasp. And in this quiet, we find a sense of peace... a sense of connection to the people who lived, laughed, and loved in this ancient city. \nThe last candle goes out, and the world is plunged into darkness... a soft, gentle darkness that envelops us all. The stars twinkle above, a celestial showcase of light and sound, a reminder of the vastness that lies beyond the confines of this ancient metropolis. And in this darkness, we find a sense of peace... a sense of connection to the people, the places, and the moments that have shaped the course of history. \nThe world is quiet, the city is still, and we are at peace... our hearts filled with the love, the laughter, and the memories of a day well-lived. The darkness deepens, and we drift, carried on the gentle tide of the night... into the stillness, into the quiet, into the peace that lies at the heart of it all. And in this peace, we find a sense of connection to the people who lived, laughed, and loved in this ancient city... a sense of connection to the beauty, the wonder, and the peace that lies at the heart of it all.",
+      "visualPrompt": "Test Rome historical scene",
+      "suggestedVisualStyle": "history",
+      "chapterTitle": null,
+      "wordCount": 831,
+      "estimatedDuration": 356.1
+    }
+  ],
+  "chapters": [
+    {
+      "index": 2,
+      "title": "Waking & Morning",
+      "scene_number": 3
+    },
+    {
+      "index": 3,
+      "title": "Work & Commerce",
+      "scene_number": 4
+    },
+    {
+      "index": 4,
+      "title": "Food & Meals",
+      "scene_number": 5
+    },
+    {
+      "index": 5,
+      "title": "Social Life",
+      "scene_number": 6
+    },
+    {
+      "index": 6,
+      "title": "Evening",
+      "scene_number": 7
+    },
+    {
+      "index": 7,
+      "title": "Night",
+      "scene_number": 8
+    }
+  ],
+  "totalEstimatedDuration": 1740.7,
+  "totalWordCount": 4061,
+  "youtubeHooks": [
+    "What was daily life really like in Test Rome?",
+    "The history of Test Rome \u2014 the full story",
+    "History While You Sleep: Test Rome"
+  ],
+  "tweetHooks": [
+    "New episode: Test Rome \u2014 history for your sleep playlist"
+  ],
+  "episodeSummary": "A full History While You Sleep episode about Test Rome. 4061 words, approximately 29 minutes of narration."
+}

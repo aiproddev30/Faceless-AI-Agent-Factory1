@@ -606,6 +606,81 @@ function VoiceGrid({ selectedVoice, onSelect, playPreview, playingVoice, loading
   );
 }
 
+// ── History chapter panel ────────────────────────────────────────────────────
+function HistoryChapters({ scenes }: { scenes: any[] }) {
+  const [expanded, setExpanded] = useState<number | null>(null);
+  if (!scenes || scenes.length === 0) return null;
+
+  const totalWords = scenes.reduce((sum, s) => sum + (s.wordCount || (s.voText?.split(" ").length ?? 0)), 0);
+  const totalMins  = Math.round(totalWords / 140);
+
+  return (
+    <div className="bg-card border border-border rounded-2xl shadow-lg p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="font-semibold flex items-center gap-2">
+          <Clock className="w-5 h-5 text-amber-400" />
+          Episode Chapters
+        </h2>
+        <span className="text-xs text-muted-foreground">{scenes.length} scenes · {totalWords.toLocaleString()} words · ~{totalMins} min</span>
+      </div>
+
+      <div className="space-y-2">
+        {scenes.map((scene: any) => {
+          const isIntro    = scene.voText?.trim() === "[HISTORY_INTRO]";
+          const wordCount  = scene.wordCount || scene.voText?.split(" ").length || 0;
+          const isOpen     = expanded === scene.sceneNumber;
+
+          return (
+            <div key={scene.sceneNumber} className="border border-border rounded-xl overflow-hidden">
+              <button
+                onClick={() => !isIntro && setExpanded(isOpen ? null : scene.sceneNumber)}
+                className={cn(
+                  "w-full flex items-center gap-3 px-4 py-3 text-left transition-colors",
+                  isIntro ? "cursor-default" : "hover:bg-white/5"
+                )}
+              >
+                <div className={cn(
+                  "w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium flex-shrink-0",
+                  isIntro ? "bg-white/10 text-white/30" : "bg-amber-500/20 text-amber-400"
+                )}>
+                  {scene.sceneNumber}
+                </div>
+                <span className="flex-1 text-sm font-medium text-foreground">{scene.title}</span>
+                {isIntro ? (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-white/30">intro clip</span>
+                ) : (
+                  <>
+                    <span className="text-xs text-muted-foreground mr-2">{wordCount.toLocaleString()} words</span>
+                    {isOpen
+                      ? <ChevronUp className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                      : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                    }
+                  </>
+                )}
+              </button>
+
+              {isOpen && !isIntro && (
+                <div className="px-4 pb-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-3 max-h-52 overflow-y-auto whitespace-pre-wrap">
+                    {scene.voText}
+                  </p>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(scene.voText)}
+                    className="mt-2 flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground px-2 py-1 rounded hover:bg-white/5 transition-colors"
+                  >
+                    <Copy className="w-3 h-3" /> Copy chapter
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+
 // ── Main component ───────────────────────────────────────────────────────────
 export default function ScriptDetail() {
   const [, params] = useRoute("/script/:id");
@@ -656,7 +731,19 @@ export default function ScriptDetail() {
   const handleRegenerate    = () => regenerateAudio({ id: script.id, voice: voiceToUse });
   const handleEditStart     = () => { setEditedContent(script.content || ""); setIsEditing(true); };
   const handleEditSave      = () => {
-    updateScript({ id: script.id, updates: { content: editedContent } }, {
+    // Parse edited content back into sceneData so slides/voiceover use updated text
+    const existingScenes = (script as any).sceneData?.scenes;
+    let updatedSceneData = (script as any).sceneData;
+    if (existingScenes?.length > 0) {
+      // Split edited content by double newline — each paragraph maps to a scene
+      const paragraphs = editedContent.split(/\n\n+/).map((p: string) => p.trim()).filter(Boolean);
+      const updatedScenes = existingScenes.map((scene: any, i: number) => ({
+        ...scene,
+        voText: paragraphs[i] !== undefined ? paragraphs[i] : scene.voText,
+      }));
+      updatedSceneData = { ...(script as any).sceneData, scenes: updatedScenes };
+    }
+    updateScript({ id: script.id, updates: { content: editedContent, sceneData: updatedSceneData } }, {
       onSuccess: () => { setIsEditing(false); setScriptEdited(true); toast({ title: "Saved!" }); },
     });
   };
@@ -761,6 +848,11 @@ export default function ScriptDetail() {
 
           {/* Video Versions */}
           <VideoVersions scriptId={script.id} scriptSections={(script as any).sceneData?.scenes || (script as any).sections || []} />
+
+          {/* History chapter panel */}
+          {(script as any).styleMode === "history" && (script as any).sceneData?.scenes?.length > 0 && (
+            <HistoryChapters scenes={(script as any).sceneData.scenes} />
+          )}
 
         {/* Marketing Copy Panel */}
         {((script as any).youtubeHooks?.length > 0 || (script as any).tweetHooks?.length > 0) && (

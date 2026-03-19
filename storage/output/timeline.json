@@ -1,6 +1,6 @@
 {
-  "clip_count": 6,
-  "total_duration": 261.1,
+  "clip_count": 8,
+  "total_duration": 288.3,
   "format": "youtube",
   "resolution": "1920x1080",
   "clips": [
@@ -19,50 +19,70 @@
       "scene_title": "Hook",
       "asset_index": 0,
       "type": "image",
-      "path": "/home/runner/workspace/storage/output/slides/slide_d8d3fc28.png",
-      "duration": 37.7,
+      "path": "/home/runner/workspace/storage/output/slides/slide_3dd324d9.png",
+      "duration": 25.22,
       "visual_style": "cinematic",
-      "vo_text": "Imagine you're a freelance writer, sitting at your desk, staring at a blank screen. You know that AI tools can help you create content faster, but you're also worried they might take away your job. This week on AI Weekly Buzz we covered the launch of Sarvam 105B and Meta's fair use controversy. I picked these two because out of everything we reported on this week, these are the ones most likely to show up in your actual life. Let's talk about what they really mean for you."
+      "vo_text": "Anthropic, a leading AI company, is taking the Pentagon to court after refusing to build autonomous weapons and engage in mass surveillance. In an unprecedented move, the Trump administration labeled Anthropic a 'supply chain risk,' essentially blacklisting it from defense contracts. This bold legal battle could reshape the AI industry and its moral compass. This is AI Weekly Buzz. Let's get into it."
     },
     {
       "scene_number": 3,
-      "scene_title": "Deep Dive \u2014 Sarvam 105B Launch",
+      "scene_title": "Story One \u2014 OpenAI Launches GPT-5.4",
       "asset_index": 0,
       "type": "image",
-      "path": "/home/runner/workspace/storage/output/slides/slide_962903eb.png",
-      "duration": 81.0,
+      "path": "/home/runner/workspace/storage/output/slides/slide_fde9bec0.png",
+      "duration": 41.93,
       "visual_style": "cinematic",
-      "vo_text": "Picture a tech-savvy teacher in India, excitedly logging into her computer to explore the new Sarvam 105B model. She\u2019s heard it can revolutionize how her students engage with learning materials. This week, the Indian consortium launched Sarvam 105B, a new open-source language model with 105 billion parameters. It positions itself as a formidable alternative to models like GPT-4, aiming to democratize AI for educators and developers. This initiative means that instead of relying solely on expensive proprietary tools, you can access powerful AI resources for free. But here's the catch: if you\u2019re a teacher, this could change your classroom dynamics dramatically. Instead of traditional teaching methods, you'll find yourself competing with AI that can generate lesson plans and quizzes at the click of a button. Your job may feel threatened, and your teaching style might need to adapt quickly to stay relevant. If you want to harness this new tool rather than be overshadowed by it, go to sarvam.ai, sign up for an account, and explore the resources available there. In just ten minutes, you could discover new ways to enhance your teaching and engage your students more effectively."
+      "vo_text": "OpenAI has taken a significant leap by releasing GPT-5.4, its latest AI model that boasts the ability to operate computers autonomously. With a 1-million-token context window, GPT-5.4 is now OpenAI's most advanced tool for professional work. This technology scored an impressive 75% on the OSWorld-Verified benchmark\u2014higher than the human baseline. For software developers and IT professionals, this means a new era of AI-driven efficiency. As OpenAI tries to regain users lost due to its Pentagon partnership, GPT-5.4 might just be the tool to win them back. Keep an eye on how businesses start integrating this capability into their workflows."
     },
     {
       "scene_number": 4,
-      "scene_title": "Bridge",
+      "scene_title": "Story Two \u2014 Meta's Potential Layoffs",
       "asset_index": 0,
       "type": "image",
-      "path": "/home/runner/workspace/storage/output/slides/slide_59db344c.png",
-      "duration": 16.3,
+      "path": "/home/runner/workspace/storage/output/slides/slide_0a25a1f2.png",
+      "duration": 41.14,
       "visual_style": "cinematic",
-      "vo_text": "That was a lot to take in, especially if you\u2019re someone who feels their job might be at risk. The second story I want to talk about is different \u2014 but in some ways it's even more personal."
+      "vo_text": "Meta is considering its largest layoff ever, with plans to cut 16,000 jobs as the company pivots towards AI. Announced on March 13, this move could impact 20% of its workforce. Driven by a massive AI infrastructure buildout, Meta's capital expenditure is projected between $115 billion and $135 billion this year. For employees and tech industry workers, this signals a shift in how companies balance human resources and AI investment. While Meta hasn't confirmed the layoffs, the potential impact on the job market is significant. Watch for official announcements and potential ripple effects across the tech sector."
     },
     {
       "scene_number": 5,
-      "scene_title": "Deep Dive \u2014 Meta's Fair Use Controversy",
+      "scene_title": "Story Three \u2014 AMI Labs' Historic Fundraise",
       "asset_index": 0,
       "type": "image",
-      "path": "/home/runner/workspace/storage/output/slides/slide_6dc87451.png",
-      "duration": 82.3,
+      "path": "/home/runner/workspace/storage/output/slides/slide_02e5f0cf.png",
+      "duration": 38.47,
       "visual_style": "cinematic",
-      "vo_text": "Imagine you\u2019re a self-publishing author, pouring your heart into your latest book, just to hear that someone is arguing that using pirated material might be fair game in the world of AI. You feel a sinking feeling in your stomach because this could undermine your hard work. Meta recently stirred up a storm by claiming that uploading pirated books via BitTorrent could fall under fair use, especially in the context of AI. This has ignited fierce debates in the copyright community about how AI technologies use existing works to create new content. For you, as an author, this could mean that your intellectual property isn't as protected as you thought, allowing others to potentially exploit your work without proper compensation. The uncomfortable truth is that if this argument gains traction, it could lead to more people using your ideas without asking for permission, threatening your livelihood. To protect yourself, consider registering your work with the copyright office if you haven\u2019t already. Go to copyright.gov, and follow the straightforward steps to ensure your rights are legally recognized. In just ten minutes, you can take a crucial step that helps safeguard your creative efforts."
+      "vo_text": "Advanced Machine Intelligence (AMI Labs), led by Yann LeCun, has raised a staggering $1.03 billion in its seed round, setting a new record in European startup history. AMI Labs focuses on 'world models' rather than traditional language models, aiming to revolutionize AI's understanding of the physical world through the JEPA framework. With backing from giants like Nvidia and Jeff Bezos, AMI Labs targets sectors such as healthcare and robotics. This development is a wake-up call for industries relying on traditional AI models. Keep an eye on AMI's progress and potential disruptions in AI applications."
     },
     {
       "scene_number": 6,
+      "scene_title": "Story of the Week \u2014 Anthropic Sues the Pentagon",
+      "asset_index": 0,
+      "type": "image",
+      "path": "/home/runner/workspace/storage/output/slides/slide_f1ef90a7.png",
+      "duration": 72.05,
+      "visual_style": "cinematic",
+      "vo_text": "In a bold move on March 9, Anthropic filed lawsuits in San Francisco and the D.C. Circuit Court of Appeals against the Pentagon, challenging its designation as a 'supply chain risk.' This label, usually reserved for foreign threats, effectively bans defense contractors from using Anthropic's Claude model. The conflict began when Anthropic refused to comply with demands for mass surveillance and autonomous weapons without human oversight. The Trump administration's decision has already cost Anthropic billions in potential revenue, with government contracts being canceled and private deals falling through. This lawsuit is not just a legal battle; it's a fight for the ethical direction of AI development. For industry professionals, educators, and policymakers, the outcome could define the balance between AI innovation and ethical constraints. If Anthropic succeeds, it might embolden other companies to take a stand against compromising their values. Watch for indications of how this lawsuit progresses, especially any court rulings or public statements from involved parties that might signal a shift in U.S. AI policy and its global implications."
+    },
+    {
+      "scene_number": 7,
+      "scene_title": "Quick Hits",
+      "asset_index": 0,
+      "type": "image",
+      "path": "/home/runner/workspace/storage/output/slides/slide_44dbdf23.png",
+      "duration": 33.65,
+      "visual_style": "cinematic",
+      "vo_text": "Also this week, Morgan Stanley\u2019s report highlights GPT-5.4's impact on economic tasks, scoring 83%\u2014above human expert levels\u2014and predicts AI will drive deflation and job cuts. OpenClaw became the most-starred project on GitHub, surpassing React and Linux, though it remains technical for the average user. Atlassian is laying off 1,600 employees to focus on AI, reshaping its leadership to include two AI-focused co-CTOs. These rapid shifts underline how AI continues to reshape industries and workforce dynamics."
+    },
+    {
+      "scene_number": 8,
       "scene_title": "Outro",
       "asset_index": 0,
       "type": "image",
-      "path": "/home/runner/workspace/storage/output/slides/slide_ffaa94d6.png",
-      "duration": 38.6,
+      "path": "/home/runner/workspace/storage/output/slides/slide_3ebc8171.png",
+      "duration": 30.67,
       "visual_style": "cinematic",
-      "vo_text": "When we look at these two stories \u2014 the rise of Sarvam and Meta\u2019s controversial stance \u2014 they reveal a shared pattern: as AI advances, it's reshaping industries and challenging personal rights. The people who navigate this well are not the ones who know the most about AI \u2014 they are the ones who stay curious and keep taking small steps. That is exactly what you are doing right now. The full episode is linked below if you want the complete picture. I will see you in the next one."
+      "vo_text": "This week in AI has shown us a landscape of both bold innovation and challenging ethical dilemmas. From Anthropic's legal stand to Meta's potential massive layoffs, these stories underline a critical crossroads: the balance between technological advancement and the human impact. As AI continues to push boundaries, it\u2019s crucial for us to stay informed and engaged, ensuring these tools enhance, rather than hinder, our lives. New episode next week on AI Weekly Buzz. I'll see you in the next one."
     }
   ]
 }
