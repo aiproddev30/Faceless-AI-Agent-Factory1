@@ -200,7 +200,9 @@ BIBLE-SPECIFIC RESEARCH NOTES:
             f"  \"sources\": [{{\"title\":\"{topic}\"}}]\n"
             f"}}"
         )
-        raw = await generate_script(prompt)
+        import os
+        research_model = "groq:llama-3.3-70b-versatile" if os.environ.get("GROQ_API_KEY") else None
+        raw = await generate_script(prompt, model=research_model)
         raw = re.sub(r"```(?:json)?", "", raw).strip()
         try:
             data = json.loads(raw)
