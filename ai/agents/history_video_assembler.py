@@ -16,7 +16,8 @@ from ai.agents.chapter_segment_builder import build_full_chapter_video
 logger = logging.getLogger(__name__)
 
 BASE_DIR    = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-BANNER_PATH = os.path.join(BASE_DIR, "storage", "Sleeping_History_Dreams_Banner.png")
+BANNER_PATH       = os.path.join(BASE_DIR, "storage", "Sleeping_History_Dreams_Banner.png")
+BIBLE_BANNER_PATH = os.path.join(BASE_DIR, "storage", "Bible_Stories_While_You_Sleep_Banner.png")
 FIRE_PATH   = os.path.join(BASE_DIR, "storage", "music", "fire_crackling.wav")
 FONTS_DIR   = os.path.join(BASE_DIR, "storage", "fonts")
 OUT_DIR     = os.path.join(BASE_DIR, "storage", "output", "video")
@@ -42,10 +43,11 @@ def get_audio_duration(path: str) -> float:
 
 
 
-def _prepare_banner(episode_title: str) -> str:
+def _prepare_banner(episode_title: str, style_mode: str = "history") -> str:
     from PIL import Image, ImageDraw, ImageFont
     import tempfile
-    img = Image.open(BANNER_PATH).convert('RGB')
+    banner_file = BIBLE_BANNER_PATH if style_mode == "bible" else BANNER_PATH
+    img = Image.open(banner_file).convert('RGB')
     W, H = img.size
     strip_h = 180  # taller strip to cover channel name + episode title
     overlay = Image.new('RGBA', (W, strip_h), (0, 0, 0, 0))
@@ -74,7 +76,7 @@ def _prepare_banner(episode_title: str) -> str:
     tw = bbox[2] - bbox[0]
     th = bbox[3] - bbox[1]
     tx = (W - tw) // 2
-    ty = int(H * 0.92) - th // 2  # moved lower — sits below channel name
+    ty = int(H * 0.93) - th // 2 if style_mode == "bible" else int(H * 0.92) - th // 2
     draw.text((tx + 2, ty + 2), title, font=font, fill=(0, 0, 0))
     draw.text((tx + 1, ty + 1), title, font=font, fill=(0, 0, 0))
     draw.text((tx, ty), title, font=font, fill=(245, 225, 184))
@@ -92,6 +94,7 @@ def render_history_video(
     episode_title:  str,
     output_path:    str = None,
     chapters:       list = None,
+    style_mode:     str = "history",
 ) -> str:
     """
     Render full history episode video using FFmpeg image loop.
@@ -129,7 +132,7 @@ def render_history_video(
         raise FileNotFoundError(f"Banner not found: {BANNER_PATH}")
 
     # Prepare banner with episode title strip at bottom
-    prepared_banner = _prepare_banner(episode_title)
+    prepared_banner = _prepare_banner(episode_title, style_mode=style_mode)
 
     total_dur = narr_dur + INTRO_DURATION
     tmp_dir   = tempfile.mkdtemp(dir=os.path.join(BASE_DIR, "storage", "output"))

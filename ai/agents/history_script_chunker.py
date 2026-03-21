@@ -119,7 +119,7 @@ THE LISTENER IS FALLING ASLEEP:
 - End every chapter on a line that settles rather than excites."""
 
 
-def _build_bible(title: str, script_type: str, research: str) -> str:
+def _build_bible(title: str, script_type: str, research: str, series: str = "History While You Sleep") -> str:
     """The shared context sent with every chapter call."""
     type_descriptions = {
         "daily_life":          "Daily Life — following specific people through a single day from before dawn to night",
@@ -127,26 +127,46 @@ def _build_bible(title: str, script_type: str, research: str) -> str:
         "full_story":          "The Full Story — an epic narrative of rise, crisis, fall, and legacy",
         "secrets_of":          "Secrets Of — revealing surprising hidden truths and correcting misconceptions",
         "how_survived":        "How They Survived — celebrating human ingenuity and resilience against impossible conditions",
+        "full_story_bible":    "The Full Story — an epic biblical narrative of calling, trials, transformation, and legacy",
+        "the_night":           "The Night — a single night from scripture told in present-tense cinematic detail",
+        "who_was":             "Who Was [Person] Really — beyond Sunday school, into history, archaeology, and humanity",
+        "world_of":            "The World Of — daily life in a biblical time and place, grounded in archaeology",
+        "stories_never_heard": "Stories You Never Heard — overlooked figures, forgotten stories, women and unnamed people of scripture",
     }
     episode_type = type_descriptions.get(script_type, "Historical narrative")
     research_text = research if research else "Use your deep knowledge of this historical topic."
 
-    return f"""EPISODE BIBLE — READ THIS BEFORE WRITING ANYTHING
-=======================================================
-Series: History While You Sleep
-Episode title: {title}
-Episode type: {episode_type}
-Voice: Onyx (deep, warm, measured). Speed: 0.88x. This is sleep narration.
-Audience: Adults listening in bed, lights off, eyes closed.
+    is_bible = "Bible" in series
 
-RESEARCH CONTEXT (use all specific facts, names, dates from this):
-{research_text}
+    audience_note = """AUDIENCE: Christian believers who take scripture seriously.
+God is real. Jesus is Lord. The Holy Spirit is active. Write accordingly.
+Reference scripture chapter and verse naturally throughout.
+Never avoid or soften mentions of God, miracles, prayer, or faith.
+This is not secular history. This is the Word of God being told.""" if is_bible else "Audience: Adults listening in bed, lights off, eyes closed."
 
-TONE THROUGHOUT:
+    tone_note = """TONE THROUGHOUT:
+- Faithful and authoritative — like a pastor telling the story by firelight.
+- God is present and active in every chapter. His purposes drive the narrative.
+- SHORT CLEAR SENTENCES. No flowery run-ons. No excessive adjectives.
+- BAD: "The shimmering golden light cascaded magnificently across the desert..."
+- GOOD: "The sun rose over Canaan. God had spoken. Abraham obeyed."
+- Reference scripture naturally as events happen — chapter and verse where powerful.
+- As the episode progresses the tone becomes quieter, more prayerful, closer to sleep.""" if is_bible else """TONE THROUGHOUT:
 - Warm, intimate, authoritative — like a trusted storyteller whispering in a dark room.
 - Wonder and deep respect for the people of this era. Never condescending.
 - Immersive. The listener should feel transported, not lectured.
-- As the episode progresses the pace slows, sentences lengthen, energy drops toward sleep.
+- As the episode progresses the pace slows, sentences lengthen, energy drops toward sleep."""
+
+    return f"""EPISODE BIBLE — READ THIS BEFORE WRITING ANYTHING
+=======================================================
+Series: {series}
+Episode title: {title}
+Episode type: {episode_type}
+Voice: Onyx (deep, warm, measured). Speed: 0.88x. This is sleep narration.
+{audience_note}
+RESEARCH CONTEXT (use all specific facts, names, dates from this):
+{research_text}
+{tone_note}
 ======================================================="""
 
 
@@ -257,19 +277,24 @@ async def generate_chunked_history(
     model_arg   = "groq:llama-3.3-70b-versatile" if script_model == "groq" else None
 
     script_type = tone  # matches script_writer.py convention
-    chapter_plan = CHAPTER_PLANS.get(script_type, CHAPTER_PLANS["daily_life"])
+    # For bible full_story use the bible-specific chapter plan
+    style_mode_val = topic_dict.get("style_mode", "history")
+    chapter_plan_key = "full_story_bible" if (style_mode_val == "bible" and script_type == "full_story") else script_type
+    chapter_plan = CHAPTER_PLANS.get(chapter_plan_key, CHAPTER_PLANS["daily_life"])
 
-    bible      = _build_bible(title, script_type, research)
+    bible      = _build_bible(title, script_type, research, series="Bible Stories While You Sleep" if style_mode_val == "bible" else "History While You Sleep")
     base_rules = _base_rules(length)
     scenes     = []
     context_summary = ""
 
-    # ── Scene 1: History Intro (static placeholder, no API call needed) ──────
+    # ── Scene 1: Intro placeholder (history or bible) ───────────────────────
+    style_mode = topic_dict.get("style_mode", "history")
+    is_bible = style_mode == "bible"
     scenes.append({
         "sceneNumber":          1,
-        "title":                "History Intro",
-        "voText":               "[HISTORY_INTRO]",
-        "visualPrompt":         "history while you sleep intro",
+        "title":                "Bible Intro" if is_bible else "History Intro",
+        "voText":               "[BIBLE_INTRO]" if is_bible else "[HISTORY_INTRO]",
+        "visualPrompt":         "bible stories while you sleep intro" if is_bible else "history while you sleep intro",
         "suggestedVisualStyle": "history",
         "chapterTitle":         None,
         "wordCount":            0,
@@ -403,3 +428,61 @@ async def generate_chunked_history(
     )
 
     return scene_data
+# ── Bible Stories While You Sleep chapter plans ───────────────────────────────
+CHAPTER_PLANS["full_story_bible"] = [
+    ("Opening Hook",       "Drop into the single most dramatic moment of this person's story — a trial, betrayal, miracle, or death. No context. Pure drama. Let the scene breathe, then pull back with 'But to understand how we got here...'"),
+    ("Origins",            "The world this person was born into. The political reality, the religious climate, the daily life of ordinary people in this time and place. Introduce the key figure as a real human being with specific traits, fears, and desires."),
+    ("Rise",               "The calling, the growth, the accumulation of followers or wisdom. The turning points. What did the people around them believe was happening? What did they themselves believe?"),
+    ("Crisis",             "The moment everything was tested — betrayal, persecution, crisis of faith, or confrontation with power. Specific people, specific days, specific decisions."),
+    ("Turning Point",      "The pivot — the miracle, confrontation, revelation, or sacrifice. Who stayed and who fled? What changed in the world that day?"),
+    ("Aftermath",          "What was left, who survived, what had to be rebuilt or mourned. How did the people who knew them personally carry the story forward?"),
+    ("Legacy",             "What this person became in the centuries that followed. How the story was remembered across different traditions. What it actually changed about the world."),
+    ("Closing Reflection", "Gentle and philosophical. What does this life tell us about faith, courage, doubt, and the human longing for meaning? End slowly — inviting sleep."),
+]
+
+CHAPTER_PLANS["the_night"] = [
+    ("Opening Hook",       "The world just before it begins. The city at nightfall — sounds, smells, the last ordinary moments before everything changes. Full sensory detail. Present tense."),
+    ("First Hour",         "The night begins. First movements, first conversations, first signs of what is coming. The listener is there, present, watching."),
+    ("Second Hour",        "Tension builds. What are the different people doing — disciples, soldiers, priests, ordinary people asleep in nearby houses? Real people in impossible moments."),
+    ("Third Hour",         "The heart of the night. The central event unfolds. Slow it down. Every detail. Every word spoken. Every silence. The weight of what is happening."),
+    ("Fourth Hour",        "The responses — fear, courage, denial, confusion. How each person present experiences what has just happened. The human reactions, unfiltered."),
+    ("Before Dawn",        "The long hours before light. What do people do with what they have just witnessed or done? The grief, the guilt, the wonder, the exhaustion."),
+    ("The Dawn",           "Light begins to return. What does the world look like now? What has changed that can never be unchanged? The first morning after."),
+    ("Closing Reflection", "Pull back to the present. This night happened. These people were real. What they felt, we can still feel. End very slowly — the listener drifting toward sleep."),
+]
+
+CHAPTER_PLANS["who_was"] = [
+    ("Opening Hook",       "The single most surprising or misunderstood thing about this person. Open with what most people think — then immediately complicate it."),
+    ("The World They Lived In", "The political, economic, and religious reality of their time. Not background — this is the water they swam in. It shaped everything they did and said."),
+    ("What We Actually Know",   "What archaeology, ancient texts, and scholarship actually tell us about this person. Separate confident knowledge from tradition and legend."),
+    ("The Gap",            "Where the popular image diverges from the historical reality. Not to debunk but to deepen. The real person is always more interesting than the symbol."),
+    ("Inner Life",         "Their documented moments of doubt, fear, anger, love, failure. The human being behind the icon. What drove them? What frightened them?"),
+    ("Different Eyes",     "How different traditions — Jewish, Christian, Muslim, secular, historical — see this same person differently. What does each tradition need them to be?"),
+    ("Legacy",             "What they actually changed. Not what was claimed for them later — what the evidence shows. And why the stories we tell about them matter even now."),
+    ("Closing Reflection", "Who do we need them to be — and does the real person serve us better? End with wonder at the distance between myth and humanity. Drift toward sleep."),
+]
+
+CHAPTER_PLANS["world_of"] = [
+    ("Opening Hook",       "Drop into a single ordinary moment in this world — a market, a meal, a child at play, a craftsman at work. Present tense. Full sensory immersion."),
+    ("Homes & Family",     "What domestic life actually looked like. The physical space, the relationships, the rhythms of family. Who lived together and how."),
+    ("Food & Farming",     "What people ate, how food was grown, preserved, prepared, shared. The agriculture, the markets, the feasts, the famines."),
+    ("Work & Trade",       "The economy of daily life. The trades, the guilds, the merchants, the laborers. How money moved, how goods moved, how people made ends meet."),
+    ("Faith & Ritual",     "Religion as it was actually lived — not theology but practice. The prayers, the festivals, the sacrifices, the holy days, the local customs."),
+    ("Danger & Healing",   "The ambient dangers of this world — disease, violence, childbirth, the law. And how people healed and protected themselves and each other."),
+    ("Night & Rest",       "What happened when the sun went down. The sounds of darkness, the rituals of sleep, the world that existed only after nightfall."),
+    ("Closing Reflection", "This world is gone but the people were real. Their hands, their prayers, their fears, their love — all real. End very slowly. The world goes quiet."),
+]
+
+CHAPTER_PLANS["stories_never_heard"] = [
+    ("Opening Hook",       "The single most surprising fact — something the listener almost certainly never knew. Open with it cold, no preamble."),
+    ("The Forgotten Woman", "A woman from this story or era whose name most people never learned. Her life, her actions, her moment in scripture. Fully realized."),
+    ("The Unnamed",        "The people in scripture who are never named — the servants, the soldiers, the bystanders. Who were they? What was their experience?"),
+    ("Between the Lines",  "What was happening in the gaps between the famous stories. The years not recorded. The days before and after the dramatic moments."),
+    ("The Other Side",     "The story from the perspective of those usually cast as villains or obstacles. What did they believe? What were they trying to protect?"),
+    ("What Scholars Found", "The archaeological discoveries, the Dead Sea Scrolls, the Nag Hammadi texts, the findings that add complexity to familiar stories."),
+    ("The Ripple",         "The people touched by these stories who we never followed — the healed, the converted, the witnesses who went home and lived the rest of their lives."),
+    ("Closing Reflection", "Scripture is deeper than we imagined. More human. More surprising. More alive. End with that wonder — and let the listener drift into it."),
+]
+
+# Map bible script types to their chapter plans
+CHAPTER_PLANS["full_story"] = CHAPTER_PLANS.get("full_story", CHAPTER_PLANS["full_story_bible"])

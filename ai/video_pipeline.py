@@ -74,7 +74,7 @@ async def run_video_pipeline(
             logger.warning("morse_intro.mp4 not found — skipping")
 
     # ── History While You Sleep: use history assembler ────────────
-    if sections and "[HISTORY_INTRO]" in (sections[0].get("vo", "") or ""):
+    if sections and ("[HISTORY_INTRO]" in (sections[0].get("vo", "") or "") or "[BIBLE_INTRO]" in (sections[0].get("vo", "") or "")):
         logger.info("History styleMode detected — using history_video_assembler")
         from ai.agents.history_video_assembler import render_history_video
         import re
@@ -83,7 +83,7 @@ async def run_video_pipeline(
         out_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                                "storage", "output", "video", f"history_{safe_title}.mp4")
         chapter_list = chapters or (scene_data.get("chapters", []) if scene_data else [])
-        video_path = render_history_video(audio_path, title, output_path=out_path,chapters=chapter_list)
+        video_path = render_history_video(audio_path, title, output_path=out_path, chapters=chapter_list, style_mode=visual_style)
         logger.info(f"History video rendered: {video_path}")
         return {
             "status":    "complete",

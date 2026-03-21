@@ -124,8 +124,8 @@ async def handle_research(input_data):
     if not topic:
         raise ValueError("topic is required for research mode")
 
-    # ── HISTORY mode: Wikipedia research ─────────────────────────
-    if style_mode == "history":
+    # ── HISTORY or BIBLE mode: Wikipedia + Google Books research ──
+    if style_mode in ("history", "bible"):
         wiki_context = ""
         try:
             async with httpx.AsyncClient(timeout=15.0) as client:
@@ -152,7 +152,7 @@ async def handle_research(input_data):
         try:
             async with httpx.AsyncClient(timeout=15.0) as client:
                 r = await client.get("https://www.googleapis.com/books/v1/volumes", params={
-                    "q": topic + " history",
+                    "q": topic + (" biblical archaeology" if style_mode == "bible" else " history"),
                     "maxResults": 5,
                     "printType": "books",
                     "langRestrict": "en",
@@ -169,12 +169,21 @@ async def handle_research(input_data):
         except Exception as e:
             books_context = ""
 
+        series_name = "Bible Stories While You Sleep" if style_mode == "bible" else "History While You Sleep"
+        bible_extra = """
+BIBLE-SPECIFIC RESEARCH NOTES:
+- Include what archaeology has found (Dead Sea Scrolls, Qumran, Masada, Jerusalem excavations)
+- Note what different traditions (Jewish, Christian, Muslim, secular scholarship) say
+- Include historical context: Roman occupation, Temple life, daily life in first-century Judea
+- Note what is well-established vs what is tradition or legend
+""" if style_mode == "bible" else ""
         prompt = (
-            f"You are a research assistant for History While You Sleep.\n"
+            f"You are a research assistant for {series_name}.\n"
             f"Topic: \"{topic}\"\n"
             f"WIKIPEDIA RESEARCH:\n{wiki_context}\n"
             f"GOOGLE BOOKS:\n{books_context}\n"
-            f"Create a detailed research brief for an 8,000 word immersive sleep narrative.\n"
+            f"{bible_extra}"
+            f"Create a detailed research brief for an immersive sleep narrative.\n"
             f"Return ONLY valid JSON:\n"
             f"{{\n"
             f"  \"research\": \"800-1200 word research brief\",\n"

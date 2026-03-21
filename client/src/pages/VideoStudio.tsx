@@ -23,7 +23,7 @@ interface SceneClips {
 }
 
 type Step = "idle" | "fetching" | "preview" | "rendering" | "done" | "error";
-type VisualStyle = "realistic" | "cartoon" | "cinematic" | "news" | "history";
+type VisualStyle = "realistic" | "cartoon" | "cinematic" | "news" | "history" | "bible";
 type VideoFormat = "youtube" | "shorts";
 
 const VISUAL_STYLES: { key: VisualStyle; label: string; description: string; icon: React.ReactNode }[] = [
@@ -55,6 +55,11 @@ const VISUAL_STYLES: { key: VisualStyle; label: string; description: string; ico
     key: "history" as VisualStyle,
     label: "History While You Sleep",
     description: "Ember animation with fire audio",
+  },
+  {
+    key: "bible" as VisualStyle,
+    label: "Bible Stories While You Sleep",
+    description: "Ancient lamp banner with fire audio",
     icon: <Film className="w-4 h-4" />,
   },
 ];
@@ -82,6 +87,7 @@ const FETCH_MESSAGES: Record<VisualStyle, string> = {
   cartoon: "Generating cartoon illustrations...",
   news: "Generating branded news slides...",
   history: "Rendering History While You Sleep episode...",
+  bible: "Rendering Bible Stories While You Sleep episode...",
 };
 
 const IDLE_DESCRIPTIONS: Record<VisualStyle, string> = {
@@ -90,6 +96,7 @@ const IDLE_DESCRIPTIONS: Record<VisualStyle, string> = {
   cartoon: "We'll generate AI cartoon illustrations for each scene using your script as prompts.",
   news: "We'll generate branded AI Weekly Buzz slides for each scene with your logo and brand colors.",
   history: "Renders the full episode over the History While You Sleep ember background with fire crackling audio.",
+  bible: "Renders the full episode over the Bible Stories While You Sleep banner with fire crackling audio.",
 };
 
 const STATUS_STEPS = [
@@ -461,7 +468,7 @@ export default function VideoStudio() {
               <FormatSelector value={videoFormat} onChange={setVideoFormat} />
             </div>
 
-            <Button onClick={() => visualStyle === "history" ? setStep("preview") : fetchClips.mutate()} size="lg" className="w-full">
+            <Button onClick={() => (visualStyle === "history" || visualStyle === "bible") ? setStep("preview") : fetchClips.mutate()} size="lg" className="w-full">
               {visualStyle === "history"
                 ? <><Film className="w-4 h-4 mr-2" />Ready to Render</>
                 : visualStyle === "cartoon"
@@ -479,18 +486,18 @@ export default function VideoStudio() {
           </div>
         )}
 
-        {step === "preview" && visualStyle === "history" && (
+        {step === "preview" && (visualStyle === "history" || visualStyle === "bible") && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-6 text-center space-y-3">
               <div className="text-4xl">🔥</div>
-              <h2 className="text-lg font-semibold text-amber-400">History While You Sleep</h2>
+              <h2 className="text-lg font-semibold text-amber-400">{visualStyle === "bible" ? "Bible Stories While You Sleep" : "History While You Sleep"}</h2>
               <p className="text-sm text-muted-foreground">
                 Your episode will render over the ember background with fire crackling audio.
                 This may take several minutes for full-length episodes.
               </p>
             </div>
             <Button size="lg" className="w-full bg-amber-600 hover:bg-amber-700" onClick={() => renderVideo.mutate()}>
-              <Film className="w-4 h-4 mr-2" />Render History Episode
+              <Film className="w-4 h-4 mr-2" />{visualStyle === "bible" ? "Render Bible Episode" : "Render History Episode"}
             </Button>
           </motion.div>
         )}
@@ -532,7 +539,7 @@ export default function VideoStudio() {
             </Button>
           </motion.div>
         )}
-        {step === "preview" && visualStyle !== "news" && visualStyle !== "history" && (
+        {step === "preview" && visualStyle !== "news" && visualStyle !== "history" && visualStyle !== "bible" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">

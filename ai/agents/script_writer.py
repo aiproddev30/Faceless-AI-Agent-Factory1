@@ -24,7 +24,7 @@ class ScriptWriterAgent(BaseAgent):
         research          = topic_dict.get("research_context", "")
         previously_covered = topic_dict.get("previously_covered", [])
         script_model       = topic_dict.get("script_model", "openai")
-        if style_mode == "history":
+        if style_mode in ("history", "bible"):
             progress_cb = topic_dict.get("progress_callback", None)
             scene_data = await generate_chunked_history(topic_dict, progress_callback=progress_cb)
         else:
@@ -393,6 +393,174 @@ Return ONLY valid JSON. No markdown. No code fences.
                 )
 
             return type_prompt
+
+        # ── Bible Stories While You Sleep format ─────────────────────
+        if style_mode == "bible":
+            research_text = research if research else "Use your deep knowledge of biblical history, archaeology, and scripture."
+            script_type = tone
+
+            word_per_chapter = max(300, length // 8)
+            hook_words = max(150, length // 20)
+            closing_words = max(150, length // 20)
+
+            bible_base_rules = f"""WRITING RULES — READ CAREFULLY:
+You are writing for a CHRISTIAN AUDIENCE. This is a faith-based channel. God, Jesus, the Holy Spirit,
+prayer, miracles, and scripture are central — not optional. Do not avoid or soften them.
+
+THIS IS A CHRISTIAN CHANNEL:
+- Write from the perspective of a Christian believer who takes scripture seriously.
+- God is real. His actions, words, and purposes are central to every story.
+- Reference scripture directly and naturally — quote verses where they add power.
+- Use the names: God, the Lord, Jesus Christ, the Holy Spirit, Yahweh where appropriate.
+- Miracles are real events, not metaphors. Treat them as such.
+- Never sanitize or secularize the story. This is the Word of God being told.
+
+GROUNDED IN SCRIPTURE:
+- Every major event must be anchored in specific Bible passages. Reference chapter and verse naturally.
+- Stay faithful to what the Bible actually says. Do not invent events not in scripture.
+- Where the Bible is silent, say so briefly, then describe the historical/cultural context.
+- Use the names, places, and details as scripture records them.
+
+WRITING STYLE — CLEAR AND DIRECT:
+- Short, direct sentences. The narrator's voice is calm and authoritative, not flowery.
+- No excessive adjectives. Say what happened. Let the story carry the weight.
+- BAD: "The shimmering, golden, resplendent light of the glorious morning sun cascaded..."
+- GOOD: "The sun rose over Canaan. Abraham rose with it."
+- One adjective where three are tempted. One sentence where two will do.
+- Sensory detail yes — but earned, not piled on.
+- Alternate long sentences with short ones. The short ones land hard.
+
+WORD COUNT IS NON-NEGOTIABLE:
+- Total target: {length} words. Do not stop writing until you reach it.
+- Each chapter (scenes 3-8): roughly {word_per_chapter} words.
+- Opening hook (scene 2): roughly {hook_words} words.
+- Closing reflection (scene 9): roughly {closing_words} words.
+
+NEVER DO THESE:
+- Never avoid mentioning God, Jesus, or the Holy Spirit.
+- Never use bullet points inside voText.
+- Never say "in conclusion" or "to summarize".
+- Never repeat information from a previous chapter.
+- Never write in a secular or academic tone that distances the listener from faith.
+
+THE LISTENER IS FALLING ASLEEP IN FAITH:
+- The pace should slow as the episode progresses.
+- The final scenes should feel like a prayer settling over the room.
+- End on a line that connects the ancient story to the listener's faith today.
+"""
+
+            bible_scene_structure = f"""YOUTUBE HOOKS — write 3 compelling hooks for THIS episode:
+- Hook 1: A powerful moment or surprising truth from this episode as a question (under 70 chars)
+- Hook 2: What most Christians never knew about this person or story
+- Hook 3: "Bible Stories While You Sleep: [most compelling spiritual angle]"
+
+SCENE STRUCTURE:
+Scene 1: BIBLE INTRO — voText must be exactly: [BIBLE_INTRO]
+Scene 2: OPENING HOOK ({hook_words} words) — open with a dramatic moment from scripture. Drop in with no context. God is present from the first sentence.
+Scene 3-8: CHAPTERS ({word_per_chapter} words each) — each chapter must reference specific scripture. God's voice, actions, and purposes must be woven throughout.
+Scene 9: CLOSING REFLECTION ({closing_words} words) — connect the ancient story to the listener's faith today. End like a prayer. Slow, peaceful, faith-filled.
+
+Return ONLY valid JSON. No markdown. No code fences.
+{{
+  "title": "{title}",
+  "scenes": [
+    {{"sceneNumber": 1, "title": "Bible Intro", "voText": "[BIBLE_INTRO]", "visualPrompt": "bible stories while you sleep intro", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 2, "title": "Opening Hook", "voText": "hook...", "visualPrompt": "biblical ancient scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 3, "title": "Chapter One — Title", "voText": "narration...", "visualPrompt": "biblical scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 4, "title": "Chapter Two — Title", "voText": "narration...", "visualPrompt": "biblical scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 5, "title": "Chapter Three — Title", "voText": "narration...", "visualPrompt": "biblical scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 6, "title": "Chapter Four — Title", "voText": "narration...", "visualPrompt": "biblical scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 7, "title": "Chapter Five — Title", "voText": "narration...", "visualPrompt": "biblical scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 8, "title": "Chapter Six — Title", "voText": "narration...", "visualPrompt": "biblical scene", "suggestedVisualStyle": "history"}},
+    {{"sceneNumber": 9, "title": "Closing Reflection", "voText": "closing...", "visualPrompt": "bible stories while you sleep outro", "suggestedVisualStyle": "history"}}
+  ],
+  "youtubeHooks": ["[hook 1]", "[hook 2]", "[hook 3]"],
+  "tweetHooks": ["[tweet 1]", "[tweet 2]"],
+  "episodeSummary": "Two sentences that make someone want to listen tonight."
+}}
+"""
+
+            if script_type == "full_story":
+                return (
+                    f"You are writing a 'The Full Story of X' episode for Bible Stories While You Sleep.\n\n"
+                    f"Topic: \"{title}\"\n"
+                    f"Target: {length} words total.\n\n"
+                    + bible_base_rules
+                    + "EPISODE TYPE RULES:\n"
+                    "- Epic narrative: birth, rise, trials, transformation, legacy.\n"
+                    "- Opening Hook: begin at the most dramatic singular moment. Drop in with no context.\n"
+                    "- Tell the full story chronologically. Give the subject a fully realized inner life.\n"
+                    "- Weave in historical and archaeological context throughout.\n"
+                    "- Final chapter covers legacy — how this person shaped history, religion, and culture.\n"
+                    "- Closing Reflection: gentle and philosophical. End slowly.\n\n"
+                    "RESEARCH CONTEXT:\n" + research_text + "\n\n"
+                    + bible_scene_structure
+                )
+            elif script_type == "the_night":
+                return (
+                    f"You are writing a 'The Night [Event Happened]' episode for Bible Stories While You Sleep.\n\n"
+                    f"Topic: \"{title}\"\n"
+                    f"Target: {length} words total.\n\n"
+                    + bible_base_rules
+                    + "EPISODE TYPE RULES:\n"
+                    "- Single night or moment from scripture in deep cinematic detail.\n"
+                    "- Use present tense throughout — the listener is THERE in real time.\n"
+                    "- Opening Hook: the scene just before it begins. The stillness. The not-yet-knowing.\n"
+                    "- Each chapter advances the timeline — hour by hour, moment by moment.\n"
+                    "- Humanize every figure — what were they thinking, fearing, hoping for?\n"
+                    "- Closing Reflection: the dawn after. What changed? What never changed back?\n\n"
+                    "RESEARCH CONTEXT:\n" + research_text + "\n\n"
+                    + bible_scene_structure
+                )
+            elif script_type == "who_was":
+                return (
+                    f"You are writing a 'Who Was [Person] Really?' episode for Bible Stories While You Sleep.\n\n"
+                    f"Topic: \"{title}\"\n"
+                    f"Target: {length} words total.\n\n"
+                    + bible_base_rules
+                    + "EPISODE TYPE RULES:\n"
+                    "- Goes beyond Sunday school. Historical context, archaeology, what scholars know.\n"
+                    "- Opening Hook: the most surprising or misunderstood thing about this person.\n"
+                    "- Chapters: their historical world, archaeology, popular image vs reality,\n"
+                    "  inner struggles, how different traditions view them, their legacy.\n"
+                    "- Tone is curious and respectful — revealing depth, not debunking faith.\n"
+                    "- Closing Reflection: who do we need them to be, and who were they really?\n\n"
+                    "RESEARCH CONTEXT:\n" + research_text + "\n\n"
+                    + bible_scene_structure
+                )
+            elif script_type == "world_of":
+                return (
+                    f"You are writing a 'The World of [Book/Era]' episode for Bible Stories While You Sleep.\n\n"
+                    f"Topic: \"{title}\"\n"
+                    f"Target: {length} words total.\n\n"
+                    + bible_base_rules
+                    + "EPISODE TYPE RULES:\n"
+                    "- Social history — the texture of daily life in a biblical time and place.\n"
+                    "- Opening Hook: an ordinary moment. A market. A meal. A child playing in the dust.\n"
+                    "- Chapters: food and farming, homes and family, work and trade, religion and ritual,\n"
+                    "  danger and medicine, night and sleep.\n"
+                    "- Use archaeology heavily — what have we found? What does it tell us?\n"
+                    "- Closing Reflection: lamps go out one by one. They sleep — just as the listener is about to.\n\n"
+                    "RESEARCH CONTEXT:\n" + research_text + "\n\n"
+                    + bible_scene_structure
+                )
+            else:  # stories_never_heard or default
+                return (
+                    f"You are writing a 'Stories You Never Heard' episode for Bible Stories While You Sleep.\n\n"
+                    f"Topic: \"{title}\"\n"
+                    f"Target: {length} words total.\n\n"
+                    + bible_base_rules
+                    + "EPISODE TYPE RULES:\n"
+                    "- Overlooked, forgotten, or misunderstood stories from scripture.\n"
+                    "- Opening Hook: the most surprising fact the listener almost certainly never knew.\n"
+                    "- Focus on: women of the Bible, minor prophets, unnamed characters,\n"
+                    "  stories between the famous stories.\n"
+                    "- Lead each chapter with what most people think, then reveal the richer reality.\n"
+                    "- Tone is delighted and curious — sharing wonders, not shocking headlines.\n"
+                    "- Closing Reflection: scripture is deeper than we imagined. Drift off into wonder.\n\n"
+                    "RESEARCH CONTEXT:\n" + research_text + "\n\n"
+                    + bible_scene_structure
+                )
 
         # ── Standard documentary format ─────────────────────────────
         return f"""You are an expert documentary scriptwriter for viral faceless YouTube channels.

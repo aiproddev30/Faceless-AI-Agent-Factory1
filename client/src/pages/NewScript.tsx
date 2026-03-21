@@ -26,6 +26,13 @@ const HISTORY_SCRIPT_TYPES = [
   { value: "how_survived",        label: "How They Survived X",      desc: "Ingenuity and resilience of our ancestors" },
 ];
 
+const BIBLE_SCRIPT_TYPES = [
+  { value: "full_story",          label: "The Full Story of X",      desc: "Epic biblical narrative: calling, trials, transformation, legacy" },
+  { value: "the_night",           label: "The Night It Happened",    desc: "A single night from scripture in cinematic present-tense detail" },
+  { value: "who_was",             label: "Who Was [Person] Really?", desc: "Beyond Sunday school — history, archaeology, the real person" },
+  { value: "world_of",            label: "The World of [Book/Era]",  desc: "Daily life in a biblical time and place" },
+  { value: "stories_never_heard", label: "Stories You Never Heard",  desc: "Overlooked figures, forgotten stories, women of the Bible" },
+];
 const VOICE_OPTIONS = [
   { value: "alloy", label: "Alloy", desc: "Neutral and balanced" },
   { value: "echo", label: "Echo", desc: "Warm and confident" },
@@ -188,7 +195,7 @@ export default function NewScript() {
       seriesId: data.seriesId || undefined,
       episodeNumber: data.seriesId ? (data.episodeNumber || nextEpisodeNumber) : undefined,
       styleMode: autoStyleMode,
-      tone: isHistorySeries ? historyScriptType : data.tone,
+      tone: (isHistorySeries || isBibleSeries) ? historyScriptType : data.tone,
       scriptModel,
     };
     if (researchResult?.research) payload.researchContext = researchResult.research;
@@ -208,7 +215,9 @@ export default function NewScript() {
                        currentSeries?.name?.toLowerCase().includes("news");
   const isHistorySeries = currentSeries?.name?.toLowerCase().includes("history") ||
                          currentSeries?.name?.toLowerCase().includes("sleep");
-  const autoStyleMode = presetStyleMode || (isNewsSeries ? "news" : isHistorySeries ? "history" : "timeline");
+  const isBibleSeries = currentSeries?.name?.toLowerCase().includes("bible") ||
+                       currentSeries?.name?.toLowerCase().includes("scripture");
+  const autoStyleMode = presetStyleMode || (isNewsSeries ? "news" : isBibleSeries ? "bible" : isHistorySeries ? "history" : "timeline");
 
   // Estimated minutes from word count
   const estimatedMinutes = Math.round(currentLength / 150);
@@ -364,7 +373,22 @@ export default function NewScript() {
               )}
 
               {/* Tone / History Script Type */}
-              {isHistorySeries ? (
+              {isBibleSeries ? (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Episode Type</label>
+                  <div className="grid grid-cols-1 gap-2">
+                    {BIBLE_SCRIPT_TYPES.map(t => (
+                      <button key={t.value} type="button"
+                        className={cn("text-left px-3 py-2 rounded border text-sm transition-colors",
+                          historyScriptType === t.value ? "border-primary bg-primary/10 text-primary" : "border-border hover:border-primary/50")}
+                        onClick={() => setHistoryScriptType(t.value)}>
+                        <div className="font-medium">{t.label}</div>
+                        <div className="text-xs text-muted-foreground">{t.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : isHistorySeries ? (
                 <div className="space-y-3">
                   <label className="text-sm font-medium text-foreground">Episode Type</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
